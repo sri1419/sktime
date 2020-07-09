@@ -1,0 +1,16 @@
+:mod:`sktime.forecasting.model_selection`.ForecastingGridSearchCV
+========================================================================
+
+.. currentmodule:: sktime.forecasting.model_selection
+
+.. autoclass:: ForecastingGridSearchCV
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.forecasting.model_selection.ForecastingGridSearchCV.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

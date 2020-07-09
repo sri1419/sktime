@@ -1,0 +1,7 @@
+sktime.transformers.series\_as\_features.hog1d
+----------------------------------------------
+
+.. automodule:: sktime.transformers.series_as_features.hog1d
+   :members:
+   :undoc-members:
+   :show-inheritance:

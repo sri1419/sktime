@@ -1,0 +1,7 @@
+sktime.transformers.series\_as\_features.pca
+--------------------------------------------
+
+.. automodule:: sktime.transformers.series_as_features.pca
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,15 @@
+sktime.transformers
+-------------------
+
+.. automodule:: sktime.transformers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   sktime.transformers.series_as_features
+   sktime.transformers.single_series

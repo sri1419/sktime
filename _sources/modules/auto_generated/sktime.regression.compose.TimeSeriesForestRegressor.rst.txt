@@ -1,0 +1,16 @@
+:mod:`sktime.regression.compose`.TimeSeriesForestRegressor
+=================================================================
+
+.. currentmodule:: sktime.regression.compose
+
+.. autoclass:: TimeSeriesForestRegressor
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.regression.compose.TimeSeriesForestRegressor.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

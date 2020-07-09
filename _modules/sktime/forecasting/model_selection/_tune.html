@@ -1,0 +1,680 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.forecasting.model_selection._tune &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.forecasting.model_selection._tune</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.forecasting.model_selection._tune</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3 -u</span>
+<span class="c1"># coding: utf-8</span>
+<span class="c1"># copyright: sktime developers, BSD-3-Clause License (see LICENSE file)</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Markus Löning&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ForecastingGridSearchCV&quot;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">numbers</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">suppress</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">traceback</span> <span class="kn">import</span> <span class="n">format_exception_only</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">rankdata</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">clone</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">ParameterGrid</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">check_cv</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection._search</span> <span class="kn">import</span> <span class="n">_check_param_grid</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection._validation</span> <span class="kn">import</span> <span class="n">_aggregate_score_dicts</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils.metaestimators</span> <span class="kn">import</span> <span class="n">if_delegate_has_method</span>
+<span class="kn">from</span> <span class="nn">sktime.exceptions</span> <span class="kn">import</span> <span class="n">FitFailedWarning</span>
+<span class="kn">from</span> <span class="nn">sktime.exceptions</span> <span class="kn">import</span> <span class="n">NotFittedError</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.base._base</span> <span class="kn">import</span> <span class="n">BaseForecaster</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.base._base</span> <span class="kn">import</span> <span class="n">DEFAULT_ALPHA</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.forecasting</span> <span class="kn">import</span> <span class="n">check_scoring</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.forecasting</span> <span class="kn">import</span> <span class="n">check_y</span>
+
+
+<span class="k">def</span> <span class="nf">_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">scorer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Evaluate forecasts&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;multi-step forecasting horizons with multiple cutoffs/windows &quot;</span>
+            <span class="s2">&quot;are not supported yet&quot;</span><span class="p">)</span>
+
+    <span class="c1"># select only test points for which we have made predictions</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">y_pred</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y_test</span><span class="o">.</span><span class="n">index</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Predicted time points are not in test set&quot;</span><span class="p">)</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="n">y_test</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">y_pred</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">func</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">scorer</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">return</span> <span class="n">_check_scores</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">scorer</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_check_scores</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">scorer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check returned scores&quot;&quot;&quot;</span>
+    <span class="n">error_msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;scoring must return a number, got </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">) &quot;</span>
+                 <span class="s2">&quot;instead. (scorer=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">scores</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="s2">&quot;item&quot;</span><span class="p">):</span>
+                <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+                    <span class="c1"># e.g. unwrap memmapped scalars</span>
+                    <span class="n">score</span> <span class="o">=</span> <span class="n">score</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_msg</span> <span class="o">%</span> <span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">score</span><span class="p">),</span> <span class="n">name</span><span class="p">))</span>
+            <span class="n">scores</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># scalar</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="s2">&quot;item&quot;</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+                <span class="c1"># e.g. unwrap memmapped scalars</span>
+                <span class="n">scores</span> <span class="o">=</span> <span class="n">scores</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_msg</span> <span class="o">%</span> <span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">scores</span><span class="p">),</span> <span class="n">scorer</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">scores</span>
+
+
+<span class="k">def</span> <span class="nf">_update_score</span><span class="p">(</span><span class="n">forecaster</span><span class="p">,</span> <span class="n">cv</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">scorer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make, update and evaluate forecasts&quot;&quot;&quot;</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">forecaster</span><span class="o">.</span><span class="n">update_predict</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">X_test</span><span class="o">=</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">scorer</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_split</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">cv</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Split data into training and validation window&quot;&quot;&quot;</span>
+    <span class="n">training_window</span><span class="p">,</span> <span class="n">validation_window</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">split_initial</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">y_train</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">training_window</span><span class="p">]</span>
+    <span class="n">y_val</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">validation_window</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">X_train</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">training_window</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">X_val</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">validation_window</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">X_train</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">X_val</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_val</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_val</span>
+
+
+<span class="k">def</span> <span class="nf">_fit_and_score</span><span class="p">(</span><span class="n">forecaster</span><span class="p">,</span> <span class="n">cv</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">scorer</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span>
+                   <span class="n">parameters</span><span class="p">,</span> <span class="n">fit_params</span><span class="p">,</span>
+                   <span class="n">return_parameters</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">return_times</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">return_train_score</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">return_forecaster</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                   <span class="n">error_score</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">return_train_score</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="c1"># Get forecasting horizon</span>
+    <span class="n">fh</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">get_fh</span><span class="p">()</span>
+
+    <span class="c1"># Fit params</span>
+    <span class="n">fit_params</span> <span class="o">=</span> <span class="n">fit_params</span> <span class="k">if</span> <span class="n">fit_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">forecaster</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="o">**</span><span class="n">parameters</span><span class="p">)</span>
+
+    <span class="c1"># Split training data into training set and validation set</span>
+    <span class="n">y_train</span><span class="p">,</span> <span class="n">y_val</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_val</span> <span class="o">=</span> <span class="n">_split</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">cv</span><span class="p">)</span>
+
+    <span class="c1"># Fit forecaster</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">forecaster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">fh</span><span class="p">,</span> <span class="n">X_train</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="c1"># Note fit time as time until error</span>
+        <span class="n">fit_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+        <span class="n">score_time</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="n">error_score</span> <span class="o">==</span> <span class="s2">&quot;raise&quot;</span><span class="p">:</span>
+            <span class="k">raise</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error_score</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scorer</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">test_scores</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">error_score</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">scorer</span><span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">test_scores</span> <span class="o">=</span> <span class="n">error_score</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;forecaster fit failed. The score on this train-test&quot;</span>
+                          <span class="s2">&quot; partition for these parameters will be set to </span><span class="si">%f</span><span class="s2">. &quot;</span>
+                          <span class="s2">&quot;Details: </span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
+                          <span class="p">(</span><span class="n">error_score</span><span class="p">,</span> <span class="n">format_exception_only</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">e</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span>
+                          <span class="n">FitFailedWarning</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;error_score must be the string &#39;raise&#39; or a&quot;</span>
+                             <span class="s2">&quot; numeric value. (Hint: if using &#39;raise&#39;, please&quot;</span>
+                             <span class="s2">&quot; make sure that it has been spelled correctly.)&quot;</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fit_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+        <span class="n">test_scores</span> <span class="o">=</span> <span class="n">_update_score</span><span class="p">(</span><span class="n">forecaster</span><span class="p">,</span> <span class="n">cv</span><span class="p">,</span> <span class="n">y_val</span><span class="p">,</span> <span class="n">X_val</span><span class="p">,</span> <span class="n">scorer</span><span class="p">)</span>
+        <span class="n">score_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span> <span class="o">-</span> <span class="n">fit_time</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="p">[</span><span class="n">test_scores</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">return_times</span><span class="p">:</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">fit_time</span><span class="p">,</span> <span class="n">score_time</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">return_parameters</span><span class="p">:</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">return_forecaster</span><span class="p">:</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">forecaster</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ret</span>
+
+
+<span class="k">class</span> <span class="nc">BaseGridSearch</span><span class="p">(</span><span class="n">BaseForecaster</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forecaster</span><span class="p">,</span> <span class="n">cv</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pre_dispatch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">refit</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                 <span class="n">error_score</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_train_score</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forecaster</span> <span class="o">=</span> <span class="n">forecaster</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cv</span> <span class="o">=</span> <span class="n">cv</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">=</span> <span class="n">n_jobs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pre_dispatch</span> <span class="o">=</span> <span class="n">pre_dispatch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refit</span> <span class="o">=</span> <span class="n">refit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scoring</span> <span class="o">=</span> <span class="n">scoring</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error_score</span> <span class="o">=</span> <span class="n">error_score</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">return_train_score</span> <span class="o">=</span> <span class="n">return_train_score</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BaseGridSearch</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="nd">@if_delegate_has_method</span><span class="p">(</span><span class="n">delegate</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;best_forecaster_&quot;</span><span class="p">,</span> <span class="s2">&quot;forecaster&quot;</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_new</span><span class="p">,</span> <span class="n">X_new</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">update_params</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call predict on the forecaster with the best found parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">(</span><span class="s2">&quot;update&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_forecaster_</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">y_new</span><span class="p">,</span> <span class="n">X_new</span><span class="o">=</span><span class="n">X_new</span><span class="p">,</span>
+                                     <span class="n">update_params</span><span class="o">=</span><span class="n">update_params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@if_delegate_has_method</span><span class="p">(</span><span class="n">delegate</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;best_forecaster_&quot;</span><span class="p">,</span> <span class="s2">&quot;forecaster&quot;</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">update_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">X_test</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">update_params</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                       <span class="n">return_pred_int</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                       <span class="n">alpha</span><span class="o">=</span><span class="n">DEFAULT_ALPHA</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call update_predict on the forecaster with the best found</span>
+<span class="sd">        parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">(</span><span class="s2">&quot;update_predict&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_forecaster_</span><span class="o">.</span><span class="n">update_predict</span><span class="p">(</span>
+            <span class="n">y_test</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span>
+            <span class="n">X_test</span><span class="o">=</span><span class="n">X_test</span><span class="p">,</span>
+            <span class="n">update_params</span><span class="o">=</span><span class="n">update_params</span><span class="p">,</span>
+            <span class="n">return_pred_int</span><span class="o">=</span><span class="n">return_pred_int</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+
+    <span class="nd">@if_delegate_has_method</span><span class="p">(</span><span class="n">delegate</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;best_forecaster_&quot;</span><span class="p">,</span> <span class="s2">&quot;forecaster&quot;</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">update_predict_single</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_new</span><span class="p">,</span> <span class="n">fh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                              <span class="n">update_params</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_pred_int</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                              <span class="n">alpha</span><span class="o">=</span><span class="n">DEFAULT_ALPHA</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call predict on the forecaster with the best found parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">(</span><span class="s2">&quot;update_predict_single&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_forecaster_</span><span class="o">.</span><span class="n">update_predict_single</span><span class="p">(</span>
+            <span class="n">y_new</span><span class="p">,</span> <span class="n">fh</span><span class="o">=</span><span class="n">fh</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+            <span class="n">update_params</span><span class="o">=</span><span class="n">update_params</span><span class="p">,</span>
+            <span class="n">return_pred_int</span><span class="o">=</span><span class="n">return_pred_int</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+
+    <span class="nd">@if_delegate_has_method</span><span class="p">(</span><span class="n">delegate</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;best_forecaster_&quot;</span><span class="p">,</span> <span class="s2">&quot;forecaster&quot;</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_pred_int</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="n">DEFAULT_ALPHA</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call predict on the forecaster with the best found parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">(</span><span class="s2">&quot;predict&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_forecaster_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">fh</span><span class="o">=</span><span class="n">fh</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+                                             <span class="n">return_pred_int</span><span class="o">=</span><span class="n">return_pred_int</span><span class="p">,</span>
+                                             <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+
+    <span class="nd">@if_delegate_has_method</span><span class="p">(</span><span class="n">delegate</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;best_forecaster_&quot;</span><span class="p">,</span> <span class="s2">&quot;forecaster&quot;</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">transform_params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call transform on the forecaster with the best found parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">(</span><span class="s2">&quot;transform&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_forecaster_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">transform_params</span><span class="p">)</span>
+
+    <span class="nd">@if_delegate_has_method</span><span class="p">(</span><span class="n">delegate</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;best_forecaster_&quot;</span><span class="p">,</span> <span class="s2">&quot;forecaster&quot;</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">get_fitted_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get fitted parameters</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        fitted_params : dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">(</span><span class="s2">&quot;get_fitted_params&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_forecaster_</span><span class="o">.</span><span class="n">get_fitted_params</span><span class="p">()</span>
+
+    <span class="nd">@if_delegate_has_method</span><span class="p">(</span><span class="n">delegate</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;best_forecaster_&quot;</span><span class="p">,</span> <span class="s2">&quot;forecaster&quot;</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">inverse_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call inverse_transform on the forecaster with the best found params.</span>
+<span class="sd">        Only available if the underlying forecaster implements</span>
+<span class="sd">        ``inverse_transform`` and ``refit=True``.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y : indexable, length n_samples</span>
+<span class="sd">            Must fulfill the input assumptions of the</span>
+<span class="sd">            underlying forecaster.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">(</span><span class="s2">&quot;inverse_transform&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_forecaster_</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">fh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the score on the given data, if the forecaster has been</span>
+<span class="sd">        refit.</span>
+<span class="sd">        This uses the score defined by ``scoring`` where provided, and the</span>
+<span class="sd">        ``best_forecaster_.score`` method otherwise.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : pandas.DataFrame, shape=[n_obs, n_vars], optional (default=None)</span>
+<span class="sd">            An optional 2-d dataframe of exogenous variables.</span>
+<span class="sd">        y_test : pandas.Series</span>
+<span class="sd">            Target time series to which to compare the forecasts.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        score : float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">(</span><span class="s2">&quot;score&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scorer_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No score function explicitly defined, &quot;</span>
+                             <span class="s2">&quot;and the forecaster doesn&#39;t provide one </span><span class="si">%s</span><span class="s2">&quot;</span>
+                             <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_forecaster_</span><span class="p">)</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scorer_</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_forecaster_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_run_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evaluate_candidates</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;_run_search not implemented.&quot;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_format_results</span><span class="p">(</span><span class="n">candidate_params</span><span class="p">,</span> <span class="n">scorers</span><span class="p">,</span> <span class="n">out</span><span class="p">):</span>
+        <span class="n">n_candidates</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">candidate_params</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">test_score_dicts</span><span class="p">,</span> <span class="n">fit_time</span><span class="p">,</span> <span class="n">score_time</span><span class="p">)</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">out</span><span class="p">)</span>
+        <span class="n">test_scores</span> <span class="o">=</span> <span class="n">_aggregate_score_dicts</span><span class="p">(</span><span class="n">test_score_dicts</span><span class="p">)</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">def</span> <span class="nf">_store</span><span class="p">(</span><span class="n">key_name</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">rank</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">greater_is_better</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;A small helper to store the scores/times to the cv_results_&quot;&quot;&quot;</span>
+            <span class="c1"># When iterated first by splits, then by parameters</span>
+            <span class="c1"># We want `array` to have `n_candidates` rows and `n_splits` cols.</span>
+            <span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;mean_</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">key_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span>
+
+            <span class="k">if</span> <span class="n">rank</span><span class="p">:</span>
+                <span class="n">array</span> <span class="o">=</span> <span class="o">-</span><span class="n">array</span> <span class="k">if</span> <span class="n">greater_is_better</span> <span class="k">else</span> <span class="n">array</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;rank_</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">key_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+                    <span class="n">rankdata</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+        <span class="n">_store</span><span class="p">(</span><span class="s2">&quot;fit_time&quot;</span><span class="p">,</span> <span class="n">fit_time</span><span class="p">)</span>
+        <span class="n">_store</span><span class="p">(</span><span class="s2">&quot;score_time&quot;</span><span class="p">,</span> <span class="n">score_time</span><span class="p">)</span>
+        <span class="c1"># Use one MaskedArray and mask all the places where the param is not</span>
+        <span class="c1"># applicable for that candidate. Use defaultdict as each candidate may</span>
+        <span class="c1"># not contain all the params</span>
+        <span class="n">param_results</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">,</span>
+                                            <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_candidates</span><span class="p">,</span> <span class="p">),</span>
+                                            <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                            <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">cand_i</span><span class="p">,</span> <span class="n">params</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">candidate_params</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="c1"># An all masked empty array gets created for the key</span>
+                <span class="c1"># `&quot;param_%s&quot; % name` at the first occurrence of `name`.</span>
+                <span class="c1"># Setting the value at an index also unmasks that index</span>
+                <span class="n">param_results</span><span class="p">[</span><span class="s2">&quot;param_</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">][</span><span class="n">cand_i</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="n">results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">param_results</span><span class="p">)</span>
+        <span class="c1"># Store a list of param dicts at the key &quot;params&quot;</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">candidate_params</span>
+
+        <span class="k">for</span> <span class="n">scorer_name</span><span class="p">,</span> <span class="n">scorer</span> <span class="ow">in</span> <span class="n">scorers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># Computed the (weighted) mean and std for test scores alone</span>
+            <span class="n">_store</span><span class="p">(</span><span class="s2">&quot;test_</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">scorer_name</span><span class="p">,</span> <span class="n">test_scores</span><span class="p">[</span><span class="n">scorer_name</span><span class="p">],</span>
+                   <span class="n">rank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">greater_is_better</span><span class="o">=</span><span class="n">scorer</span><span class="o">.</span><span class="n">greater_is_better</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">results</span>
+
+    <span class="k">def</span> <span class="nf">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BaseGridSearch</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">method_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">refit</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">NotFittedError</span><span class="p">(</span><span class="s2">&quot;This </span><span class="si">%s</span><span class="s2"> instance was initialized &quot;</span>
+                                     <span class="s2">&quot;with refit=False. </span><span class="si">%s</span><span class="s2"> is &quot;</span>
+                                     <span class="s2">&quot;available only after refitting on the &quot;</span>
+                                     <span class="s2">&quot;best &quot;</span>
+                                     <span class="s2">&quot;parameters. You can refit an forecaster &quot;</span>
+                                     <span class="s2">&quot;manually using the ``best_params_`` &quot;</span>
+                                     <span class="s2">&quot;attribute&quot;</span>
+                                     <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">method_name</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">best_forecaster_</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">fh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">X_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit to training data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y_train : pd.Series</span>
+<span class="sd">            Target time series to which to fit the forecaster.</span>
+<span class="sd">        fh : int, list or np.array, optional (default=None)</span>
+<span class="sd">            The forecasters horizon with the steps ahead to to predict.</span>
+<span class="sd">        X_train : pd.DataFrame, optional (default=None)</span>
+<span class="sd">            Exogenous variables are ignored</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : returns an instance of self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">y_train</span> <span class="o">=</span> <span class="n">check_y</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+
+        <span class="c1"># validate cross-validator</span>
+        <span class="n">cv</span> <span class="o">=</span> <span class="n">check_cv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cv</span><span class="p">)</span>
+        <span class="n">base_forecaster</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forecaster</span><span class="p">)</span>
+
+        <span class="n">scoring</span> <span class="o">=</span> <span class="n">check_scoring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoring</span><span class="p">)</span>
+        <span class="n">scorers</span> <span class="o">=</span> <span class="p">{</span><span class="n">scoring</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">scoring</span><span class="p">}</span>
+        <span class="n">refit_metric</span> <span class="o">=</span> <span class="n">scoring</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="n">fit_and_score_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">scorer</span><span class="o">=</span><span class="n">scorers</span><span class="p">,</span>
+            <span class="n">fit_params</span><span class="o">=</span><span class="n">fit_params</span><span class="p">,</span>
+            <span class="n">return_train_score</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">return_train_score</span><span class="p">,</span>
+            <span class="n">return_times</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">return_parameters</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">error_score</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">error_score</span><span class="p">,</span>
+            <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">verbose</span>
+        <span class="p">)</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">all_candidate_params</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">all_out</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">def</span> <span class="nf">evaluate_candidates</span><span class="p">(</span><span class="n">candidate_params</span><span class="p">):</span>
+            <span class="n">candidate_params</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">candidate_params</span><span class="p">)</span>
+            <span class="n">n_candidates</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">candidate_params</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">n_splits</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">get_n_splits</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fitting </span><span class="si">{0}</span><span class="s2"> folds for each of </span><span class="si">{1}</span><span class="s2"> candidates,&quot;</span>
+                      <span class="s2">&quot; totalling </span><span class="si">{2}</span><span class="s2"> fits&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_splits</span><span class="p">,</span> <span class="n">n_candidates</span><span class="p">,</span>
+                                                   <span class="n">n_candidates</span> <span class="o">*</span> <span class="n">n_splits</span><span class="p">))</span>
+
+            <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">parameters</span> <span class="ow">in</span> <span class="n">candidate_params</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">_fit_and_score</span><span class="p">(</span>
+                    <span class="n">clone</span><span class="p">(</span><span class="n">base_forecaster</span><span class="p">),</span>
+                    <span class="n">cv</span><span class="p">,</span>
+                    <span class="n">y_train</span><span class="p">,</span>
+                    <span class="n">X_train</span><span class="p">,</span>
+                    <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">fit_and_score_kwargs</span>
+                <span class="p">)</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+
+            <span class="n">n_splits</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">get_n_splits</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No fits were performed. &quot;</span>
+                                 <span class="s2">&quot;Was the CV iterator empty? &quot;</span>
+                                 <span class="s2">&quot;Were there no candidates?&quot;</span><span class="p">)</span>
+
+            <span class="n">all_candidate_params</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">candidate_params</span><span class="p">)</span>
+            <span class="n">all_out</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+            <span class="k">nonlocal</span> <span class="n">results</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_results</span><span class="p">(</span>
+                <span class="n">all_candidate_params</span><span class="p">,</span> <span class="n">scorers</span><span class="p">,</span> <span class="n">all_out</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">results</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_run_search</span><span class="p">(</span><span class="n">evaluate_candidates</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_index_</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;rank_test_</span><span class="si">%s</span><span class="s2">&quot;</span>
+                                   <span class="o">%</span> <span class="n">refit_metric</span><span class="p">]</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_score_</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;mean_test_</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">refit_metric</span><span class="p">][</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">best_index_</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_params_</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">best_index_</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_forecaster_</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="n">base_forecaster</span><span class="p">)</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">refit</span><span class="p">:</span>
+            <span class="n">refit_start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">best_forecaster_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">fh</span><span class="o">=</span><span class="n">fh</span><span class="p">,</span> <span class="n">X_train</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span>
+                                      <span class="o">**</span><span class="n">fit_params</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refit_time_</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">refit_start_time</span>
+
+        <span class="c1"># Store the only scorer not as a dict for single metric evaluation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scorer_</span> <span class="o">=</span> <span class="n">scorers</span><span class="p">[</span><span class="n">scoring</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cv_results_</span> <span class="o">=</span> <span class="n">results</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_splits_</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">get_n_splits</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+
+<div class="viewcode-block" id="ForecastingGridSearchCV"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.forecasting.model_selection.ForecastingGridSearchCV.html#sktime.forecasting.model_selection.ForecastingGridSearchCV">[docs]</a><span class="k">class</span> <span class="nc">ForecastingGridSearchCV</span><span class="p">(</span><span class="n">BaseGridSearch</span><span class="p">):</span>
+    <span class="n">_required_parameters</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;forecaster&quot;</span><span class="p">,</span> <span class="s2">&quot;cv&quot;</span><span class="p">,</span> <span class="s2">&quot;param_grid&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="ForecastingGridSearchCV.__init__"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.forecasting.model_selection.ForecastingGridSearchCV.html#sktime.forecasting.model_selection.ForecastingGridSearchCV.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forecaster</span><span class="p">,</span> <span class="n">cv</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">refit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pre_dispatch</span><span class="o">=</span><span class="s1">&#39;2*n_jobs&#39;</span><span class="p">,</span>
+                 <span class="n">error_score</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">return_train_score</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ForecastingGridSearchCV</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">forecaster</span><span class="o">=</span><span class="n">forecaster</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">scoring</span><span class="p">,</span>
+            <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">refit</span><span class="o">=</span><span class="n">refit</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+            <span class="n">pre_dispatch</span><span class="o">=</span><span class="n">pre_dispatch</span><span class="p">,</span> <span class="n">error_score</span><span class="o">=</span><span class="n">error_score</span><span class="p">,</span>
+            <span class="n">return_train_score</span><span class="o">=</span><span class="n">return_train_score</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span> <span class="o">=</span> <span class="n">param_grid</span>
+        <span class="n">_check_param_grid</span><span class="p">(</span><span class="n">param_grid</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_run_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evaluate_candidates</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Search all candidates in param_grid&quot;&quot;&quot;</span>
+        <span class="n">evaluate_candidates</span><span class="p">(</span><span class="n">ParameterGrid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span><span class="p">))</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

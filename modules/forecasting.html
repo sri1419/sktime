@@ -1,0 +1,385 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.forecasting: Time series forecasting &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.forecasting</span></code>: Time series forecasting</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="sktime-forecasting-time-series-forecasting">
+<span id="forecasting-ref"></span><h1><a class="reference internal" href="#module-sktime.forecasting" title="sktime.forecasting"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.forecasting</span></code></a>: Time series forecasting<a class="headerlink" href="#sktime-forecasting-time-series-forecasting" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">sktime.forecasting</span></code> module contains algorithms and composition
+tools for forecasting.</p>
+<span class="target" id="module-sktime.forecasting"></span><div class="section" id="naive">
+<h2>Naive<a class="headerlink" href="#naive" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.naive.NaiveForecaster.html#sktime.forecasting.naive.NaiveForecaster" title="sktime.forecasting.naive.NaiveForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NaiveForecaster</span></code></a>([strategy, window_length, sp])</p></td>
+<td><p>NaiveForecaster is a forecaster that makes forecasts using simple strategies.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="trend">
+<h2>Trend<a class="headerlink" href="#trend" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.trend.PolynomialTrendForecaster.html#sktime.forecasting.trend.PolynomialTrendForecaster" title="sktime.forecasting.trend.PolynomialTrendForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PolynomialTrendForecaster</span></code></a>([regressor, …])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="exponential-smoothing">
+<h2>Exponential Smoothing<a class="headerlink" href="#exponential-smoothing" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.exp_smoothing.ExponentialSmoothing.html#sktime.forecasting.exp_smoothing.ExponentialSmoothing" title="sktime.forecasting.exp_smoothing.ExponentialSmoothing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExponentialSmoothing</span></code></a>([trend, damped, …])</p></td>
+<td><p>Holt-Winters exponential smoothing forecaster.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="arima">
+<h2>ARIMA<a class="headerlink" href="#arima" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.arima.AutoARIMA.html#sktime.forecasting.arima.AutoARIMA" title="sktime.forecasting.arima.AutoARIMA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AutoARIMA</span></code></a>([start_p, d, start_q, max_p, …])</p></td>
+<td><p>Automatically discover the optimal order for an ARIMA model.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="theta">
+<h2>Theta<a class="headerlink" href="#theta" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.theta.ThetaForecaster.html#sktime.forecasting.theta.ThetaForecaster" title="sktime.forecasting.theta.ThetaForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ThetaForecaster</span></code></a>([smoothing_level, …])</p></td>
+<td><p>Theta method of forecasting.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="composition">
+<h2>Composition<a class="headerlink" href="#composition" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.compose.EnsembleForecaster.html#sktime.forecasting.compose.EnsembleForecaster" title="sktime.forecasting.compose.EnsembleForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnsembleForecaster</span></code></a>(forecasters[, n_jobs])</p></td>
+<td><p>Ensemble of forecasters</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.compose.TransformedTargetForecaster.html#sktime.forecasting.compose.TransformedTargetForecaster" title="sktime.forecasting.compose.TransformedTargetForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TransformedTargetForecaster</span></code></a>(steps)</p></td>
+<td><p>Meta-estimator for forecasting transformed time series.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.compose.DirectRegressionForecaster.html#sktime.forecasting.compose.DirectRegressionForecaster" title="sktime.forecasting.compose.DirectRegressionForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DirectRegressionForecaster</span></code></a>(regressor[, …])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.compose.DirectTimeSeriesRegressionForecaster.html#sktime.forecasting.compose.DirectTimeSeriesRegressionForecaster" title="sktime.forecasting.compose.DirectTimeSeriesRegressionForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DirectTimeSeriesRegressionForecaster</span></code></a>(regressor)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.compose.RecursiveRegressionForecaster.html#sktime.forecasting.compose.RecursiveRegressionForecaster" title="sktime.forecasting.compose.RecursiveRegressionForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RecursiveRegressionForecaster</span></code></a>(regressor[, …])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.compose.RecursiveTimeSeriesRegressionForecaster.html#sktime.forecasting.compose.RecursiveTimeSeriesRegressionForecaster" title="sktime.forecasting.compose.RecursiveTimeSeriesRegressionForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RecursiveTimeSeriesRegressionForecaster</span></code></a>(…)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.compose.ReducedRegressionForecaster.html#sktime.forecasting.compose.ReducedRegressionForecaster" title="sktime.forecasting.compose.ReducedRegressionForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReducedRegressionForecaster</span></code></a>(regressor[, …])</p></td>
+<td><p>Forecasting based on reduction to tabular regression.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.compose.ReducedTimeSeriesRegressionForecaster.html#sktime.forecasting.compose.ReducedTimeSeriesRegressionForecaster" title="sktime.forecasting.compose.ReducedTimeSeriesRegressionForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReducedTimeSeriesRegressionForecaster</span></code></a>(…[, …])</p></td>
+<td><p>Forecasting based on reduction to time series regression.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.compose.StackingForecaster.html#sktime.forecasting.compose.StackingForecaster" title="sktime.forecasting.compose.StackingForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StackingForecaster</span></code></a>(forecasters, final_regressor)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="model-selection">
+<h2>Model selection<a class="headerlink" href="#model-selection" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.model_selection.CutoffSplitter.html#sktime.forecasting.model_selection.CutoffSplitter" title="sktime.forecasting.model_selection.CutoffSplitter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CutoffSplitter</span></code></a>(cutoffs[, fh, window_length])</p></td>
+<td><p>Manual window splitter to split time series at given cutoff points.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.model_selection.SingleWindowSplitter.html#sktime.forecasting.model_selection.SingleWindowSplitter" title="sktime.forecasting.model_selection.SingleWindowSplitter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SingleWindowSplitter</span></code></a>(fh[, window_length])</p></td>
+<td><p>Single window splitter</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.model_selection.SlidingWindowSplitter.html#sktime.forecasting.model_selection.SlidingWindowSplitter" title="sktime.forecasting.model_selection.SlidingWindowSplitter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SlidingWindowSplitter</span></code></a>([fh, window_length, …])</p></td>
+<td><p>Sliding window splitter</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.model_selection.ForecastingGridSearchCV.html#sktime.forecasting.model_selection.ForecastingGridSearchCV" title="sktime.forecasting.model_selection.ForecastingGridSearchCV"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ForecastingGridSearchCV</span></code></a>(forecaster, cv, …)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.forecasting.model_selection.temporal_train_test_split.html#sktime.forecasting.model_selection.temporal_train_test_split" title="sktime.forecasting.model_selection.temporal_train_test_split"><code class="xref py py-obj docutils literal notranslate"><span class="pre">temporal_train_test_split</span></code></a>(*arrays[, …])</p></td>
+<td><p>Split arrays or matrices into sequential train and test subsets Creates train/test splits over endogenous arrays an optional exogenous arrays.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

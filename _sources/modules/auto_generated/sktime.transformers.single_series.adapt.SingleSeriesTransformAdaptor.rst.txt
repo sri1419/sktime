@@ -1,0 +1,16 @@
+:mod:`sktime.transformers.single_series.adapt`.SingleSeriesTransformAdaptor
+==================================================================================
+
+.. currentmodule:: sktime.transformers.single_series.adapt
+
+.. autoclass:: SingleSeriesTransformAdaptor
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

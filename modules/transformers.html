@@ -1,0 +1,455 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.transformers: Time series transformers &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.transformers</span></code>: Time series transformers</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="sktime-transformers-time-series-transformers">
+<span id="transformers-ref"></span><h1><a class="reference internal" href="#module-sktime.transformers" title="sktime.transformers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.transformers</span></code></a>: Time series transformers<a class="headerlink" href="#sktime-transformers-time-series-transformers" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">sktime.transformers</span></code> module contains classes for data transformations.</p>
+<span class="target" id="module-sktime.transformers"></span><div class="section" id="series-as-features-transformers">
+<h2>Series-as-features transformers<a class="headerlink" href="#series-as-features-transformers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dictionary-based">
+<h3>Dictionary-based<a class="headerlink" href="#dictionary-based" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.dictionary_based.PAA.html#sktime.transformers.series_as_features.dictionary_based.PAA" title="sktime.transformers.series_as_features.dictionary_based.PAA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PAA</span></code></a>([num_intervals])</p></td>
+<td><p>(PAA) Piecewise Aggregate Approximation Transformer, as described in Eamonn Keogh, Kaushik Chakrabarti, Michael Pazzani, and Sharad Mehrotra.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.dictionary_based.SFA.html#sktime.transformers.series_as_features.dictionary_based.SFA" title="sktime.transformers.series_as_features.dictionary_based.SFA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SFA</span></code></a>([word_length, alphabet_size, …])</p></td>
+<td><p>SFA (Symbolic Fourier Approximation) Transformer, as described in</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.dictionary_based.SAX.html#sktime.transformers.series_as_features.dictionary_based.SAX" title="sktime.transformers.series_as_features.dictionary_based.SAX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SAX</span></code></a>([word_length, alphabet_size, …])</p></td>
+<td><p>SAX (Symbolic Aggregate approXimation) Transformer, as described in Jessica Lin, Eamonn Keogh, Li Wei and Stefano Lonardi, “Experiencing SAX: a novel symbolic representation of time series” Data Mining and Knowledge Discovery, 15(2):107-144 Overview: for each series:     run a sliding window across the series     for each window         shorten the series with PAA (Piecewise Approximate Aggregation)         discretise the shortened seried into fixed bins         form a word from these discrete values by default SAX produces a single word per series (window_size=0).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="summarize">
+<h3>Summarize<a class="headerlink" href="#summarize" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.summarize.DerivativeSlopeTransformer.html#sktime.transformers.series_as_features.summarize.DerivativeSlopeTransformer" title="sktime.transformers.series_as_features.summarize.DerivativeSlopeTransformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DerivativeSlopeTransformer</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.summarize.PlateauFinder.html#sktime.transformers.series_as_features.summarize.PlateauFinder" title="sktime.transformers.series_as_features.summarize.PlateauFinder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PlateauFinder</span></code></a>([value, min_length])</p></td>
+<td><p>Transformer that finds segments of the same given value, plateau in the time series, and returns the starting indices and lengths.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.summarize.RandomIntervalFeatureExtractor.html#sktime.transformers.series_as_features.summarize.RandomIntervalFeatureExtractor" title="sktime.transformers.series_as_features.summarize.RandomIntervalFeatureExtractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomIntervalFeatureExtractor</span></code></a>([…])</p></td>
+<td><p>Transformer that segments time-series into random intervals and subsequently extracts series-to-primitives features from each interval.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.summarize.FittedParamExtractor.html#sktime.transformers.series_as_features.summarize.FittedParamExtractor" title="sktime.transformers.series_as_features.summarize.FittedParamExtractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FittedParamExtractor</span></code></a>(forecaster, param_names)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor.html#sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor" title="sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TSFreshRelevantFeatureExtractor</span></code></a>([…])</p></td>
+<td><p>Transformer for extracting and selecting features.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.summarize.TSFreshFeatureExtractor.html#sktime.transformers.series_as_features.summarize.TSFreshFeatureExtractor" title="sktime.transformers.series_as_features.summarize.TSFreshFeatureExtractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TSFreshFeatureExtractor</span></code></a>([…])</p></td>
+<td><p>Transformer for extracting time series features</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="compose">
+<h3>Compose<a class="headerlink" href="#compose" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.compose.ColumnTransformer.html#sktime.transformers.series_as_features.compose.ColumnTransformer" title="sktime.transformers.series_as_features.compose.ColumnTransformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ColumnTransformer</span></code></a>(transformers[, remainder, …])</p></td>
+<td><p>Applies transformers to columns of an array or pandas DataFrame.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.compose.RowTransformer.html#sktime.transformers.series_as_features.compose.RowTransformer" title="sktime.transformers.series_as_features.compose.RowTransformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RowTransformer</span></code></a>(transformer)</p></td>
+<td><p>A convenience wrapper for row-wise transformers to apply transformation to all rows.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.compose.ColumnConcatenator.html#sktime.transformers.series_as_features.compose.ColumnConcatenator" title="sktime.transformers.series_as_features.compose.ColumnConcatenator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ColumnConcatenator</span></code></a>()</p></td>
+<td><p>Transformer that concatenates multivariate time series/panel data into long univiariate time series/panel     data by simply concatenating times series in time.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="matrix-profile">
+<h3>Matrix profile<a class="headerlink" href="#matrix-profile" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.matrix_profile.MatrixProfile.html#sktime.transformers.series_as_features.matrix_profile.MatrixProfile" title="sktime.transformers.series_as_features.matrix_profile.MatrixProfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MatrixProfile</span></code></a>([m])</p></td>
+<td><p>Takes as input a time series dataset and returns the matrix profile and index profile for each time series of the dataset.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="pca">
+<h3>PCA<a class="headerlink" href="#pca" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.pca.PCATransformer.html#sktime.transformers.series_as_features.pca.PCATransformer" title="sktime.transformers.series_as_features.pca.PCATransformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCATransformer</span></code></a>([n_components])</p></td>
+<td><p>Transformer that applies Principle Components Analysis to a univariate time series.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="reduce">
+<h3>Reduce<a class="headerlink" href="#reduce" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.reduce.Tabularizer.html#sktime.transformers.series_as_features.reduce.Tabularizer" title="sktime.transformers.series_as_features.reduce.Tabularizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tabularizer</span></code></a>()</p></td>
+<td><p>A transformer that turns time series/panel data into tabular data.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="rocket">
+<h3>Rocket<a class="headerlink" href="#rocket" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.rocket.Rocket.html#sktime.transformers.series_as_features.rocket.Rocket" title="sktime.transformers.series_as_features.rocket.Rocket"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rocket</span></code></a>([num_kernels, normalise, random_state])</p></td>
+<td><p>ROCKET</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="segment">
+<h3>Segment<a class="headerlink" href="#segment" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.segment.IntervalSegmenter.html#sktime.transformers.series_as_features.segment.IntervalSegmenter" title="sktime.transformers.series_as_features.segment.IntervalSegmenter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IntervalSegmenter</span></code></a>([intervals])</p></td>
+<td><p>Interval segmentation transformer.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.segment.RandomIntervalSegmenter.html#sktime.transformers.series_as_features.segment.RandomIntervalSegmenter" title="sktime.transformers.series_as_features.segment.RandomIntervalSegmenter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomIntervalSegmenter</span></code></a>([n_intervals, …])</p></td>
+<td><p>Transformer that segments time-series into random intervals with random starting points and lengths.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="shapelet">
+<h3>Shapelet<a class="headerlink" href="#shapelet" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.shapelets.ShapeletTransform.html#sktime.transformers.series_as_features.shapelets.ShapeletTransform" title="sktime.transformers.series_as_features.shapelets.ShapeletTransform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShapeletTransform</span></code></a>([min_shapelet_length, …])</p></td>
+<td><p>Shapelet Transform.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.series_as_features.shapelets.ContractedShapeletTransform.html#sktime.transformers.series_as_features.shapelets.ContractedShapeletTransform" title="sktime.transformers.series_as_features.shapelets.ContractedShapeletTransform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ContractedShapeletTransform</span></code></a>([…])</p></td>
+<td><p>Contracted Shapelet Transform.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="single-series-transformers">
+<h2>Single-series transformers<a class="headerlink" href="#single-series-transformers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="detrend">
+<h3>Detrend<a class="headerlink" href="#detrend" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.single_series.detrend.Detrender.html#sktime.transformers.single_series.detrend.Detrender" title="sktime.transformers.single_series.detrend.Detrender"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Detrender</span></code></a>(forecaster)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.single_series.detrend.Deseasonalizer.html#sktime.transformers.single_series.detrend.Deseasonalizer" title="sktime.transformers.single_series.detrend.Deseasonalizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Deseasonalizer</span></code></a>([sp, model])</p></td>
+<td><p>A transformer that removes a seasonal and trend components from time series</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.single_series.detrend.ConditionalDeseasonalizer.html#sktime.transformers.single_series.detrend.ConditionalDeseasonalizer" title="sktime.transformers.single_series.detrend.ConditionalDeseasonalizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConditionalDeseasonalizer</span></code></a>([…])</p></td>
+<td><p>A transformer that removes a seasonal and trend components from time series, conditional on seasonality test.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="adapt">
+<h3>Adapt<a class="headerlink" href="#adapt" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.html#sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor" title="sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SingleSeriesTransformAdaptor</span></code></a>(transformer)</p></td>
+<td><p>Adaptor for scikit-learn-like tabular transformers to single series setting.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="box-cox">
+<h3>Box-cox<a class="headerlink" href="#box-cox" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="auto_generated/sktime.transformers.single_series.boxcox.BoxCoxTransformer.html#sktime.transformers.single_series.boxcox.BoxCoxTransformer" title="sktime.transformers.single_series.boxcox.BoxCoxTransformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BoxCoxTransformer</span></code></a>([bounds, method])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

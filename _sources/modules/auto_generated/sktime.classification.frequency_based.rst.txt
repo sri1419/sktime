@@ -1,0 +1,7 @@
+sktime.classification.frequency\_based
+--------------------------------------
+
+.. automodule:: sktime.classification.frequency_based
+   :members:
+   :undoc-members:
+   :show-inheritance:

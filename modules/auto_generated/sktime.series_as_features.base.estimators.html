@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.series_as_features.base.estimators &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>sktime.series_as_features.base.estimators</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-sktime.series_as_features.base.estimators">
+<span id="sktime-series-as-features-base-estimators"></span><h1>sktime.series_as_features.base.estimators<a class="headerlink" href="#module-sktime.series_as_features.base.estimators" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="sktime.series_as_features.base.estimators.BaseTimeSeriesForest">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.series_as_features.base.estimators.</code><code class="sig-name descname">BaseTimeSeriesForest</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">base_estimator</span></em>, <em class="sig-param"><span class="n">n_estimators</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">estimator_params</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">bootstrap</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">oob_score</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">random_state</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">warm_start</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">class_weight</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_samples</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/series_as_features/base/estimators/_ensemble.html#BaseTimeSeriesForest"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/series_as_features/base/estimators/_ensemble.py#L71-L333"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.series_as_features.base.estimators.BaseTimeSeriesForest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.ensemble._forest.BaseForest</span></code></p>
+<p>Base class for forests of trees.</p>
+<dl class="py method">
+<dt id="sktime.series_as_features.base.estimators.BaseTimeSeriesForest.apply">
+<code class="sig-name descname">apply</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/series_as_features/base/estimators/_ensemble.html#BaseTimeSeriesForest.apply"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/series_as_features/base/estimators/_ensemble.py#L247-L248"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.series_as_features.base.estimators.BaseTimeSeriesForest.apply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply trees in the forest to X, return leaf indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>{array-like</em><em>, </em><em>sparse matrix} of shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input samples. Internally, its dtype will be converted to
+<code class="docutils literal notranslate"><span class="pre">dtype=np.float32</span></code>. If a sparse matrix is provided, it will be
+converted into a sparse <code class="docutils literal notranslate"><span class="pre">csr_matrix</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>X_leaves</strong> – For each datapoint x in X and for each tree in the forest,
+return the index of the leaf x ends up in.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray of shape (n_samples, n_estimators)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.series_as_features.base.estimators.BaseTimeSeriesForest.decision_path">
+<code class="sig-name descname">decision_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/series_as_features/base/estimators/_ensemble.html#BaseTimeSeriesForest.decision_path"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/series_as_features/base/estimators/_ensemble.py#L250-L251"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.series_as_features.base.estimators.BaseTimeSeriesForest.decision_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the decision path in the forest.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.18.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>{array-like</em><em>, </em><em>sparse matrix} of shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input samples. Internally, its dtype will be converted to
+<code class="docutils literal notranslate"><span class="pre">dtype=np.float32</span></code>. If a sparse matrix is provided, it will be
+converted into a sparse <code class="docutils literal notranslate"><span class="pre">csr_matrix</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>indicator</strong> (<em>sparse matrix of shape (n_samples, n_nodes)</em>) – Return a node indicator matrix where non zero elements indicates
+that the samples goes through the nodes. The matrix is of CSR
+format.</p></li>
+<li><p><strong>n_nodes_ptr</strong> (<em>ndarray of shape (n_estimators + 1,)</em>) – The columns from indicator[n_nodes_ptr[i]:n_nodes_ptr[i+1]]
+gives the indicator value for the i-th estimator.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.series_as_features.base.estimators.BaseTimeSeriesForest.feature_importances_">
+<em class="property">property </em><code class="sig-name descname">feature_importances_</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/series_as_features/base/estimators.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.series_as_features.base.estimators.BaseTimeSeriesForest.feature_importances_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute feature importances for time series forest</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.series_as_features.base.estimators.BaseTimeSeriesForest.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">sample_weight</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/series_as_features/base/estimators/_ensemble.html#BaseTimeSeriesForest.fit"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/series_as_features/base/estimators/_ensemble.py#L120-L245"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.series_as_features.base.estimators.BaseTimeSeriesForest.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a forest of trees from the training set (X, y).
+:param X: The training input samples. Internally, its dtype will be converted</p>
+<blockquote>
+<div><p>to <code class="docutils literal notranslate"><span class="pre">dtype=np.float32</span></code>. If a sparse matrix is provided, it will be
+converted into a sparse <code class="docutils literal notranslate"><span class="pre">csc_matrix</span></code>.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>array-like of shape</em><em> (</em><em>n_samples</em><em>,</em><em>) or </em><em>(</em><em>n_samples</em><em>, </em><em>n_outputs</em><em>)</em>) – The target values (class labels in classification, real numbers in
+regression).</p></li>
+<li><p><strong>sample_weight</strong> (<em>array-like of shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em><em>, </em><em>default=None</em>) – Sample weights. If None, then samples are equally weighted. Splits
+that would create child nodes with net zero or negative weight are
+ignored while searching for a split in each node. In the case of
+classification, splits are also ignored if they would result in any
+single class carrying a negative weight in either child node.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>self</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)">object</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

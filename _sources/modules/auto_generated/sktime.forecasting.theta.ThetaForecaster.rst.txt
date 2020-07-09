@@ -1,0 +1,16 @@
+:mod:`sktime.forecasting.theta`.ThetaForecaster
+======================================================
+
+.. currentmodule:: sktime.forecasting.theta
+
+.. autoclass:: ThetaForecaster
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.forecasting.theta.ThetaForecaster.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

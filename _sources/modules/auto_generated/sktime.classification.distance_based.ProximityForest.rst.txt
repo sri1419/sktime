@@ -1,0 +1,16 @@
+:mod:`sktime.classification.distance_based`.ProximityForest
+==================================================================
+
+.. currentmodule:: sktime.classification.distance_based
+
+.. autoclass:: ProximityForest
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.classification.distance_based.ProximityForest.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

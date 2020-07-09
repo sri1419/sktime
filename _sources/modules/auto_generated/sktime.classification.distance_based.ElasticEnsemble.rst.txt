@@ -1,0 +1,16 @@
+:mod:`sktime.classification.distance_based`.ElasticEnsemble
+==================================================================
+
+.. currentmodule:: sktime.classification.distance_based
+
+.. autoclass:: ElasticEnsemble
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.classification.distance_based.ElasticEnsemble.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

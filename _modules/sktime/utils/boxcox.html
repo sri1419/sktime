@@ -1,0 +1,387 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.utils.boxcox &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../utils.html">sktime.utils</a> &raquo;</li>
+        
+      <li>sktime.utils.boxcox</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.utils.boxcox</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3 -u</span>
+<span class="c1"># coding: utf-8</span>
+<span class="c1"># copyright: sktime developers, BSD-3-Clause License (see LICENSE file)</span>
+
+<span class="c1"># adapted from scipy to allow for bounds on lambda estimation, see</span>
+<span class="c1"># - https://github.com/scipy/scipy/blob/v1.4.1/scipy/stats/morestats.py</span>
+<span class="c1"># - https://github.com/scipy/scipy/issues/11909</span>
+
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Markus Löning&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;boxcox_normmax&quot;</span><span class="p">,</span> <span class="s2">&quot;boxcox&quot;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">optimize</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">special</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">boxcox_llf</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">distributions</span>
+<span class="kn">from</span> <span class="nn">scipy.stats.morestats</span> <span class="kn">import</span> <span class="n">_boxcox_conf_interval</span>
+<span class="kn">from</span> <span class="nn">scipy.stats.morestats</span> <span class="kn">import</span> <span class="n">_calc_uniform_order_statistic_medians</span>
+
+
+<div class="viewcode-block" id="boxcox_normmax"><a class="viewcode-back" href="../../../modules/auto_generated/sktime.utils.boxcox.html#sktime.utils.boxcox.boxcox_normmax">[docs]</a><span class="k">def</span> <span class="nf">boxcox_normmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">brack</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;pearsonr&#39;</span><span class="p">):</span>
+    <span class="c1"># bounds is None, use simple Brent optimisation</span>
+    <span class="k">if</span> <span class="n">bounds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">optimizer</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">optimize</span><span class="o">.</span><span class="n">brent</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">brack</span><span class="o">=</span><span class="n">brack</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="c1"># otherwise use bounded Brent optimisation</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># input checks on bounds</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;`bounds` must be a tuple of length 2, but found: </span><span class="si">{</span><span class="n">bounds</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">optimizer</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">optimize</span><span class="o">.</span><span class="n">fminbound</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_pearsonr</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">osm_uniform</span> <span class="o">=</span> <span class="n">_calc_uniform_order_statistic_medians</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">xvals</span> <span class="o">=</span> <span class="n">distributions</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">osm_uniform</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">_eval_pearsonr</span><span class="p">(</span><span class="n">lmbda</span><span class="p">,</span> <span class="n">xvals</span><span class="p">,</span> <span class="n">samps</span><span class="p">):</span>
+            <span class="c1"># This function computes the x-axis values of the probability plot</span>
+            <span class="c1"># and computes a linear regression (including the correlation) and</span>
+            <span class="c1"># returns ``1 - r`` so that a minimization function maximizes the</span>
+            <span class="c1"># correlation.</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">boxcox</span><span class="p">(</span><span class="n">samps</span><span class="p">,</span> <span class="n">lmbda</span><span class="p">)</span>
+            <span class="n">yvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+            <span class="n">r</span><span class="p">,</span> <span class="n">prob</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">pearsonr</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">yvals</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">r</span>
+
+        <span class="k">return</span> <span class="n">optimizer</span><span class="p">(</span><span class="n">_eval_pearsonr</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">xvals</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_mle</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">_eval_mle</span><span class="p">(</span><span class="n">lmb</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+            <span class="c1"># function to minimize</span>
+            <span class="k">return</span> <span class="o">-</span><span class="n">boxcox_llf</span><span class="p">(</span><span class="n">lmb</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">optimizer</span><span class="p">(</span><span class="n">_eval_mle</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,))</span>
+
+    <span class="k">def</span> <span class="nf">_all</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">maxlog</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">maxlog</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">_pearsonr</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">maxlog</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">_mle</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">maxlog</span>
+
+    <span class="n">methods</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;pearsonr&#39;</span><span class="p">:</span> <span class="n">_pearsonr</span><span class="p">,</span>
+               <span class="s1">&#39;mle&#39;</span><span class="p">:</span> <span class="n">_mle</span><span class="p">,</span>
+               <span class="s1">&#39;all&#39;</span><span class="p">:</span> <span class="n">_all</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">methods</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Method </span><span class="si">%s</span><span class="s2"> not recognized.&quot;</span> <span class="o">%</span> <span class="n">method</span><span class="p">)</span>
+
+    <span class="n">optimfunc</span> <span class="o">=</span> <span class="n">methods</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">optimfunc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="boxcox"><a class="viewcode-back" href="../../../modules/auto_generated/sktime.utils.boxcox.html#sktime.utils.boxcox.boxcox">[docs]</a><span class="k">def</span> <span class="nf">boxcox</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lmbda</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a dataset transformed by a Box-Cox power transformation.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : ndarray</span>
+<span class="sd">        Input array.  Must be positive 1-dimensional.  Must not be constant.</span>
+<span class="sd">    lmbda : {None, scalar}, optional</span>
+<span class="sd">        If `lmbda` is not None, do the transformation for that value.</span>
+<span class="sd">        If `lmbda` is None, find the lambda that maximizes the log-likelihood</span>
+<span class="sd">        function and return it as the second output argument.</span>
+<span class="sd">    alpha : {None, float}, optional</span>
+<span class="sd">        If ``alpha`` is not None, return the ``100 * (1-alpha)%`` confidence</span>
+<span class="sd">        interval for `lmbda` as the third output argument.</span>
+<span class="sd">        Must be between 0.0 and 1.0.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    boxcox : ndarray</span>
+<span class="sd">        Box-Cox power transformed array.</span>
+<span class="sd">    maxlog : float, optional</span>
+<span class="sd">        If the `lmbda` parameter is None, the second returned argument is</span>
+<span class="sd">        the lambda that maximizes the log-likelihood function.</span>
+<span class="sd">    (min_ci, max_ci) : tuple of float, optional</span>
+<span class="sd">        If `lmbda` parameter is None and ``alpha`` is not None, this returned</span>
+<span class="sd">        tuple of floats represents the minimum and maximum confidence limits</span>
+<span class="sd">        given ``alpha``.</span>
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    probplot, boxcox_normplot, boxcox_normmax, boxcox_llf</span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The Box-Cox transform is given by::</span>
+<span class="sd">        y = (x**lmbda - 1) / lmbda,  for lmbda &gt; 0</span>
+<span class="sd">            log(x),                  for lmbda = 0</span>
+<span class="sd">    `boxcox` requires the input data to be positive.  Sometimes a Box-Cox</span>
+<span class="sd">    transformation provides a shift parameter to achieve this; `boxcox` does</span>
+<span class="sd">    not.  Such a shift parameter is equivalent to adding a positive constant to</span>
+<span class="sd">    `x` before calling `boxcox`.</span>
+<span class="sd">    The confidence limits returned when ``alpha`` is provided give the interval</span>
+<span class="sd">    where:</span>
+<span class="sd">    .. math::</span>
+<span class="sd">        llf(\hat{\lambda}) - llf(\lambda) &lt; \frac{1}{2}\chi^2(1 - \alpha, 1),</span>
+<span class="sd">    with ``llf`` the log-likelihood function and :math:`\chi^2` the chi-squared</span>
+<span class="sd">    function.</span>
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    G.E.P. Box and D.R. Cox, &quot;An Analysis of Transformations&quot;, Journal of the</span>
+<span class="sd">    Royal Statistical Society B, 26, 211-252 (1964).</span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from scipy import stats</span>
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    We generate some random variates from a non-normal distribution and make a</span>
+<span class="sd">    probability plot for it, to show it is non-normal in the tails:</span>
+<span class="sd">    &gt;&gt;&gt; fig = plt.figure()</span>
+<span class="sd">    &gt;&gt;&gt; ax1 = fig.add_subplot(211)</span>
+<span class="sd">    &gt;&gt;&gt; x = stats.loggamma.rvs(5, size=500) + 5</span>
+<span class="sd">    &gt;&gt;&gt; prob = stats.probplot(x, dist=stats.norm, plot=ax1)</span>
+<span class="sd">    &gt;&gt;&gt; ax1.set_xlabel(&#39;&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ax1.set_title(&#39;Probplot against normal distribution&#39;)</span>
+<span class="sd">    We now use `boxcox` to transform the data so it&#39;s closest to normal:</span>
+<span class="sd">    &gt;&gt;&gt; ax2 = fig.add_subplot(212)</span>
+<span class="sd">    &gt;&gt;&gt; xt, _ = stats.boxcox(x)</span>
+<span class="sd">    &gt;&gt;&gt; prob = stats.probplot(xt, dist=stats.norm, plot=ax2)</span>
+<span class="sd">    &gt;&gt;&gt; ax2.set_title(&#39;Probplot after Box-Cox transformation&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Data must be 1-dimensional.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Data must not be constant.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Data must be positive.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">lmbda</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># single transformation</span>
+        <span class="k">return</span> <span class="n">special</span><span class="o">.</span><span class="n">boxcox</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lmbda</span><span class="p">)</span>
+
+    <span class="c1"># If lmbda=None, find the lmbda that maximizes the log-likelihood function.</span>
+    <span class="n">lmax</span> <span class="o">=</span> <span class="n">boxcox_normmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;mle&#39;</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">boxcox</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lmax</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">alpha</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">lmax</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Find confidence interval</span>
+        <span class="n">interval</span> <span class="o">=</span> <span class="n">_boxcox_conf_interval</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lmax</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">lmax</span><span class="p">,</span> <span class="n">interval</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

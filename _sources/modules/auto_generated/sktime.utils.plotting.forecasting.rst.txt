@@ -1,0 +1,7 @@
+sktime.utils.plotting.forecasting
+---------------------------------
+
+.. automodule:: sktime.utils.plotting.forecasting
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,16 @@
+:mod:`sktime.forecasting.compose`.DirectRegressionForecaster
+===================================================================
+
+.. currentmodule:: sktime.forecasting.compose
+
+.. autoclass:: DirectRegressionForecaster
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.forecasting.compose.DirectRegressionForecaster.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

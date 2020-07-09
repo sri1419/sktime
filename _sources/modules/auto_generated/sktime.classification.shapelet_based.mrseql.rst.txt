@@ -1,0 +1,16 @@
+sktime.classification.shapelet\_based.mrseql
+--------------------------------------------
+
+.. automodule:: sktime.classification.shapelet_based.mrseql
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   sktime.classification.shapelet_based.mrseql.mrseql
+   sktime.classification.shapelet_based.mrseql.mrseql
+   sktime.classification.shapelet_based.mrseql.setup

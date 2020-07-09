@@ -1,0 +1,1421 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Forecasting with sktime &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Univariate time series classification with sktime" href="02_classification_univariate.html" />
+    <link rel="prev" title="How to get started" href="../how_to_get_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../how_to_get_started.html">How to get started</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Forecasting with sktime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Preliminaries">Preliminaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Data">Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Specifying-the-forecasting-task">Specifying the forecasting task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Forecasting">Forecasting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Naïve-baselines">Naïve baselines</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#But-can-I-not-just-use-scikit-learn?">But can I not just use scikit-learn?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Pitfall-1:-model-validation">Pitfall 1: model validation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Pitfall-2:-how-to-apply-regression-algorithms?">Pitfall 2: how to apply regression algorithms?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Pitfall-3:-how-to-generate-forecasts?">Pitfall 3: how to generate forecasts?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Forecasting with sktime</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Reduction: from forecasting to regression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Statistical-forecasters">Statistical forecasters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Compositite-model-building">Compositite model building</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Ensembling">Ensembling</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Tuning">Tuning</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Detrending">Detrending</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Pipelining">Pipelining</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Dynamic-forecasts">Dynamic forecasts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Prediction-intervals">Prediction intervals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Summary">Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Useful-resources">Useful resources</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02_classification_univariate.html">Univariate time series classification with sktime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_classification_multivariate.html">Multivariate time series classification with sktime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_benchmarking.html">Benchmarking with sktime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature_extraction_with_tsfresh.html">Feature extraction with tsfresh transformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shapelet_transform.html">Shapelets and the Shapelet Transform with sktime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mrseql.html">Time series classification with Mr-SEQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rocket.html">Demo of ROCKET transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plateau_finder.html">Demo of the PlateauFinder transformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loading_data.html">Loading data in sktime</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../how_to_get_started.html">How to get started</a> &raquo;</li>
+        
+      <li>Forecasting with sktime</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<p><a class="reference external" href="https://mybinder.org/v2/gh/alan-turing-institute/sktime/master?filepath=examples/01_forecasting.ipynb"><img alt="binder" src="https://mybinder.org/badge_logo.svg" /></a></p>
+<div class="section" id="Forecasting-with-sktime">
+<h1>Forecasting with sktime<a class="headerlink" href="#Forecasting-with-sktime" title="Permalink to this headline">¶</a></h1>
+<p>In forecasting, we’re interested in using past data to make temporal forward predictions. sktime provides common statistical forecasting algorithms and tools for building composite machine learning models.</p>
+<p><img alt="805d6d09ce804231bb186d2aa20505b1" class="no-scaled-link" src="../_images/forecasting.png" style="width: 750px;" /></p>
+<p>For more details, take a look at <a class="reference external" href="https://arxiv.org/abs/2005.08067">our paper on forecasting with sktime</a> in which we discuss the forecasting API in more detail and use it to replicate and extend the M4 study.</p>
+<div class="section" id="Preliminaries">
+<h2>Preliminaries<a class="headerlink" href="#Preliminaries" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sktime.datasets</span> <span class="kn">import</span> <span class="n">load_airline</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.model_selection</span> <span class="kn">import</span> <span class="n">temporal_train_test_split</span>
+<span class="kn">from</span> <span class="nn">sktime.performance_metrics.forecasting</span> <span class="kn">import</span> <span class="n">smape_loss</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.plotting.forecasting</span> <span class="kn">import</span> <span class="n">plot_ys</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Data">
+<h2>Data<a class="headerlink" href="#Data" title="Permalink to this headline">¶</a></h2>
+<p>For this tutorial, we will use the famous Box-Jenkins airline data set, which shows the number of international airline passengers per month from 1949-1960.</p>
+<p>As well as using the original time series (which is a classic example of a <em>multiplicative</em> time series), we will create an <em>additive</em> time series by performing a log-transform on the original data, so we may compare forecasters against both types of model.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y</span> <span class="o">=</span> <span class="n">load_airline</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_ys</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Number of airline passengers&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_01_forecasting_4_0.png" src="../_images/examples_01_forecasting_4_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Specifying-the-forecasting-task">
+<h2>Specifying the forecasting task<a class="headerlink" href="#Specifying-the-forecasting-task" title="Permalink to this headline">¶</a></h2>
+<p>Next we will define a forecasting task.</p>
+<ul class="simple">
+<li><p>We will try to predict the last 3 years of data, using the previous years as training data. Each point in the series represents a month, so we should hold out the last 36 points as test data, and use 36-step ahead forecasting horizon to evaluate forecasting performance.</p></li>
+<li><p>We will use the sMAPE (symmetric mean absolute percentage error) to quantify the accuracy of our forecasts. A lower sMAPE means higher accuracy.</p></li>
+</ul>
+<p>We can split the data as follows:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">temporal_train_test_split</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mi">36</span><span class="p">)</span>
+<span class="n">plot_ys</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">,</span> <span class="s2">&quot;y_test&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+108 36
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_01_forecasting_7_1.png" src="../_images/examples_01_forecasting_7_1.png" />
+</div>
+</div>
+<p>When we want to generate forecasts, we need to specify the forecasting horizon and pass that to our forecasting algorithm. We can specify the forecasting horizon as a simple numpy array of the steps ahead, relative to the end of the training series:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">fh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">fh</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17,
+       18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
+       35, 36])
+</pre></div></div>
+</div>
+<p>So here we’re interested in predicting from the first to to the 36th step ahead.</p>
+<p>Of course you could you use other forecasting horizons. For example, to predict only the second and fifth step ahead, you could write:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>  <span class="c1"># 2nd and 5th step ahead</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Forecasting">
+<h2>Forecasting<a class="headerlink" href="#Forecasting" title="Permalink to this headline">¶</a></h2>
+<p>Like in scikit-learn, in order to make forecasts, we need to first specify (or build) a model, then fit it to the training data, and finally call predict to generate forecasts for the given forecasting horizon.</p>
+<p>sktime comes with several forecasting algorithms (or forecasters) and tools for composite model building. All forecaster share a common interface. Forecasters are trained on a single series of data and make forecasts for the provided forecasting horizon.</p>
+<div class="section" id="Naïve-baselines">
+<h3>Naïve baselines<a class="headerlink" href="#Naïve-baselines" title="Permalink to this headline">¶</a></h3>
+<p>Let’s start with two naïve forecasting strategies which can serve as references for comparison of more sophisticated approaches.</p>
+<ol class="arabic simple">
+<li><p>We always predict the last value observed (in the training series),</p></li>
+<li><p>We predict the last value observed in the same season.</p></li>
+</ol>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># we can do that with a few lines of code</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">fh</span><span class="p">))</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">y_train</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fh</span><span class="p">)</span>
+
+<span class="n">plot_ys</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">,</span> <span class="s2">&quot;y_test&quot;</span><span class="p">,</span> <span class="s2">&quot;y_pred&quot;</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_01_forecasting_12_0.png" src="../_images/examples_01_forecasting_12_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># using sktime</span>
+
+<span class="kn">from</span> <span class="nn">sktime.forecasting.naive</span> <span class="kn">import</span> <span class="n">NaiveForecaster</span>
+<span class="n">forecaster</span> <span class="o">=</span> <span class="n">NaiveForecaster</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;last&quot;</span><span class="p">)</span>
+<span class="n">forecaster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_last</span> <span class="o">=</span> <span class="n">forecaster</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+<span class="n">plot_ys</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">,</span> <span class="s2">&quot;y_test&quot;</span><span class="p">,</span> <span class="s2">&quot;y_pred&quot;</span><span class="p">]);</span>
+<span class="n">smape_loss</span><span class="p">(</span><span class="n">y_last</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.23195770387951434
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_01_forecasting_13_1.png" src="../_images/examples_01_forecasting_13_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">forecaster</span> <span class="o">=</span> <span class="n">NaiveForecaster</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;seasonal_last&quot;</span><span class="p">,</span> <span class="n">sp</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">forecaster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">forecaster</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+<span class="n">plot_ys</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">,</span> <span class="s2">&quot;y_test&quot;</span><span class="p">,</span> <span class="s2">&quot;y_pred&quot;</span><span class="p">])</span>
+<span class="n">smape_loss</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.145427686270316
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_01_forecasting_14_1.png" src="../_images/examples_01_forecasting_14_1.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="But-can-I-not-just-use-scikit-learn?">
+<h2>But can I not just use scikit-learn?<a class="headerlink" href="#But-can-I-not-just-use-scikit-learn?" title="Permalink to this headline">¶</a></h2>
+<p>In principle, yes, but many pitfalls …</p>
+<div class="section" id="Pitfall-1:-model-validation">
+<h3>Pitfall 1: model validation<a class="headerlink" href="#Pitfall-1:-model-validation" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">plot_ys</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(),</span> <span class="n">y_test</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(),</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">,</span> <span class="s2">&quot;y_test&quot;</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_01_forecasting_16_0.png" src="../_images/examples_01_forecasting_16_0.png" />
+</div>
+</div>
+<p>This leads to leakage:</p>
+<blockquote>
+<div><p>The data you are using to train a machine learning algorithm happens to have the information you are trying to predict.</p>
+</div></blockquote>
+<p>But <code class="docutils literal notranslate"><span class="pre">train_test_split(y,</span> <span class="pre">shuffle=False)</span></code> works, which is what <code class="docutils literal notranslate"><span class="pre">temporal_train_test_split(y)</span></code> does in sktime:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">temporal_train_test_split</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">plot_ys</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">,</span> <span class="s2">&quot;y_test&quot;</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_01_forecasting_18_0.png" src="../_images/examples_01_forecasting_18_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Pitfall-2:-how-to-apply-regression-algorithms?">
+<h3>Pitfall 2: how to apply regression algorithms?<a class="headerlink" href="#Pitfall-2:-how-to-apply-regression-algorithms?" title="Permalink to this headline">¶</a></h3>
+<p>In order to use scikit-learn, we have to first transform the data into the required tabular format, then fit a regressor and finally generate forecasts.</p>
+<div class="section" id="Reduction:-from-forecasting-to-regression">
+<h4>Reduction: from forecasting to regression<a class="headerlink" href="#Reduction:-from-forecasting-to-regression" title="Permalink to this headline">¶</a></h4>
+<p>Forecasting is often solved via regression. This approach is sometimes called reduction, because we reduce the forecasting task to the simpler but related task of tabular regression. This allows to apply any regression algorithm to the forecasting problem.</p>
+<p>Reduction to regression works as follows: We first need to transform the data into the required tabular format. We can do this by cutting the training series into windows of a fixed length and stacking them on top of each other. Our target variable consists of the subsequent observation for each window.</p>
+<p>We could write some code to do that, as for example in the <a class="reference external" href="https://github.com/Mcompetitions/M4-methods">M4 competition</a>:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># slightly modified code from the M4 competition</span>
+<span class="k">def</span> <span class="nf">split_into_train_test</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">in_num</span><span class="p">,</span> <span class="n">fh</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Splits the series into train and test sets. Each step takes multiple points as inputs</span>
+<span class="sd">    :param data: an individual TS</span>
+<span class="sd">    :param fh: number of out of sample points</span>
+<span class="sd">    :param in_num: number of input points for the forecast</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:</span><span class="o">-</span><span class="n">fh</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="p">(</span><span class="n">fh</span> <span class="o">+</span> <span class="n">in_num</span><span class="p">):]</span>
+    <span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">train</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="o">-</span><span class="n">in_num</span><span class="p">)[:</span><span class="o">-</span><span class="n">in_num</span><span class="p">]</span>
+    <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">test</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="o">-</span><span class="n">in_num</span><span class="p">)[:</span><span class="o">-</span><span class="n">in_num</span><span class="p">]</span>
+<span class="c1">#     x_test, y_test = train[-in_num:], np.roll(test, -in_num)[:-in_num]</span>
+
+    <span class="c1"># reshape input to be [samples, time steps, features] (N-NF samples, 1 time step, 1 feature)</span>
+    <span class="n">x_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">x_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">temp_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">temp_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">in_num</span><span class="p">):</span>
+        <span class="n">x_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x_train</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">temp_train</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">x_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x_test</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">temp_test</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">temp_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">temp_test</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">temp_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">temp_train</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># here we split the time index, rather than the actual values, to show how we split the windows</span>
+<span class="n">feature_window</span><span class="p">,</span> <span class="n">target_window</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">split_into_train_test</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">fh</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">feature_window</span><span class="p">[:</span><span class="mi">5</span><span class="p">,</span> <span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([[ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9],
+       [ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10],
+       [ 2,  3,  4,  5,  6,  7,  8,  9, 10, 11],
+       [ 3,  4,  5,  6,  7,  8,  9, 10, 11, 12],
+       [ 4,  5,  6,  7,  8,  9, 10, 11, 12, 13]])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">target_window</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([10, 11, 12, 13, 14])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># now we can split the actual values of the time series</span>
+<span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">split_into_train_test</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">fh</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(98, 10) (98,)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+RandomForestRegressor()
+</pre></div></div>
+</div>
+<p>What are potential pitfalls here?</p>
+<blockquote>
+<div><p>This requires a lot of hand-written code which is often error-prone, not modular and not tuneable.</p>
+</div></blockquote>
+<blockquote>
+<div><p>Note also that these steps involve a number of implicit hyper-parameters: * the way you slice the time series into windows (e.g. the window length) * the way you generate forecasts (recursive strategy, direct strategy, other hybrid strategies)</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="Pitfall-3:-how-to-generate-forecasts?">
+<h3>Pitfall 3: how to generate forecasts?<a class="headerlink" href="#Pitfall-3:-how-to-generate-forecasts?" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">x_test</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># add back time index to y_test</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">fh</span><span class="p">):])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(36, 10) (36,)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+<span class="n">smape_loss</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">y_test</span><span class="o">.</span><span class="n">index</span><span class="p">),</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.11426830933184307
+</pre></div></div>
+</div>
+<p>But what’s the problem here?</p>
+<blockquote>
+<div><p>We actually don’t make a multi-step-ahead forecast up to the 36th step ahead. Instead, we make 36 single-step-ahead forecasts always using the most recent data. But that’s a solution to a different learning task!</p>
+</div></blockquote>
+<p>To fix this problem, we could write some code to do this recursively as in the M4 competition:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># slightly modified code from the M4 study</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">last_window</span> <span class="o">=</span> <span class="n">x_train</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># make it into 2d array</span>
+
+<span class="n">last_prediction</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">last_window</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># take value from array</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fh</span><span class="p">)):</span>
+    <span class="c1"># append prediction</span>
+    <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">last_prediction</span><span class="p">)</span>
+
+    <span class="c1"># update last window using previously predicted value</span>
+    <span class="n">last_window</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">last_window</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">last_window</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">last_window</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">last_prediction</span>
+
+    <span class="c1"># predict next step ahead</span>
+    <span class="n">last_prediction</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">last_window</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">y_pred_rec</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">y_test</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">smape_loss</span><span class="p">(</span><span class="n">y_pred_rec</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.21366060828514663
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>Forecasting with sktime<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>Reduction: from forecasting to regression<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>sktime provides a meta-estimator for this approach, which is: * <strong>modular</strong> and <strong>compatible with scikit-learn</strong>, so that we can easily apply any scikit-learn regressor to solve our forecasting problem, * <strong>tuneable</strong>, allowing us to tune hyper-parameters like the window length or strategy to generate forecasts * <strong>adaptive</strong>, in the sense that it adapts the scikit-learn’s estimator interface to that of a forecaster, making sure that we can tune and properly evaluate our model</p>
+<p><img alt="f04130517a224134816b1ac641f54dcb" src="../_images/forecasting-to-regression-reduction.png" /></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y</span> <span class="o">=</span> <span class="n">load_airline</span><span class="p">()</span>
+<span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">temporal_train_test_split</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mi">36</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+108 36
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sktime.forecasting.compose</span> <span class="kn">import</span> <span class="n">ReducedRegressionForecaster</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsRegressor</span>
+
+<span class="n">regressor</span> <span class="o">=</span> <span class="n">KNeighborsRegressor</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">forecaster</span> <span class="o">=</span> <span class="n">ReducedRegressionForecaster</span><span class="p">(</span><span class="n">regressor</span><span class="o">=</span><span class="n">regressor</span><span class="p">,</span> <span class="n">window_length</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;recursive&quot;</span><span class="p">)</span>
+<span class="n">forecaster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">forecaster</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+<span class="n">plot_ys</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">,</span> <span class="s2">&quot;y_test&quot;</span><span class="p">,</span> <span class="s2">&quot;y_pred&quot;</span><span class="p">]);</span>
+<span class="n">smape_loss</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.14008272913734346
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_01_forecasting_34_1.png" src="../_images/examples_01_forecasting_34_1.png" />
+</div>
+</div>
+<p>To better understand the prior data transformation, we can look at how we can split the training series into windows. Internally, sktime uses a temporal time series splitter, similar to the cross-validation splitter in scikit-learn. Here we show how this works for the first 20 observations of the training series:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sktime.forecasting.model_selection</span> <span class="kn">import</span> <span class="n">SlidingWindowSplitter</span>
+<span class="n">cv</span> <span class="o">=</span> <span class="n">SlidingWindowSplitter</span><span class="p">(</span><span class="n">window_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">start_with_window</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">input_window</span><span class="p">,</span> <span class="n">output_window</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">20</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">input_window</span><span class="p">,</span> <span class="n">output_window</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[0 1 2 3 4 5 6 7 8 9] [10]
+[ 1  2  3  4  5  6  7  8  9 10] [11]
+[ 2  3  4  5  6  7  8  9 10 11] [12]
+[ 3  4  5  6  7  8  9 10 11 12] [13]
+[ 4  5  6  7  8  9 10 11 12 13] [14]
+[ 5  6  7  8  9 10 11 12 13 14] [15]
+[ 6  7  8  9 10 11 12 13 14 15] [16]
+[ 7  8  9 10 11 12 13 14 15 16] [17]
+[ 8  9 10 11 12 13 14 15 16 17] [18]
+[ 9 10 11 12 13 14 15 16 17 18] [19]
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Statistical-forecasters">
+<h3>Statistical forecasters<a class="headerlink" href="#Statistical-forecasters" title="Permalink to this headline">¶</a></h3>
+<p>sktime has a number of statistical forecasting algorithms, based on implementations in statsmodels. For example, to use exponential smoothing with an additive trend component and multiplicative seasonality, we can write the following.</p>
+<p>Note that since this is monthly data, the seasonal periodicity (sp), or the number of periods per year, is 12.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sktime.forecasting.exp_smoothing</span> <span class="kn">import</span> <span class="n">ExponentialSmoothing</span>
+<span class="n">forecaster</span> <span class="o">=</span> <span class="n">ExponentialSmoothing</span><span class="p">(</span><span class="n">trend</span><span class="o">=</span><span class="s2">&quot;add&quot;</span><span class="p">,</span> <span class="n">seasonal</span><span class="o">=</span><span class="s2">&quot;multiplicative&quot;</span><span class="p">,</span> <span class="n">sp</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">forecaster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">forecaster</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+<span class="n">plot_ys</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">,</span> <span class="s2">&quot;y_test&quot;</span><span class="p">,</span> <span class="s2">&quot;y_pred&quot;</span><span class="p">]);</span>
+<span class="n">smape_loss</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.05108616049369705
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_01_forecasting_38_1.png" src="../_images/examples_01_forecasting_38_1.png" />
+</div>
+</div>
+<p>Another common model is the ARIMA model. In sktime, we interface <a class="reference external" href="https://github.com/alkaline-ml/pmdarima">pmdarima</a>, a package for automatically selecting the best ARIMA model. This since searches over a number of possible model parametrisations, it may take a bit longer.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sktime.forecasting.arima</span> <span class="kn">import</span> <span class="n">AutoARIMA</span>
+<span class="n">forecaster</span> <span class="o">=</span> <span class="n">AutoARIMA</span><span class="p">(</span><span class="n">sp</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">suppress_warnings</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">forecaster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">forecaster</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+<span class="n">plot_ys</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">,</span> <span class="s2">&quot;y_test&quot;</span><span class="p">,</span> <span class="s2">&quot;y_pred&quot;</span><span class="p">]);</span>
+<span class="n">smape_loss</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.07586622074806887
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_01_forecasting_40_1.png" src="../_images/examples_01_forecasting_40_1.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Compositite-model-building">
+<h2>Compositite model building<a class="headerlink" href="#Compositite-model-building" title="Permalink to this headline">¶</a></h2>
+<p>sktime provides a modular API for composite model building for forecasting.</p>
+<div class="section" id="Ensembling">
+<h3>Ensembling<a class="headerlink" href="#Ensembling" title="Permalink to this headline">¶</a></h3>
+<p>Like scikit-learn, sktime provides a meta-forecaster to ensemble multiple forecasting algorithms. For example, we can combine different variants of exponential smoothing as follows:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sktime.forecasting.compose</span> <span class="kn">import</span> <span class="n">EnsembleForecaster</span>
+<span class="n">forecaster</span> <span class="o">=</span> <span class="n">EnsembleForecaster</span><span class="p">([</span>
+    <span class="p">(</span><span class="s2">&quot;ses&quot;</span><span class="p">,</span> <span class="n">ExponentialSmoothing</span><span class="p">(</span><span class="n">seasonal</span><span class="o">=</span><span class="s2">&quot;multiplicative&quot;</span><span class="p">,</span> <span class="n">sp</span><span class="o">=</span><span class="mi">12</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s2">&quot;holt&quot;</span><span class="p">,</span> <span class="n">ExponentialSmoothing</span><span class="p">(</span><span class="n">trend</span><span class="o">=</span><span class="s2">&quot;add&quot;</span><span class="p">,</span> <span class="n">damped</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">seasonal</span><span class="o">=</span><span class="s2">&quot;multiplicative&quot;</span><span class="p">,</span> <span class="n">sp</span><span class="o">=</span><span class="mi">12</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s2">&quot;damped&quot;</span><span class="p">,</span> <span class="n">ExponentialSmoothing</span><span class="p">(</span><span class="n">trend</span><span class="o">=</span><span class="s2">&quot;add&quot;</span><span class="p">,</span> <span class="n">damped</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">seasonal</span><span class="o">=</span><span class="s2">&quot;multiplicative&quot;</span><span class="p">,</span> <span class="n">sp</span><span class="o">=</span><span class="mi">12</span><span class="p">))</span>
+<span class="p">])</span>
+<span class="n">forecaster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">forecaster</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+<span class="n">plot_ys</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">,</span> <span class="s2">&quot;y_test&quot;</span><span class="p">,</span> <span class="s2">&quot;y_pred&quot;</span><span class="p">]);</span>
+<span class="n">smape_loss</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/travis/miniconda/envs/testenv/lib/python3.7/site-packages/statsmodels/tsa/holtwinters.py:744: ConvergenceWarning: Optimization failed to converge. Check mle_retvals.
+  ConvergenceWarning)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.07022368522216305
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_01_forecasting_42_2.png" src="../_images/examples_01_forecasting_42_2.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Tuning">
+<h2>Tuning<a class="headerlink" href="#Tuning" title="Permalink to this headline">¶</a></h2>
+<p>In the <code class="docutils literal notranslate"><span class="pre">ReducedRegressionForecaster</span></code>, both the <code class="docutils literal notranslate"><span class="pre">window_length</span></code> and <code class="docutils literal notranslate"><span class="pre">strategy</span></code> arguments are hyper-parameters which we may want to optimise.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sktime.forecasting.model_selection</span> <span class="kn">import</span> <span class="n">ForecastingGridSearchCV</span>
+
+<span class="n">forecaster</span> <span class="o">=</span> <span class="n">ReducedRegressionForecaster</span><span class="p">(</span><span class="n">regressor</span><span class="o">=</span><span class="n">regressor</span><span class="p">,</span> <span class="n">window_length</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;recursive&quot;</span><span class="p">)</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;window_length&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">]}</span>
+
+<span class="c1"># we fit the forecaster on the initial window, and then use temporal cross-validation to find the optimal parameter</span>
+<span class="n">cv</span> <span class="o">=</span> <span class="n">SlidingWindowSplitter</span><span class="p">(</span><span class="n">initial_window</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="n">gscv</span> <span class="o">=</span> <span class="n">ForecastingGridSearchCV</span><span class="p">(</span><span class="n">forecaster</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">)</span>
+<span class="n">gscv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">gscv</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plot_ys</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">,</span> <span class="s2">&quot;y_test&quot;</span><span class="p">,</span> <span class="s2">&quot;y_pred&quot;</span><span class="p">]);</span>
+<span class="n">smape_loss</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.14187443909112035
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_01_forecasting_45_1.png" src="../_images/examples_01_forecasting_45_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">gscv</span><span class="o">.</span><span class="n">best_params_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;window_length&#39;: 15}
+</pre></div></div>
+</div>
+<p>You could of course also try to tune the regressor inside <code class="docutils literal notranslate"><span class="pre">ReducedRegressionForecaster</span></code> using scikit-learn’s <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code>.</p>
+<div class="section" id="Detrending">
+<h3>Detrending<a class="headerlink" href="#Detrending" title="Permalink to this headline">¶</a></h3>
+<p>Note that so far the reduction approach above does not take any seasonal or trend into account, but we can easily specify a pipeline which first detrends the data.</p>
+<p>sktime provides a generic detrender, a transformer which uses any forecaster and returns the in-sample residuals of the forecaster’s predicted values. For example, to remove the linear trend of a time series, we can write:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sktime.forecasting.trend</span> <span class="kn">import</span> <span class="n">PolynomialTrendForecaster</span>
+<span class="kn">from</span> <span class="nn">sktime.transformers.single_series.detrend</span> <span class="kn">import</span> <span class="n">Detrender</span>
+
+<span class="c1"># liner detrending</span>
+<span class="n">forecaster</span> <span class="o">=</span> <span class="n">PolynomialTrendForecaster</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">transformer</span> <span class="o">=</span> <span class="n">Detrender</span><span class="p">(</span><span class="n">forecaster</span><span class="o">=</span><span class="n">forecaster</span><span class="p">)</span>
+<span class="n">yt</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># internally, the Detrender uses the in-sample predictions of the PolynomialTrendForecaster</span>
+<span class="n">forecaster</span> <span class="o">=</span> <span class="n">PolynomialTrendForecaster</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">fh_ins</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span> <span class="c1"># in-sample forecasting horizon</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">forecaster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">fh</span><span class="o">=</span><span class="n">fh_ins</span><span class="p">)</span>
+
+<span class="n">plot_ys</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">yt</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">,</span> <span class="s2">&quot;Fitted linear trend&quot;</span><span class="p">,</span> <span class="s2">&quot;Residuals&quot;</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_01_forecasting_49_0.png" src="../_images/examples_01_forecasting_49_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Pipelining">
+<h3>Pipelining<a class="headerlink" href="#Pipelining" title="Permalink to this headline">¶</a></h3>
+<p>Let’s use the detrender in a pipeline together with de-seasonalisation. Note that in forecasting, when we apply data transformations before fitting, we need to apply the inverse transformation to the predicted values. For this purpose, we provide the following pipeline class:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sktime.forecasting.compose</span> <span class="kn">import</span> <span class="n">TransformedTargetForecaster</span>
+<span class="kn">from</span> <span class="nn">sktime.transformers.single_series.detrend</span> <span class="kn">import</span> <span class="n">Deseasonalizer</span>
+
+<span class="n">forecaster</span> <span class="o">=</span> <span class="n">TransformedTargetForecaster</span><span class="p">([</span>
+    <span class="p">(</span><span class="s2">&quot;deseasonalise&quot;</span><span class="p">,</span> <span class="n">Deseasonalizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;multiplicative&quot;</span><span class="p">,</span> <span class="n">sp</span><span class="o">=</span><span class="mi">12</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s2">&quot;detrend&quot;</span><span class="p">,</span> <span class="n">Detrender</span><span class="p">(</span><span class="n">forecaster</span><span class="o">=</span><span class="n">PolynomialTrendForecaster</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">))),</span>
+    <span class="p">(</span><span class="s2">&quot;forecast&quot;</span><span class="p">,</span> <span class="n">ReducedRegressionForecaster</span><span class="p">(</span><span class="n">regressor</span><span class="o">=</span><span class="n">regressor</span><span class="p">,</span> <span class="n">window_length</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;recursive&quot;</span><span class="p">))</span>
+<span class="p">])</span>
+<span class="n">forecaster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">forecaster</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+<span class="n">plot_ys</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">,</span> <span class="s2">&quot;y_test&quot;</span><span class="p">,</span> <span class="s2">&quot;y_pred&quot;</span><span class="p">]);</span>
+<span class="n">smape_loss</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.040387315955660634
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_01_forecasting_51_1.png" src="../_images/examples_01_forecasting_51_1.png" />
+</div>
+</div>
+<p>Of course, we could try again to optimise the hyper-parameters of components of the pipeline.</p>
+<p>Below we discuss two other aspects of forecasting: online learning, where we want to dynamically update forecasts as new data comes in, and prediction intervals, which allow us to quantify the uncertainty of our forecasts.</p>
+</div>
+</div>
+<div class="section" id="Dynamic-forecasts">
+<h2>Dynamic forecasts<a class="headerlink" href="#Dynamic-forecasts" title="Permalink to this headline">¶</a></h2>
+<p>For model evaluation, we sometimes want to evaluate multiple forecasts, using temporal cross-validation with a sliding window over the test data. For this purpose, all forecasters in sktime have a <code class="docutils literal notranslate"><span class="pre">update_predict</span></code> method. Here we make repeated single-step ahead forecasts over the test set.</p>
+<p>Note that the forecasting task is changed: while we still make 36 predictions, we do not predict 36 steps ahead, but instead make 36 single-step-ahead predictions.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">forecaster</span> <span class="o">=</span> <span class="n">NaiveForecaster</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;last&quot;</span><span class="p">)</span>
+<span class="n">forecaster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">cv</span> <span class="o">=</span> <span class="n">SlidingWindowSplitter</span><span class="p">(</span><span class="n">fh</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">forecaster</span><span class="o">.</span><span class="n">update_predict</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">cv</span><span class="p">)</span>
+<span class="n">smape_loss</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">plot_ys</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_01_forecasting_53_0.png" src="../_images/examples_01_forecasting_53_0.png" />
+</div>
+</div>
+<p>For a single update, you can use the <code class="docutils literal notranslate"><span class="pre">update</span></code> method.</p>
+</div>
+<div class="section" id="Prediction-intervals">
+<h2>Prediction intervals<a class="headerlink" href="#Prediction-intervals" title="Permalink to this headline">¶</a></h2>
+<p>So far, we’ve only looked at point forecasts. In many cases, we’re also interested in prediction intervals. sktime’s interface support prediction intervals, but we haven’t implemented them for all algorithms yet.</p>
+<p>Here, we use the Theta forecasting algorithm:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sktime.forecasting.theta</span> <span class="kn">import</span> <span class="n">ThetaForecaster</span>
+<span class="n">forecaster</span> <span class="o">=</span> <span class="n">ThetaForecaster</span><span class="p">(</span><span class="n">sp</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">forecaster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>  <span class="c1"># 95% prediction intervals</span>
+<span class="n">y_pred</span><span class="p">,</span> <span class="n">pred_ints</span> <span class="o">=</span> <span class="n">forecaster</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="n">return_pred_int</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+<span class="n">smape_loss</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_ys</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">,</span> <span class="s2">&quot;y_test&quot;</span><span class="p">,</span> <span class="s2">&quot;y_pred&quot;</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">y_pred</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pred_ints</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">],</span> <span class="n">pred_ints</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="si">}</span><span class="s2">% prediction intervals&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_01_forecasting_56_0.png" src="../_images/examples_01_forecasting_56_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Summary">
+<h2>Summary<a class="headerlink" href="#Summary" title="Permalink to this headline">¶</a></h2>
+<p>As we have seen, in order to make forecasts, we need to first specify (or build) a model, then fit it to the training data, and finally call predict to generate forecasts for the given forecasting horizon.</p>
+<ul class="simple">
+<li><p>sktime comes with several forecasting algorithms (or forecasters) and tools for composite model building. All forecaster share a common interface. Forecasters are trained on a single series of data and make forecasts for the provided forecasting horizon.</p></li>
+<li><p>sktime has a number of statistical forecasting algorithms, based on implementations in statsmodels. For example, to use exponential smoothing with an additive trend component and multiplicative seasonality, we can write the following.</p></li>
+</ul>
+</div>
+<div class="section" id="Useful-resources">
+<h2>Useful resources<a class="headerlink" href="#Useful-resources" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>For more details, take a look at <a class="reference external" href="https://arxiv.org/abs/2005.08067">our paper on forecasting with sktime</a> in which we discuss the forecasting API in more detail and use it to replicate and extend the M4 study.</p></li>
+<li><p>For a good introduction to forecasting, see <a class="reference external" href="https://otexts.com/fpp2/">Hyndman, Rob J., and George Athanasopoulos. Forecasting: principles and practice. OTexts, 2018</a>.</p></li>
+<li><p>For comparative benchmarking studies/forecasting competitions, see the <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0169207019301128">M4 competition</a> and the currently running <a class="reference external" href="https://www.kaggle.com/c/m5-forecasting-accuracy/overview">M5 competition</a>.</p></li>
+</ul>
+</div>
+</div>
+<hr class="docutils" />
+<p>Generated by <a class="reference external" href="https://nbsphinx.readthedocs.io/">nbsphinx</a>. The Jupyter notebook file can be found <a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/master/examples/01_forecasting.ipynb">here</a>.</p>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

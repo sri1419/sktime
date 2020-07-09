@@ -1,0 +1,16 @@
+:mod:`sktime.forecasting.compose`.RecursiveRegressionForecaster
+======================================================================
+
+.. currentmodule:: sktime.forecasting.compose
+
+.. autoclass:: RecursiveRegressionForecaster
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.forecasting.compose.RecursiveRegressionForecaster.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

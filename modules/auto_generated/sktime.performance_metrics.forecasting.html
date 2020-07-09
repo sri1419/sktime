@@ -1,0 +1,313 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.performance_metrics.forecasting &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>sktime.performance_metrics.forecasting</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-sktime.performance_metrics.forecasting">
+<span id="sktime-performance-metrics-forecasting"></span><h1>sktime.performance_metrics.forecasting<a class="headerlink" href="#module-sktime.performance_metrics.forecasting" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="sktime.performance_metrics.forecasting.MASE">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.performance_metrics.forecasting.</code><code class="sig-name descname">MASE</code><a class="reference internal" href="../../_modules/sktime/performance_metrics/forecasting/_classes.html#MASE"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/performance_metrics/forecasting/_classes.py#L25-L32"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.performance_metrics.forecasting.MASE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.performance_metrics.forecasting._classes.MetricFunctionWrapper</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.performance_metrics.forecasting.make_forecasting_scorer">
+<code class="sig-prename descclassname">sktime.performance_metrics.forecasting.</code><code class="sig-name descname">make_forecasting_scorer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fn</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">greater_is_better</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/performance_metrics/forecasting/_classes.html#make_forecasting_scorer"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/performance_metrics/forecasting/_classes.py#L19-L22"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.performance_metrics.forecasting.make_forecasting_scorer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Factory method for creating metric classes from metric functions</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.performance_metrics.forecasting.mase_loss">
+<code class="sig-prename descclassname">sktime.performance_metrics.forecasting.</code><code class="sig-name descname">mase_loss</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y_test</span></em>, <em class="sig-param"><span class="n">y_pred</span></em>, <em class="sig-param"><span class="n">y_train</span></em>, <em class="sig-param"><span class="n">sp</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/performance_metrics/forecasting/_functions.html#mase_loss"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/performance_metrics/forecasting/_functions.py#L9-L60"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.performance_metrics.forecasting.mase_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mean absolute scaled error.</p>
+<p>This scale-free error metric can be used to compare forecast methods on
+a single
+series and also to compare forecast accuracy between series. This metric
+is well
+suited to intermittent-demand series because it never gives infinite or
+undefined
+values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_test</strong> (<em>pandas Series of shape =</em><em> (</em><em>fh</em><em>,</em><em>) </em><em>where fh is the forecasting horizon</em>) – Ground truth (correct) target values.</p></li>
+<li><p><strong>y_pred</strong> (<em>pandas Series of shape =</em><em> (</em><em>fh</em><em>,</em><em>)</em>) – Estimated target values.</p></li>
+<li><p><strong>y_train</strong> (<em>pandas Series of shape =</em><em> (</em><em>n_obs</em><em>,</em><em>)</em>) – Observed training values.</p></li>
+<li><p><strong>sp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Seasonal periodicity of training data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>loss</strong> – MASE loss</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="simple">
+<dt>..[1]   Hyndman, R. J. (2006). “Another look at measures of forecast</dt><dd><p>accuracy”, Foresight, Issue 4.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.performance_metrics.forecasting.sMAPE">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.performance_metrics.forecasting.</code><code class="sig-name descname">sMAPE</code><a class="reference internal" href="../../_modules/sktime/performance_metrics/forecasting/_classes.html#sMAPE"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/performance_metrics/forecasting/_classes.py#L35-L42"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.performance_metrics.forecasting.sMAPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.performance_metrics.forecasting._classes.MetricFunctionWrapper</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.performance_metrics.forecasting.smape_loss">
+<code class="sig-prename descclassname">sktime.performance_metrics.forecasting.</code><code class="sig-name descname">smape_loss</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y_test</span></em>, <em class="sig-param"><span class="n">y_pred</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/performance_metrics/forecasting/_functions.html#smape_loss"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/performance_metrics/forecasting/_functions.py#L63-L84"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.performance_metrics.forecasting.smape_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Symmetric mean absolute percentage error</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_test</strong> (<em>pandas Series of shape =</em><em> (</em><em>fh</em><em>,</em><em>) </em><em>where fh is the forecasting horizon</em>) – Ground truth (correct) target values.</p></li>
+<li><p><strong>y_pred</strong> (<em>pandas Series of shape =</em><em> (</em><em>fh</em><em>,</em><em>)</em>) – Estimated target values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>loss</strong> – sMAPE loss</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,459 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.utils.data_container &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>sktime.utils.data_container</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-sktime.utils.data_container">
+<span id="sktime-utils-data-container"></span><h1>sktime.utils.data_container<a class="headerlink" href="#module-sktime.utils.data_container" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="sktime.utils.data_container.concat_nested_arrays">
+<code class="sig-prename descclassname">sktime.utils.data_container.</code><code class="sig-name descname">concat_nested_arrays</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arrs</span></em>, <em class="sig-param"><span class="n">return_arrays</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/data_container.html#concat_nested_arrays"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/data_container.py#L185-L211"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.data_container.concat_nested_arrays" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to nest tabular arrays from nested list of arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arrs</strong> (<em>list of numpy arrays</em>) – Arrays must have the same number of rows, but can have varying
+number of columns.</p></li>
+<li><p><strong>return_arrays</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=False</em><em>)</em>) – <ul>
+<li><p>If True, return pandas DataFrame with nested numpy arrays.</p></li>
+<li><p>If False, return pandas DataFrame with nested pandas Series.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Xt</strong> – Transformed dataframe with nested column for each input array.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.data_container.detabularise">
+<code class="sig-prename descclassname">sktime.utils.data_container.</code><code class="sig-name descname">detabularise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">index</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">time_index</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">return_arrays</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/data_container.py#L134-L177"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.data_container.detabularise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert tabular pandas DataFrame with only primitives in cells into
+nested pandas DataFrame with a single column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>pandas DataFrame</em>) – </p></li>
+<li><p><strong>return_arrays</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=False</em><em>)</em>) – <ul>
+<li><p>If True, returns a numpy arrays within cells of nested pandas</p></li>
+</ul>
+<p>DataFrame.
+- If False, returns a pandas Series within cells.</p>
+</p></li>
+<li><p><strong>index</strong> (<em>array-like</em><em>, </em><em>shape=</em><em>[</em><em>n_samples</em><em>]</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Sample (row) index of transformed dataframe</p></li>
+<li><p><strong>time_index</strong> (<em>array-like</em><em>, </em><em>shape=</em><em>[</em><em>n_obs</em><em>]</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Time series index of transformed dataframe</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Xt</strong> – Transformed dataframe in nested format</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.data_container.detabularize">
+<code class="sig-prename descclassname">sktime.utils.data_container.</code><code class="sig-name descname">detabularize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">index</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">time_index</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">return_arrays</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/data_container.html#detabularize"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/data_container.py#L134-L177"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.data_container.detabularize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert tabular pandas DataFrame with only primitives in cells into
+nested pandas DataFrame with a single column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>pandas DataFrame</em>) – </p></li>
+<li><p><strong>return_arrays</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=False</em><em>)</em>) – <ul>
+<li><p>If True, returns a numpy arrays within cells of nested pandas</p></li>
+</ul>
+<p>DataFrame.
+- If False, returns a pandas Series within cells.</p>
+</p></li>
+<li><p><strong>index</strong> (<em>array-like</em><em>, </em><em>shape=</em><em>[</em><em>n_samples</em><em>]</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Sample (row) index of transformed dataframe</p></li>
+<li><p><strong>time_index</strong> (<em>array-like</em><em>, </em><em>shape=</em><em>[</em><em>n_obs</em><em>]</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Time series index of transformed dataframe</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Xt</strong> – Transformed dataframe in nested format</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.data_container.from_3d_numpy_to_nested">
+<code class="sig-prename descclassname">sktime.utils.data_container.</code><code class="sig-name descname">from_3d_numpy_to_nested</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/data_container.html#from_3d_numpy_to_nested"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/data_container.py#L291-L309"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.data_container.from_3d_numpy_to_nested" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert NumPy ndarray with shape (n_instances, n_columns, n_timepoints)
+into pandas DataFrame (with time series as pandas Series in cells)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>NumPy ndarray</em><em>, </em><em>input</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.data_container.from_nested_to_long">
+<code class="sig-prename descclassname">sktime.utils.data_container.</code><code class="sig-name descname">from_nested_to_long</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/data_container.html#from_nested_to_long"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/data_container.py#L246-L269"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.data_container.from_nested_to_long" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert nested dataframe to long dataframe</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>pd.DataFrame</em>) – nested dataframe</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Xt</strong> – long dataframe</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.data_container.get_time_index">
+<code class="sig-prename descclassname">sktime.utils.data_container.</code><code class="sig-name descname">get_time_index</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/data_container.html#get_time_index"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/data_container.py#L214-L243"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.data_container.get_time_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to get index of time series data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>pandas DataFrame</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>time_index</strong> – Index of time series</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas Index</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.data_container.is_nested_dataframe">
+<code class="sig-prename descclassname">sktime.utils.data_container.</code><code class="sig-name descname">is_nested_dataframe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/data_container.html#is_nested_dataframe"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/data_container.py#L312-L314"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.data_container.is_nested_dataframe" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.data_container.nested_to_3d_numpy">
+<code class="sig-prename descclassname">sktime.utils.data_container.</code><code class="sig-name descname">nested_to_3d_numpy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">a</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">b</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/data_container.html#nested_to_3d_numpy"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/data_container.py#L272-L288"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.data_container.nested_to_3d_numpy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert pandas DataFrame (with time series as pandas Series in cells)
+into NumPy ndarray with shape (n_instances, n_columns, n_timepoints).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>pandas DataFrame</em><em>, </em><em>input</em>) – </p></li>
+<li><p><strong>a</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>first row</em><em> (</em><em>optional</em><em>, </em><em>default None</em><em>)</em>) – </p></li>
+<li><p><strong>b</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>last row</em><em> (</em><em>optional</em><em>, </em><em>default None</em><em>)</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>NumPy ndarray, converted NumPy ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.data_container.tabularise">
+<code class="sig-prename descclassname">sktime.utils.data_container.</code><code class="sig-name descname">tabularise</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">return_array</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/data_container.py#L57-L131"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.data_container.tabularise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert nested pandas DataFrames or Series with numpy arrays or
+pandas Series in cells into tabular
+pandas DataFrame with primitives in cells, i.e. a data frame with the
+same number of rows as the input data and
+as many columns as there are observations in the nested series. Requires
+series to be have the same index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>nested pandas DataFrame</em><em> or </em><em>nested Series</em>) – </p></li>
+<li><p><strong>return_array</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=False</em><em>)</em>) – <ul>
+<li><p>If True, returns a numpy array of the tabular data.</p></li>
+<li><p>If False, returns a pandas dataframe with row and column names.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Xt</strong> – Transformed dataframe in tabular format</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.data_container.tabularize">
+<code class="sig-prename descclassname">sktime.utils.data_container.</code><code class="sig-name descname">tabularize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">return_array</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/data_container.html#tabularize"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/data_container.py#L57-L131"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.data_container.tabularize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert nested pandas DataFrames or Series with numpy arrays or
+pandas Series in cells into tabular
+pandas DataFrame with primitives in cells, i.e. a data frame with the
+same number of rows as the input data and
+as many columns as there are observations in the nested series. Requires
+series to be have the same index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>nested pandas DataFrame</em><em> or </em><em>nested Series</em>) – </p></li>
+<li><p><strong>return_array</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=False</em><em>)</em>) – <ul>
+<li><p>If True, returns a numpy array of the tabular data.</p></li>
+<li><p>If False, returns a pandas dataframe with row and column names.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Xt</strong> – Transformed dataframe in tabular format</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

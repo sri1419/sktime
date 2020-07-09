@@ -1,0 +1,16 @@
+:mod:`sktime.classification.dictionary_based`.BOSSIndividual
+===================================================================
+
+.. currentmodule:: sktime.classification.dictionary_based
+
+.. autoclass:: BOSSIndividual
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.classification.dictionary_based.BOSSIndividual.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

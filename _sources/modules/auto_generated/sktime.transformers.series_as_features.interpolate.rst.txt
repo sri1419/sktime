@@ -1,0 +1,7 @@
+sktime.transformers.series\_as\_features.interpolate
+----------------------------------------------------
+
+.. automodule:: sktime.transformers.series_as_features.interpolate
+   :members:
+   :undoc-members:
+   :show-inheritance:

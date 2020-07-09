@@ -1,0 +1,16 @@
+:mod:`sktime.forecasting.compose`.ReducedRegressionForecaster
+====================================================================
+
+.. currentmodule:: sktime.forecasting.compose
+
+.. autoclass:: ReducedRegressionForecaster
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.forecasting.compose.ReducedRegressionForecaster.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.series_as_features.model_selection._split &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.series_as_features.model_selection._split</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.series_as_features.model_selection._split</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3 -u</span>
+<span class="c1"># coding: utf-8</span>
+<span class="c1"># copyright: sktime developers, BSD-3-Clause License (see LICENSE file)</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Markus Löning&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;PresplitFilesCV&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SingleSplit&quot;</span>
+<span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+
+<div class="viewcode-block" id="PresplitFilesCV"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.series_as_features.model_selection.PresplitFilesCV.html#sktime.series_as_features.model_selection.PresplitFilesCV">[docs]</a><span class="k">class</span> <span class="nc">PresplitFilesCV</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cross-validation iterator over split predefined in files.</span>
+
+<span class="sd">    This class is useful in orchestration where the train and test set</span>
+<span class="sd">    is provided in separate files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PresplitFilesCV.__init__"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.series_as_features.model_selection.PresplitFilesCV.html#sktime.series_as_features.model_selection.PresplitFilesCV.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cv</span> <span class="o">=</span> <span class="n">cv</span></div>
+
+<div class="viewcode-block" id="PresplitFilesCV.split"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.series_as_features.model_selection.html#sktime.series_as_features.model_selection.PresplitFilesCV.split">[docs]</a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Split the data according to the train/test index.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : pandas.DataFrame</span>
+
+<span class="sd">        Yields</span>
+<span class="sd">        ------</span>
+<span class="sd">        train : ndarray</span>
+<span class="sd">            Train indicies</span>
+<span class="sd">        test : ndarray</span>
+<span class="sd">            Test indices</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># check input</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Data must be pandas DataFrame, but found </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">])):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Train-test split not properly defined in &#39;</span>
+                             <span class="s1">&#39;index of passed pandas DataFrame&#39;</span><span class="p">)</span>
+
+        <span class="c1"># this is a bit of a hack, PresplitFilesCV would need to talk to the</span>
+        <span class="c1"># data loader during orchestration,</span>
+        <span class="c1"># but since this is not possible with sklearn&#39;s interface, we load</span>
+        <span class="c1"># both files separately, combined them</span>
+        <span class="c1"># keep the training and test split in the index of the combined</span>
+        <span class="c1"># dataframe, and split them here again</span>
+        <span class="n">n_instances</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_instances</span><span class="p">)</span>
+        <span class="n">train</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">]</span>
+        <span class="n">test</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="s1">&#39;test&#39;</span><span class="p">]</span>
+        <span class="k">yield</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span>
+
+        <span class="c1"># if additionally a cv iterator is provided, yield the predefined</span>
+        <span class="c1"># split first, then reshuffle and apply cv,</span>
+        <span class="c1"># note that test sets may overlap with the presplit file test set</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span></div>
+
+<div class="viewcode-block" id="PresplitFilesCV.get_n_splits"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.series_as_features.model_selection.html#sktime.series_as_features.model_selection.PresplitFilesCV.get_n_splits">[docs]</a>    <span class="k">def</span> <span class="nf">get_n_splits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">n_splits</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cv</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">cv</span><span class="o">.</span><span class="n">get_n_splits</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">n_splits</span></div></div>
+
+
+<div class="viewcode-block" id="SingleSplit"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.series_as_features.model_selection.SingleSplit.html#sktime.series_as_features.model_selection.SingleSplit">[docs]</a><span class="k">class</span> <span class="nc">SingleSplit</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper class for orchestration that uses a single split for training and</span>
+<span class="sd">    testing. Wrapper for sklearn.model_selection.train_test_split</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    *arrays : sequence of indexables with same length / shape[0]</span>
+<span class="sd">        Allowed inputs are lists, numpy arrays, scipy-sparse</span>
+<span class="sd">        matrices or pandas dataframes.</span>
+<span class="sd">    test_size : float, int or None, optional (default=0.25)</span>
+<span class="sd">        If float, should be between 0.0 and 1.0 and represent the proportion</span>
+<span class="sd">        of the dataset to include in the test split. If int, represents the</span>
+<span class="sd">        absolute number of test samples. If None, the value is set to the</span>
+<span class="sd">        complement of the train size. By default, the value is set to 0.25.</span>
+<span class="sd">        The default will change in version 0.21. It will remain 0.25 only</span>
+<span class="sd">        if ``train_size`` is unspecified, otherwise it will complement</span>
+<span class="sd">        the specified ``train_size``.</span>
+<span class="sd">    train_size : float, int, or None, (default=None)</span>
+<span class="sd">        If float, should be between 0.0 and 1.0 and represent the</span>
+<span class="sd">        proportion of the dataset to include in the train split. If</span>
+<span class="sd">        int, represents the absolute number of train samples. If None,</span>
+<span class="sd">        the value is automatically set to the complement of the test size.</span>
+<span class="sd">    random_state : int, RandomState instance or None, optional (default=None)</span>
+<span class="sd">        If int, random_state is the seed used by the random number generator;</span>
+<span class="sd">        If RandomState instance, random_state is the random number generator;</span>
+<span class="sd">        If None, the random number generator is the RandomState instance used</span>
+<span class="sd">        by `np.random`.</span>
+<span class="sd">    shuffle : boolean, optional (default=True)</span>
+<span class="sd">        Whether or not to shuffle the data before splitting. If shuffle=False</span>
+<span class="sd">        then stratify must be None.</span>
+<span class="sd">    stratify : array-like or None (default=None)</span>
+<span class="sd">        If not None, data is split in a stratified fashion, using this as</span>
+<span class="sd">        the class labels.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SingleSplit.__init__"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.series_as_features.model_selection.SingleSplit.html#sktime.series_as_features.model_selection.SingleSplit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_test_size</span> <span class="o">=</span> <span class="n">test_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_train_size</span> <span class="o">=</span> <span class="n">train_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_random_state</span> <span class="o">=</span> <span class="n">random_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_shuffle</span> <span class="o">=</span> <span class="n">shuffle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stratify</span> <span class="o">=</span> <span class="n">stratify</span></div>
+
+<div class="viewcode-block" id="SingleSplit.split"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.series_as_features.model_selection.html#sktime.series_as_features.model_selection.SingleSplit.split">[docs]</a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Paramters</span>
+<span class="sd">        ---------</span>
+<span class="sd">        data : pandas dataframe</span>
+<span class="sd">            data used for cross validation</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            (train, test) indexes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Data must be provided as a pandas DataFrame&#39;</span><span class="p">)</span>
+        <span class="n">n_instances</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_instances</span><span class="p">)</span>
+
+        <span class="k">yield</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span>
+                               <span class="n">test_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_test_size</span><span class="p">,</span>
+                               <span class="n">train_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_train_size</span><span class="p">,</span>
+                               <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_random_state</span><span class="p">,</span>
+                               <span class="n">shuffle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_shuffle</span><span class="p">,</span>
+                               <span class="n">stratify</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_stratify</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SingleSplit.get_n_splits"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.series_as_features.model_selection.html#sktime.series_as_features.model_selection.SingleSplit.get_n_splits">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_n_splits</span><span class="p">():</span>
+        <span class="k">return</span> <span class="mi">1</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,607 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.transformers.series_as_features.segment &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.transformers.series_as_features.segment</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.transformers.series_as_features.segment</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">check_random_state</span>
+<span class="kn">from</span> <span class="nn">sktime.transformers.series_as_features.base</span> <span class="kn">import</span> \
+    <span class="n">BaseSeriesAsFeaturesTransformer</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.data_container</span> <span class="kn">import</span> <span class="n">concat_nested_arrays</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.data_container</span> <span class="kn">import</span> <span class="n">get_time_index</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.data_container</span> <span class="kn">import</span> <span class="n">tabularize</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.time_series</span> <span class="kn">import</span> <span class="n">compute_relative_to_n_timepoints</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation</span> <span class="kn">import</span> <span class="n">is_int</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.series_as_features</span> <span class="kn">import</span> <span class="n">check_X</span>
+
+
+<div class="viewcode-block" id="IntervalSegmenter"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.transformers.series_as_features.segment.IntervalSegmenter.html#sktime.transformers.series_as_features.segment.IntervalSegmenter">[docs]</a><span class="k">class</span> <span class="nc">IntervalSegmenter</span><span class="p">(</span><span class="n">BaseSeriesAsFeaturesTransformer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Interval segmentation transformer.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    intervals : int, np.ndarray or list of np.ndarrays with one for each</span>
+<span class="sd">    column of input data.</span>
+<span class="sd">        Intervals to generate.</span>
+<span class="sd">        - If int, intervals are generated.</span>
+<span class="sd">        - If ndarray, 2d np.ndarray [n_intervals, 2] with rows giving</span>
+<span class="sd">        intervals, the first column giving start points,</span>
+<span class="sd">        and the second column giving end points of intervals</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="IntervalSegmenter.__init__"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.transformers.series_as_features.segment.IntervalSegmenter.html#sktime.transformers.series_as_features.segment.IntervalSegmenter.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">intervals</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="o">=</span> <span class="n">intervals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_time_index</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_shape_</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IntervalSegmenter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="IntervalSegmenter.fit"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.transformers.series_as_features.segment.html#sktime.transformers.series_as_features.segment.IntervalSegmenter.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit transformer, generating random interval indices.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : pandas DataFrame of shape [n_samples, n_features]</span>
+<span class="sd">            Input data</span>
+<span class="sd">        y : pandas Series, shape (n_samples, ...), optional</span>
+<span class="sd">            Targets for supervised learning.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : an instance of self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">enforce_univariate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_shape_</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="c1"># Retrieve time-series indexes from each column.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_time_index</span> <span class="o">=</span> <span class="n">get_time_index</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intervals_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span>
+
+        <span class="k">elif</span> <span class="n">is_int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intervals_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_time_index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Intervals must be either an integer, an array with &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;start and end points, but found: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="IntervalSegmenter.transform"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.transformers.series_as_features.segment.html#sktime.transformers.series_as_features.segment.IntervalSegmenter.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform X, segments time-series in each column into random</span>
+<span class="sd">        intervals using interval indices generated</span>
+<span class="sd">        during `fit`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : nested pandas DataFrame of shape [n_samples, n_features]</span>
+<span class="sd">            Nested dataframe with time-series in cells.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Xt : pandas DataFrame</span>
+<span class="sd">          Transformed pandas DataFrame with same number of rows and one</span>
+<span class="sd">          column for each generated interval.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check inputs.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="c1"># Check that the input is of the same shape as the one passed</span>
+        <span class="c1"># during fit.</span>
+        <span class="k">if</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_shape_</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Number of columns of input is different from what was seen&#39;</span>
+                <span class="s1">&#39;in `fit`&#39;</span><span class="p">)</span>
+        <span class="c1"># # Input validation</span>
+        <span class="c1"># if not all([np.array_equal(fit_idx, trans_idx)</span>
+        <span class="c1">#             for trans_idx, fit_idx in zip(check_equal_index(X),</span>
+        <span class="c1">#             self._time_index)]):</span>
+        <span class="c1">#     raise ValueError(&#39;Indexes of input time-series are different</span>
+        <span class="c1">#     from what was seen in `fit`&#39;)</span>
+
+        <span class="c1"># Segment into intervals.</span>
+        <span class="c1"># TODO generalise to non-equal-index cases</span>
+        <span class="n">intervals</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">colname</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">colnames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Tabularise assuming series</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">tabularize</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">return_array</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># have equal indexes in any given column</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals_</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals_</span><span class="p">:</span>
+            <span class="n">interval</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[:,</span> <span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+            <span class="n">intervals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">interval</span><span class="p">)</span>
+            <span class="n">colnames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">colname</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Return nested pandas DataFrame.</span>
+        <span class="n">Xt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">concat_nested_arrays</span><span class="p">(</span><span class="n">intervals</span><span class="p">,</span> <span class="n">return_arrays</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="n">Xt</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">colnames</span>
+        <span class="k">return</span> <span class="n">Xt</span></div></div>
+
+
+<div class="viewcode-block" id="RandomIntervalSegmenter"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.transformers.series_as_features.segment.RandomIntervalSegmenter.html#sktime.transformers.series_as_features.segment.RandomIntervalSegmenter">[docs]</a><span class="k">class</span> <span class="nc">RandomIntervalSegmenter</span><span class="p">(</span><span class="n">IntervalSegmenter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Transformer that segments time-series into random intervals with</span>
+<span class="sd">    random starting points and lengths. Some</span>
+<span class="sd">    intervals may overlap and may be duplicates.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_intervals : str, int or float</span>
+<span class="sd">        Number of intervals to generate.</span>
+<span class="sd">        - If &quot;log&quot;, log of m is used where m is length of time series.</span>
+<span class="sd">        - If &quot;sqrt&quot;, sqrt of m is used.</span>
+<span class="sd">        - If &quot;random&quot;, random number of intervals is generated.</span>
+<span class="sd">        - If int, n_intervals intervals are generated.</span>
+<span class="sd">        - If float, int(n_intervals * m) is used with n_intervals giving the</span>
+<span class="sd">        fraction of intervals of the</span>
+<span class="sd">        time series length.</span>
+
+<span class="sd">        For all arguments relative to the length of the time series,</span>
+<span class="sd">        the generated number of intervals is</span>
+<span class="sd">        always at least 1.</span>
+
+<span class="sd">        Default is &quot;sqrt&quot;.</span>
+
+<span class="sd">    random_state : int, RandomState instance or None, optional (default=None)</span>
+<span class="sd">        If int, random_state is the seed used by the random number generator;</span>
+<span class="sd">        If RandomState instance, random_state is the random number generator;</span>
+<span class="sd">        If None, the random number generator is the RandomState instance used</span>
+<span class="sd">        by `np.random`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RandomIntervalSegmenter.__init__"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.transformers.series_as_features.segment.RandomIntervalSegmenter.html#sktime.transformers.series_as_features.segment.RandomIntervalSegmenter.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_intervals</span><span class="o">=</span><span class="s1">&#39;sqrt&#39;</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_length</span> <span class="o">=</span> <span class="n">min_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_intervals</span> <span class="o">=</span> <span class="n">n_intervals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RandomIntervalSegmenter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="RandomIntervalSegmenter.fit"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.transformers.series_as_features.segment.html#sktime.transformers.series_as_features.segment.RandomIntervalSegmenter.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit transformer, generating random interval indices.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : pandas DataFrame of shape [n_samples, n_features]</span>
+<span class="sd">            Input data</span>
+<span class="sd">        y : pandas Series, shape (n_samples, ...), optional</span>
+<span class="sd">            Targets for supervised learning.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : RandomIntervalSegmenter</span>
+<span class="sd">            This estimator</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_length</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Min_lenght must be an integer, but found: &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_length</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_length</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Min_lenght must be an positive integer (&gt;= 1), &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;but found: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">min_length</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_shape_</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="c1"># Retrieve time-series indexes from each column.</span>
+        <span class="c1"># TODO generalise to columns with series of unequal length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_time_index</span> <span class="o">=</span> <span class="n">get_time_index</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="c1"># Compute random intervals for each column.</span>
+        <span class="c1"># TODO if multiple columns are passed, introduce option to compute</span>
+        <span class="c1">#  one set of shared intervals,</span>
+        <span class="c1">#  or rely on ColumnTransformer?</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_intervals</span> <span class="o">==</span> <span class="s1">&#39;random&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intervals_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rand_intervals_rand_n</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_time_index</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">intervals_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rand_intervals_fixed_n</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_time_index</span><span class="p">,</span>
+                <span class="n">n_intervals</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_intervals</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="k">def</span> <span class="nf">_rand_intervals_rand_n</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute a random number of intervals from index (x) with</span>
+<span class="sd">        random starting points and lengths. Intervals are unique, but may</span>
+<span class="sd">        overlap.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : array_like, shape = [n_observations]</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        intervals : array-like, shape = [n, 2]</span>
+<span class="sd">            2d array containing start and end points of intervals</span>
+
+<span class="sd">        References</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ..[1] Deng, Houtao, et al. &quot;A time series forest for classification</span>
+<span class="sd">        and feature extraction.&quot;</span>
+<span class="sd">            Information Sciences 239 (2013): 142-153.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="n">starts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ends</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">n_timepoints</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># series length</span>
+        <span class="n">W</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_timepoints</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_timepoints</span><span class="p">)))</span>
+        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">W</span><span class="p">:</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="n">n_timepoints</span> <span class="o">-</span> <span class="n">w</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">size</span><span class="p">)))</span>
+            <span class="n">starts</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">start</span><span class="p">:</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="n">w</span>
+                <span class="n">ends</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">starts</span><span class="p">,</span> <span class="n">ends</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_rand_intervals_fixed_n</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">n_intervals</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute a fixed number (n) of intervals from index (x) with</span>
+<span class="sd">        random starting points and lengths. Intervals may overlap and may</span>
+<span class="sd">        not be unique.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : array_like, shape = [n_observations,]</span>
+<span class="sd">            Array containing the time-series index.</span>
+<span class="sd">        n_intervals : &#39;sqrt&#39;, &#39;log&#39;, float or int</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        intervals : array-like, shape = [n, 2]</span>
+<span class="sd">            2d array containing start and end points of intervals</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="n">n_timepoints</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="c1"># compute number of random intervals relative to series length (m)</span>
+        <span class="c1"># TODO use smarter dispatch at construction to avoid evaluating</span>
+        <span class="c1">#  if-statements here each time function is called</span>
+        <span class="n">n_intervals</span> <span class="o">=</span> <span class="n">compute_relative_to_n_timepoints</span><span class="p">(</span><span class="n">n_timepoints</span><span class="p">,</span>
+                                                       <span class="n">n</span><span class="o">=</span><span class="n">n_intervals</span><span class="p">)</span>
+
+        <span class="c1"># get start and end points of intervals</span>
+        <span class="n">starts</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">n_timepoints</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_length</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                             <span class="n">size</span><span class="o">=</span><span class="n">n_intervals</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_intervals</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">starts</span> <span class="o">=</span> <span class="p">[</span><span class="n">starts</span><span class="p">]</span>  <span class="c1"># make it an iterable</span>
+        <span class="n">ends</span> <span class="o">=</span> <span class="p">[</span><span class="n">start</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_length</span><span class="p">,</span>
+                                    <span class="n">n_timepoints</span> <span class="o">-</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">start</span>
+                <span class="ow">in</span> <span class="n">starts</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">starts</span><span class="p">,</span> <span class="n">ends</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="SlidingWindowSegmenter"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.transformers.series_as_features.segment.html#sktime.transformers.series_as_features.segment.SlidingWindowSegmenter">[docs]</a><span class="k">class</span> <span class="nc">SlidingWindowSegmenter</span><span class="p">(</span><span class="n">BaseSeriesAsFeaturesTransformer</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class is to transform a univariate series into a</span>
+<span class="sd">    multivariate one by extracting sets of subsequences.</span>
+<span class="sd">    It does this by firstly padding the time series on either end</span>
+<span class="sd">    floor(window_length/2) times. Then it performs a sliding</span>
+<span class="sd">    window of size window_length and hop size 1.</span>
+
+<span class="sd">    e.g. if window_length = 3</span>
+
+<span class="sd">    S = 1,2,3,4,5, floor(3/2) = 1 so S would be padded as</span>
+
+<span class="sd">    1,1,2,3,4,5,5</span>
+
+<span class="sd">    then SlidingWindowSegmenter would extract the following:</span>
+
+<span class="sd">    (1,1,2),(1,2,3),(2,3,4),(3,4,5),(4,5,5)</span>
+
+<span class="sd">    the time series is now a multivariate one.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">        window_length : int, length of interval.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        df : pandas dataframe of shape</span>
+<span class="sd">             [n_instances, n_timepoints]</span>
+
+<span class="sd">    Proposed in the ShapeDTW algorithm.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window_length</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_length</span> <span class="o">=</span> <span class="n">window_length</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SlidingWindowSegmenter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="SlidingWindowSegmenter.transform"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.transformers.series_as_features.segment.html#sktime.transformers.series_as_features.segment.SlidingWindowSegmenter.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function to perform the transformation on the time series data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : a pandas dataframe of shape = [n_instances, 1]</span>
+<span class="sd">            The training input samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dims: a pandas data frame of shape = [n_instances, n_timepoints]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># get the number of attributes and instances</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">enforce_univariate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">tabularize</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">return_array</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">n_timepoints</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">n_instances</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Check the parameters are appropriate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_parameters</span><span class="p">(</span><span class="n">n_timepoints</span><span class="p">)</span>
+
+        <span class="n">pad_amnt</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_length</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">padded_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_instances</span><span class="p">,</span> <span class="n">n_timepoints</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pad_amnt</span><span class="p">)))</span>
+
+        <span class="c1"># Pad both ends of X</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_instances</span><span class="p">):</span>
+            <span class="n">padded_data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">pad_amnt</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;edge&#39;</span><span class="p">)</span>
+
+        <span class="n">subsequences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_instances</span><span class="p">,</span> <span class="n">n_timepoints</span><span class="p">,</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">window_length</span><span class="p">))</span>
+
+        <span class="c1"># Extract subsequences</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_instances</span><span class="p">):</span>
+            <span class="n">subsequences</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_subsequences</span><span class="p">(</span><span class="n">padded_data</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                                         <span class="n">n_timepoints</span><span class="p">)</span>
+
+        <span class="c1"># Convert this into a panda&#39;s data frame</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">subsequences</span><span class="p">)):</span>
+            <span class="n">inst</span> <span class="o">=</span> <span class="n">subsequences</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inst</span><span class="p">)):</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">inst</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_extract_subsequences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">n_timepoints</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function to extract a set of subsequences from a list of instances.</span>
+
+<span class="sd">        Adopted from -</span>
+<span class="sd">        https://stackoverflow.com/questions/4923617/efficient-numpy-2d-array-</span>
+<span class="sd">        construction-from-1d-array/4924433#4924433</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_timepoints</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_length</span><span class="p">)</span>
+        <span class="n">strides</span> <span class="o">=</span> <span class="p">(</span><span class="n">instance</span><span class="o">.</span><span class="n">itemsize</span><span class="p">,</span> <span class="n">instance</span><span class="o">.</span><span class="n">itemsize</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">stride_tricks</span><span class="o">.</span><span class="n">as_strided</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span>
+                                               <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="n">strides</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_check_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_timepoints</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function for checking the values of parameters inserted</span>
+<span class="sd">        into SlidingWindowSegmenter.</span>
+
+<span class="sd">        Throws</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError or TypeError if a parameters input is invalid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_length</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_length</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;window_length must have the </span><span class="se">\</span>
+<span class="s2">                                  value of at least 1&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;window_length must be an &#39;int&#39;. </span><span class="se">\</span>
+<span class="s2">                            Found &#39;&quot;</span> <span class="o">+</span>
+                            <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_length</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span>
+                            <span class="s2">&quot;&#39; instead.&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,468 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.classification.interval_based._tsf &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.classification.interval_based._tsf</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.classification.interval_based._tsf</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Time Series Forest Classifier (TSF).</span>
+<span class="sd">Implementation of Deng&#39;s Time Series Forest, with minor changes</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Tony Bagnall&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;TimeSeriesForest&quot;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">clone</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble._forest</span> <span class="kn">import</span> <span class="n">ForestClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils.multiclass</span> <span class="kn">import</span> <span class="n">class_distribution</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils.validation</span> <span class="kn">import</span> <span class="n">check_random_state</span>
+<span class="kn">from</span> <span class="nn">sktime.classification.base</span> <span class="kn">import</span> <span class="n">BaseClassifier</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.data_container</span> <span class="kn">import</span> <span class="n">tabularize</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.series_as_features</span> <span class="kn">import</span> <span class="n">check_X</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.series_as_features</span> <span class="kn">import</span> <span class="n">check_X_y</span>
+
+
+<div class="viewcode-block" id="TimeSeriesForest"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.interval_based.TimeSeriesForest.html#sktime.classification.interval_based.TimeSeriesForest">[docs]</a><span class="k">class</span> <span class="nc">TimeSeriesForest</span><span class="p">(</span><span class="n">ForestClassifier</span><span class="p">,</span> <span class="n">BaseClassifier</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Time-Series Forest Classifier.</span>
+
+<span class="sd">    TimeSeriesForest: Implementation of Deng&#39;s Time Series Forest,</span>
+<span class="sd">    with minor changes</span>
+<span class="sd">    @article</span>
+<span class="sd">    {deng13forest,</span>
+<span class="sd">     author = {H.Deng and G.Runger and E.Tuv and M.Vladimir},</span>
+<span class="sd">              title = {A time series forest for classification and feature</span>
+<span class="sd">              extraction},</span>
+<span class="sd">    journal = {Information Sciences},</span>
+<span class="sd">    volume = {239},</span>
+<span class="sd">    year = {2013}</span>
+
+<span class="sd">    Overview: Input n series length m</span>
+<span class="sd">    for each tree</span>
+<span class="sd">        sample sqrt(m) intervals</span>
+<span class="sd">        find mean, sd and slope for each interval, concatenate to form new</span>
+<span class="sd">        data set</span>
+<span class="sd">        build decision tree on new data set</span>
+<span class="sd">    ensemble the trees with averaged probability estimates</span>
+
+<span class="sd">    This implementation deviates from the original in minor ways. It samples</span>
+<span class="sd">    intervals with replacement and</span>
+<span class="sd">    does not use the splitting criteria tiny refinement described in</span>
+<span class="sd">    deng13forest. This is an intentionally</span>
+<span class="sd">    stripped down, non configurable version for use as a hive-cote</span>
+<span class="sd">    component. For a configurable tree based</span>
+<span class="sd">    ensemble, see sktime.classifiers.ensemble.TimeSeriesForestClassifier</span>
+
+<span class="sd">    TO DO: handle missing values, unequal length series and multivariate</span>
+<span class="sd">    problems</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_estimators         : int, ensemble size, optional (default = 200)</span>
+<span class="sd">    random_state    : int, seed for random, optional (default to no seed,</span>
+<span class="sd">    I think!)</span>
+<span class="sd">    min_interval    : int, minimum width of an interval, optional (default</span>
+<span class="sd">    to 3)</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_classes    : int, extracted from the data</span>
+<span class="sd">    num_atts     : int, extracted from the data</span>
+<span class="sd">    n_intervals  : int, sqrt(num_atts)</span>
+<span class="sd">    classifiers    : array of shape = [n_estimators] of DecisionTree</span>
+<span class="sd">    classifiers</span>
+<span class="sd">    intervals      : array of shape = [n_estimators][n_intervals][2] stores</span>
+<span class="sd">    indexes of all start and end points for all classifiers</span>
+<span class="sd">    dim_to_use     : int, the column of the panda passed to use (can be</span>
+<span class="sd">    passed a multidimensional problem, but will only use one)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TimeSeriesForest.__init__"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.interval_based.TimeSeriesForest.html#sktime.classification.interval_based.TimeSeriesForest.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">min_interval</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                 <span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span>
+                 <span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TimeSeriesForest</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">base_estimator</span><span class="o">=</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">criterion</span><span class="o">=</span><span class="s2">&quot;entropy&quot;</span><span class="p">),</span>
+            <span class="n">n_estimators</span><span class="o">=</span><span class="n">n_estimators</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_estimators</span> <span class="o">=</span> <span class="n">n_estimators</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_interval</span> <span class="o">=</span> <span class="n">min_interval</span>
+        <span class="c1"># The following set in method fit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_classes</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">series_length</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_intervals</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># We need to add is-fitted state when inheriting from scikit-learn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="TimeSeriesForest.fit"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.interval_based.html#sktime.classification.interval_based.TimeSeriesForest.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Build a forest of trees from the training set (X, y) using random</span>
+<span class="sd">        intervals and summary features</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : array-like or sparse matrix of shape = [n_instances,</span>
+<span class="sd">        series_length] or shape = [n_instances,n_columns]</span>
+<span class="sd">            The training input samples.  If a Pandas data frame is passed it</span>
+<span class="sd">            must have a single column (i.e. univariate</span>
+<span class="sd">            classification. RISE has no bespoke method for multivariate</span>
+<span class="sd">            classification as yet.</span>
+<span class="sd">        y : array-like, shape =  [n_instances]    The class labels.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">enforce_univariate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">tabularize</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">return_array</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">n_instances</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">series_length</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span> <span class="o">=</span> <span class="n">class_distribution</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_intervals</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">series_length</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_intervals</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_intervals</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">series_length</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_interval</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">min_interval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">series_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_estimators</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_intervals</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+                                  <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_estimators</span><span class="p">):</span>
+            <span class="n">transformed_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_intervals</span><span class="p">,</span> <span class="n">n_instances</span><span class="p">))</span>
+            <span class="c1"># Find the random intervals for classifier i and concatentate</span>
+            <span class="c1"># features</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_intervals</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">series_length</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_interval</span><span class="p">)</span>
+                <span class="n">length</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">series_length</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_interval</span><span class="p">:</span>
+                    <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_interval</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">length</span>
+                <span class="c1"># Transforms here, just hard coding it, so not configurable</span>
+                <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+                    <span class="n">X</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]],</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">std_dev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span>
+                    <span class="n">X</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]],</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">slope</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lsq_fit</span><span class="p">(</span>
+                    <span class="n">X</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+                <span class="n">transformed_x</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">means</span>
+                <span class="n">transformed_x</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">std_dev</span>
+                <span class="n">transformed_x</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">slope</span>
+            <span class="n">tree</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_estimator</span><span class="p">)</span>
+            <span class="n">tree</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s2">&quot;random_state&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">})</span>
+            <span class="n">transformed_x</span> <span class="o">=</span> <span class="n">transformed_x</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">tree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">transformed_x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="TimeSeriesForest.predict"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.interval_based.html#sktime.classification.interval_based.TimeSeriesForest.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find predictions for all cases in X. Built on top of predict_proba</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : The training input samples. array-like or pandas data frame.</span>
+<span class="sd">        If a Pandas data frame is passed, a check is performed that it only</span>
+<span class="sd">        has one column.</span>
+<span class="sd">        If not, an exception is thrown, since this classifier does not yet have</span>
+<span class="sd">        multivariate capability.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        output : array of shape = [n_test_instances]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">proba</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">classes_</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">prob</span><span class="p">)]</span> <span class="k">for</span> <span class="n">prob</span> <span class="ow">in</span> <span class="n">proba</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="TimeSeriesForest.predict_proba"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.interval_based.html#sktime.classification.interval_based.TimeSeriesForest.predict_proba">[docs]</a>    <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find probability estimates for each class for all cases in X.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : The training input samples. array-like or sparse matrix of shape</span>
+<span class="sd">        = [n_test_instances, series_length]</span>
+<span class="sd">            If a Pandas data frame is passed (sktime format) a check is</span>
+<span class="sd">            performed that it only has one column.</span>
+<span class="sd">            If not, an exception is thrown, since this classifier does not</span>
+<span class="sd">            yet have</span>
+<span class="sd">            multivariate capability.</span>
+
+<span class="sd">        Local variables</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n_test_instances     : int, number of cases to classify</span>
+<span class="sd">        series_length    : int, number of attributes in X, must match</span>
+<span class="sd">        _num_atts determined in fit</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        output : array of shape = [n_test_instances, num_classes] of</span>
+<span class="sd">        probabilities</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">enforce_univariate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">tabularize</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">return_array</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">n_test_instances</span><span class="p">,</span> <span class="n">series_length</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">if</span> <span class="n">series_length</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">series_length</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot; ERROR number of attributes in the train does not match &quot;</span>
+                <span class="s2">&quot;that in the test data&quot;</span><span class="p">)</span>
+        <span class="n">sums</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_classes</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_estimators</span><span class="p">):</span>
+            <span class="n">transformed_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span>
+                <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_intervals</span><span class="p">,</span> <span class="n">n_test_instances</span><span class="p">),</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_intervals</span><span class="p">):</span>
+                <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+                    <span class="n">X</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]],</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">std_dev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span>
+                    <span class="n">X</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]],</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">slope</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lsq_fit</span><span class="p">(</span>
+                    <span class="n">X</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span><span class="bp">self</span><span class="o">.</span><span class="n">intervals</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+                <span class="n">transformed_x</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">means</span>
+                <span class="n">transformed_x</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">std_dev</span>
+                <span class="n">transformed_x</span><span class="p">[</span><span class="mi">3</span> <span class="o">*</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">slope</span>
+            <span class="n">transformed_x</span> <span class="o">=</span> <span class="n">transformed_x</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">sums</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">transformed_x</span><span class="p">)</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="n">sums</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_classes</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_estimators</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span></div>
+
+    <span class="k">def</span> <span class="nf">_lsq_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Find the slope for each series (row) of Y</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Y: array of shape = [n_samps, interval_size]</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ----------</span>
+<span class="sd">        slope: array of shape = [n_samps]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">slope</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">Y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">slope</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

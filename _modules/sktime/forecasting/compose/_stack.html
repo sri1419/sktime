@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.forecasting.compose._stack &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.forecasting.compose._stack</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.forecasting.compose._stack</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3 -u</span>
+<span class="c1"># coding: utf-8</span>
+<span class="c1"># copyright: sktime developers, BSD-3-Clause License (see LICENSE file)</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Markus Löning&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;StackingForecaster&quot;</span><span class="p">]</span>
+
+<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">clone</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">is_regressor</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.base._base</span> <span class="kn">import</span> <span class="n">DEFAULT_ALPHA</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.base._meta</span> <span class="kn">import</span> <span class="n">BaseHeterogenousEnsembleForecaster</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.base._sktime</span> <span class="kn">import</span> <span class="n">RequiredForecastingHorizonMixin</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.model_selection</span> <span class="kn">import</span> <span class="n">SingleWindowSplitter</span>
+
+
+<div class="viewcode-block" id="StackingForecaster"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.forecasting.compose.StackingForecaster.html#sktime.forecasting.compose.StackingForecaster">[docs]</a><span class="k">class</span> <span class="nc">StackingForecaster</span><span class="p">(</span><span class="n">RequiredForecastingHorizonMixin</span><span class="p">,</span>
+                         <span class="n">BaseHeterogenousEnsembleForecaster</span><span class="p">):</span>
+    <span class="n">_required_parameters</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;forecasters&quot;</span><span class="p">,</span> <span class="s2">&quot;final_regressor&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="StackingForecaster.__init__"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.forecasting.compose.StackingForecaster.html#sktime.forecasting.compose.StackingForecaster.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forecasters</span><span class="p">,</span> <span class="n">final_regressor</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_regressor</span> <span class="o">=</span> <span class="n">final_regressor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_regressor_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">=</span> <span class="n">n_jobs</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">StackingForecaster</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">forecasters</span><span class="o">=</span><span class="n">forecasters</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StackingForecaster.fit"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.forecasting.compose.html#sktime.forecasting.compose.StackingForecaster.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">fh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">X_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit to training data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y_train : pd.Series</span>
+<span class="sd">            Target time series to which to fit the forecaster.</span>
+<span class="sd">        fh : int, list or np.array, optional (default=None)</span>
+<span class="sd">            The forecasters horizon with the steps ahead to to predict.</span>
+<span class="sd">        X_train : pd.DataFrame, optional (default=None)</span>
+<span class="sd">            Exogenous variables are ignored</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : returns an instance of self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">X_train</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_oh</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_fh</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+
+        <span class="n">names</span><span class="p">,</span> <span class="n">forecasters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_forecasters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_final_regressor</span><span class="p">()</span>
+
+        <span class="c1"># split training series into training set to fit forecasters and</span>
+        <span class="c1"># validation set to fit meta-learner</span>
+        <span class="n">cv</span> <span class="o">=</span> <span class="n">SingleWindowSplitter</span><span class="p">(</span><span class="n">fh</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="p">)</span>
+        <span class="n">training_window</span><span class="p">,</span> <span class="n">test_window</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">y_train</span><span class="p">))</span>
+        <span class="n">y_fcst</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">training_window</span><span class="p">]</span>
+        <span class="n">y_meta</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_window</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="c1"># fit forecasters on training window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fit_forecasters</span><span class="p">(</span><span class="n">forecasters</span><span class="p">,</span> <span class="n">y_fcst</span><span class="p">,</span> <span class="n">fh</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="p">,</span> <span class="n">X_train</span><span class="o">=</span><span class="n">X_train</span><span class="p">)</span>
+        <span class="n">X_meta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_predict_forecasters</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X_train</span><span class="p">))</span>
+
+        <span class="c1"># fit final regressor on on validation window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_regressor_</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">final_regressor</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_regressor_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_meta</span><span class="p">,</span> <span class="n">y_meta</span><span class="p">)</span>
+
+        <span class="c1"># refit forecasters on entire training series</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fit_forecasters</span><span class="p">(</span><span class="n">forecasters</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">fh</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="p">,</span>
+                              <span class="n">X_train</span><span class="o">=</span><span class="n">X_train</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="StackingForecaster.update"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.forecasting.compose.html#sktime.forecasting.compose.StackingForecaster.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_new</span><span class="p">,</span> <span class="n">X_new</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">update_params</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update fitted paramters</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y_new : pd.Series</span>
+<span class="sd">        X_new : pd.DataFrame</span>
+<span class="sd">        update_params : bool, optional (default=False)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : an instance of self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_oh</span><span class="p">(</span><span class="n">y_new</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">update_params</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Updating `final regressor is not implemented&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">forecaster</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">forecasters_</span><span class="p">:</span>
+            <span class="n">forecaster</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">y_new</span><span class="p">,</span> <span class="n">X_new</span><span class="o">=</span><span class="n">X_new</span><span class="p">,</span> <span class="n">update_params</span><span class="o">=</span><span class="n">update_params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="k">def</span> <span class="nf">_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_pred_int</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">alpha</span><span class="o">=</span><span class="n">DEFAULT_ALPHA</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">return_pred_int</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+        <span class="n">y_preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_predict_forecasters</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">))</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_regressor_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">y_preds</span><span class="p">)</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_check_final_regressor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_regressor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">final_regressor</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`final_regressor` should be a regressor, &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;but found: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">final_regressor</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

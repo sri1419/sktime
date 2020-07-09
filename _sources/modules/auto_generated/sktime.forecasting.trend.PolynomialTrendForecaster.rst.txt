@@ -1,0 +1,16 @@
+:mod:`sktime.forecasting.trend`.PolynomialTrendForecaster
+================================================================
+
+.. currentmodule:: sktime.forecasting.trend
+
+.. autoclass:: PolynomialTrendForecaster
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.forecasting.trend.PolynomialTrendForecaster.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

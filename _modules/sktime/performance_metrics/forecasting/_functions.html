@@ -1,0 +1,299 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.performance_metrics.forecasting._functions &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.performance_metrics.forecasting._functions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.performance_metrics.forecasting._functions</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.forecasting</span> <span class="kn">import</span> <span class="n">check_consistent_time_index</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.forecasting</span> <span class="kn">import</span> <span class="n">check_y</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Markus Löning&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mase_loss&quot;</span><span class="p">,</span> <span class="s2">&quot;smape_loss&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="mase_loss"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.performance_metrics.forecasting.html#sktime.performance_metrics.forecasting.mase_loss">[docs]</a><span class="k">def</span> <span class="nf">mase_loss</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">sp</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Mean absolute scaled error.</span>
+
+<span class="sd">    This scale-free error metric can be used to compare forecast methods on</span>
+<span class="sd">    a single</span>
+<span class="sd">    series and also to compare forecast accuracy between series. This metric</span>
+<span class="sd">    is well</span>
+<span class="sd">    suited to intermittent-demand series because it never gives infinite or</span>
+<span class="sd">    undefined</span>
+<span class="sd">    values.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y_test : pandas Series of shape = (fh,) where fh is the forecasting horizon</span>
+<span class="sd">        Ground truth (correct) target values.</span>
+<span class="sd">    y_pred : pandas Series of shape = (fh,)</span>
+<span class="sd">        Estimated target values.</span>
+<span class="sd">    y_train : pandas Series of shape = (n_obs,)</span>
+<span class="sd">        Observed training values.</span>
+<span class="sd">    sp : int</span>
+<span class="sd">        Seasonal periodicity of training data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    loss : float</span>
+<span class="sd">        MASE loss</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ..[1]   Hyndman, R. J. (2006). &quot;Another look at measures of forecast</span>
+<span class="sd">            accuracy&quot;, Foresight, Issue 4.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># input checks</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="n">check_y</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">check_y</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">y_train</span> <span class="o">=</span> <span class="n">check_y</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+    <span class="n">check_consistent_time_index</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="n">y_train</span><span class="p">)</span>
+
+    <span class="c1">#  naive seasonal prediction</span>
+    <span class="n">y_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+    <span class="n">y_pred_naive</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[:</span><span class="o">-</span><span class="n">sp</span><span class="p">]</span>
+
+    <span class="c1"># mean absolute error of naive seasonal prediction</span>
+    <span class="n">mae_naive</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_train</span><span class="p">[</span><span class="n">sp</span><span class="p">:]</span> <span class="o">-</span> <span class="n">y_pred_naive</span><span class="p">))</span>
+
+    <span class="c1"># if training data is flat, mae may be zero,</span>
+    <span class="c1"># return np.nan to avoid divide by zero error</span>
+    <span class="c1"># and np.inf values</span>
+    <span class="k">if</span> <span class="n">mae_naive</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_test</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">))</span> <span class="o">/</span> <span class="n">mae_naive</span></div>
+
+
+<div class="viewcode-block" id="smape_loss"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.performance_metrics.forecasting.html#sktime.performance_metrics.forecasting.smape_loss">[docs]</a><span class="k">def</span> <span class="nf">smape_loss</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Symmetric mean absolute percentage error</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y_test : pandas Series of shape = (fh,) where fh is the forecasting horizon</span>
+<span class="sd">        Ground truth (correct) target values.</span>
+<span class="sd">    y_pred : pandas Series of shape = (fh,)</span>
+<span class="sd">        Estimated target values.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    loss : float</span>
+<span class="sd">        sMAPE loss</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="n">check_y</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">check_y</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">check_consistent_time_index</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+    <span class="n">nominator</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_test</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">denominator</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">nominator</span> <span class="o">/</span> <span class="n">denominator</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

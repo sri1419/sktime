@@ -1,0 +1,477 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.forecasting.theta &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.forecasting.theta</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.forecasting.theta</h1><div class="highlight"><pre>
+<span></span><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ThetaForecaster&quot;</span><span class="p">]</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;@big-o&quot;</span><span class="p">,</span> <span class="s2">&quot;Markus Löning&quot;</span><span class="p">]</span>
+
+<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.base._base</span> <span class="kn">import</span> <span class="n">DEFAULT_ALPHA</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.exp_smoothing</span> <span class="kn">import</span> <span class="n">ExponentialSmoothing</span>
+<span class="kn">from</span> <span class="nn">sktime.transformers.single_series.detrend</span> <span class="kn">import</span> <span class="n">Deseasonalizer</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.confidence</span> <span class="kn">import</span> <span class="n">zscore</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.time_series</span> <span class="kn">import</span> <span class="n">fit_trend</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.forecasting</span> <span class="kn">import</span> <span class="n">check_alpha</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.forecasting</span> <span class="kn">import</span> <span class="n">check_sp</span>
+
+
+<div class="viewcode-block" id="ThetaForecaster"><a class="viewcode-back" href="../../../modules/auto_generated/sktime.forecasting.theta.ThetaForecaster.html#sktime.forecasting.theta.ThetaForecaster">[docs]</a><span class="k">class</span> <span class="nc">ThetaForecaster</span><span class="p">(</span><span class="n">ExponentialSmoothing</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Theta method of forecasting.</span>
+
+<span class="sd">    The theta method as defined in [1]_ is equivalent to simple exponential</span>
+<span class="sd">    smoothing</span>
+<span class="sd">    (SES) with drift. This is demonstrated in [2]_.</span>
+
+<span class="sd">    The series is tested for seasonality using the test outlined in A&amp;N. If</span>
+<span class="sd">    deemed</span>
+<span class="sd">    seasonal, the series is seasonally adjusted using a classical</span>
+<span class="sd">    multiplicative</span>
+<span class="sd">    decomposition before applying the theta method. The resulting forecasts</span>
+<span class="sd">    are then</span>
+<span class="sd">    reseasonalized.</span>
+
+<span class="sd">    In cases where SES results in a constant forecast, the theta forecaster</span>
+<span class="sd">    will revert</span>
+<span class="sd">    to predicting the SES constant plus a linear trend derived from the</span>
+<span class="sd">    training data.</span>
+
+<span class="sd">    Prediction intervals are computed using the underlying state space model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    smoothing_level : float, optional</span>
+<span class="sd">        The alpha value of the simple exponential smoothing, if the value is</span>
+<span class="sd">        set then</span>
+<span class="sd">        this will be used, otherwise it will be estimated from the data.</span>
+
+<span class="sd">    deseasonalise : bool, optional (default=True)</span>
+<span class="sd">        If True, data is seasonally adjusted.</span>
+
+<span class="sd">    sp : int, optional (default=1)</span>
+<span class="sd">        The number of observations that constitute a seasonal period for a</span>
+<span class="sd">        multiplicative deseasonaliser, which is used if seasonality is</span>
+<span class="sd">        detected in the</span>
+<span class="sd">        training data. Ignored if a deseasonaliser transformer is provided.</span>
+<span class="sd">        Default is</span>
+<span class="sd">        1 (no seasonality).</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    smoothing_level_ : float</span>
+<span class="sd">        The estimated alpha value of the SES fit.</span>
+
+<span class="sd">    drift_ : float</span>
+<span class="sd">        The estimated drift of the fitted model.</span>
+
+<span class="sd">    se_ : float</span>
+<span class="sd">        The standard error of the predictions. Used to calculate prediction</span>
+<span class="sd">        intervals.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    .. [1] `Assimakopoulos, V. and Nikolopoulos, K. The theta model: a</span>
+<span class="sd">    decomposition</span>
+<span class="sd">           approach to forecasting. International Journal of Forecasting 16,</span>
+<span class="sd">           521-530,</span>
+<span class="sd">           2000.</span>
+<span class="sd">           &lt;https://www.sciencedirect.com/science/article/pii</span>
+<span class="sd">           /S0169207000000662&gt;`_</span>
+
+<span class="sd">    .. [2] `Hyndman, Rob J., and Billah, Baki. Unmasking the Theta method.</span>
+<span class="sd">           International J. Forecasting, 19, 287-290, 2003.</span>
+<span class="sd">           &lt;https://www.sciencedirect.com/science/article/pii</span>
+<span class="sd">           /S0169207001001431&gt;`_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_fitted_param_names</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;initial_level&quot;</span><span class="p">,</span> <span class="s2">&quot;smoothing_level&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ThetaForecaster.__init__"><a class="viewcode-back" href="../../../modules/auto_generated/sktime.forecasting.theta.ThetaForecaster.html#sktime.forecasting.theta.ThetaForecaster.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">smoothing_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">deseasonalise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sp</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sp</span> <span class="o">=</span> <span class="n">sp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deseasonalise</span> <span class="o">=</span> <span class="n">deseasonalise</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">deseasonaliser_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trend_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">smoothing_level_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drift_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">se_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ThetaForecaster</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">smoothing_level</span><span class="o">=</span><span class="n">smoothing_level</span><span class="p">,</span>
+                                              <span class="n">sp</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ThetaForecaster.fit"><a class="viewcode-back" href="../../../modules/auto_generated/sktime.forecasting.theta.html#sktime.forecasting.theta.ThetaForecaster.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">fh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">X_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit to training data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y_train : pd.Series</span>
+<span class="sd">            Target time series to which to fit the forecaster.</span>
+<span class="sd">        fh : int, list or np.array, optional (default=None)</span>
+<span class="sd">            The forecasters horizon with the steps ahead to to predict.</span>
+<span class="sd">        X_train : pd.DataFrame, optional (default=None)</span>
+<span class="sd">            Exogenous variables are ignored</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : returns an instance of self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sp</span> <span class="o">=</span> <span class="n">check_sp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sp</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sp</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">deseasonalise</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;`sp` is ignored when `deseasonalise`=False&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">deseasonalise</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">deseasonaliser_</span> <span class="o">=</span> <span class="n">Deseasonalizer</span><span class="p">(</span><span class="n">sp</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sp</span><span class="p">,</span>
+                                                  <span class="n">model</span><span class="o">=</span><span class="s2">&quot;multiplicative&quot;</span><span class="p">)</span>
+            <span class="n">y_train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">deseasonaliser_</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+
+        <span class="c1"># fit exponential smoothing forecaster</span>
+        <span class="c1"># find theta lines: Theta lines are just SES + drift</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ThetaForecaster</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">fh</span><span class="o">=</span><span class="n">fh</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">smoothing_level_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fitted_forecaster</span><span class="o">.</span><span class="n">params</span><span class="p">[</span>
+            <span class="s2">&quot;smoothing_level&quot;</span><span class="p">]</span>
+
+        <span class="c1"># compute trend</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trend_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_trend</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="k">def</span> <span class="nf">_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fh</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_pred_int</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">DEFAULT_ALPHA</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make forecasts.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        fh : array-like</span>
+<span class="sd">            The forecasters horizon with the steps ahead to to predict.</span>
+<span class="sd">            Default is</span>
+<span class="sd">            one-step ahead forecast, i.e. np.array([1]).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        y_pred : pandas.Series</span>
+<span class="sd">            Returns series of predicted values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">ThetaForecaster</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_predict</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+                                                       <span class="n">return_pred_int</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                                       <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+
+        <span class="c1"># Add drift.</span>
+        <span class="n">drift</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_drift</span><span class="p">()</span>
+        <span class="n">y_pred</span> <span class="o">+=</span> <span class="n">drift</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">deseasonalise</span><span class="p">:</span>
+            <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">deseasonaliser_</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">return_pred_int</span><span class="p">:</span>
+            <span class="n">pred_int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_pred_int</span><span class="p">(</span><span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">pred_int</span>
+
+        <span class="k">return</span> <span class="n">y_pred</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_compute_trend</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+        <span class="c1"># Trend calculated through least squares regression.</span>
+        <span class="n">coefs</span> <span class="o">=</span> <span class="n">fit_trend</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">coefs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="nf">_compute_drift</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">smoothing_level_</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">):</span>
+            <span class="c1"># SES was constant, so revert to simple trend</span>
+            <span class="n">drift</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trend_</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">fh</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Calculate drift from SES parameters</span>
+            <span class="n">n_timepoints</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oh</span><span class="p">)</span>
+            <span class="n">drift</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trend_</span> <span class="o">*</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">fh</span>
+                    <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span>
+                        <span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">smoothing_level_</span><span class="p">)</span> <span class="o">**</span> <span class="n">n_timepoints</span><span class="p">)</span> <span class="o">/</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">smoothing_level_</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">drift</span>
+
+    <span class="k">def</span> <span class="nf">_compute_pred_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">DEFAULT_ALPHA</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the prediction errors for the forecast.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">check_alpha</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
+
+        <span class="n">n_timepoints</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oh</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fitted_forecaster</span><span class="o">.</span><span class="n">sse</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_timepoints</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">sem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fh</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">smoothing_level_</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">alpha</span><span class="p">:</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">zscore</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">z</span> <span class="o">*</span> <span class="n">sem</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span><span class="p">)))</span>
+
+        <span class="c1"># for a single alpha value, unwrap list</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">errors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># otherwise, return list of errors</span>
+        <span class="k">return</span> <span class="n">errors</span>
+
+<div class="viewcode-block" id="ThetaForecaster.update"><a class="viewcode-back" href="../../../modules/auto_generated/sktime.forecasting.theta.html#sktime.forecasting.theta.ThetaForecaster.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_new</span><span class="p">,</span> <span class="n">X_new</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">update_params</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ThetaForecaster</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">y_new</span><span class="p">,</span> <span class="n">X_new</span><span class="o">=</span><span class="n">X_new</span><span class="p">,</span>
+                                            <span class="n">update_params</span><span class="o">=</span><span class="n">update_params</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">update_params</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">deseasonalise</span><span class="p">:</span>
+                <span class="n">y_new</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">deseasonaliser_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">y_new</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">smoothing_level_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fitted_forecaster</span><span class="o">.</span><span class="n">params</span><span class="p">[</span>
+                <span class="s2">&quot;smoothing_level&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trend_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_trend</span><span class="p">(</span><span class="n">y_new</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="ThetaForecaster.compute_pred_int"><a class="viewcode-back" href="../../../modules/auto_generated/sktime.forecasting.theta.html#sktime.forecasting.theta.ThetaForecaster.compute_pred_int">[docs]</a>    <span class="k">def</span> <span class="nf">compute_pred_int</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">DEFAULT_ALPHA</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the prediction intervals for the forecast. If alpha is iterable,</span>
+<span class="sd">        multiple</span>
+<span class="sd">        intervals will be calculated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_pred_errors</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+
+        <span class="c1"># for multiple alphas, errors come in a list;</span>
+        <span class="c1"># for single alpha, they come as a single pd.Series,</span>
+        <span class="c1"># wrap it here into a list to make it iterable,</span>
+        <span class="c1"># to avoid code duplication</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+            <span class="n">errors</span> <span class="o">=</span> <span class="p">[</span><span class="n">errors</span><span class="p">]</span>
+
+        <span class="c1"># compute prediction intervals</span>
+        <span class="n">pred_int</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+                <span class="s2">&quot;lower&quot;</span><span class="p">:</span> <span class="n">y_pred</span> <span class="o">-</span> <span class="n">error</span><span class="p">,</span>
+                <span class="s2">&quot;upper&quot;</span><span class="p">:</span> <span class="n">y_pred</span> <span class="o">+</span> <span class="n">error</span>
+            <span class="p">})</span>
+            <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">errors</span>
+        <span class="p">]</span>
+
+        <span class="c1"># for a single alpha, return single pd.DataFrame</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred_int</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pred_int</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># otherwise return list of pd.DataFrames</span>
+        <span class="k">return</span> <span class="n">pred_int</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

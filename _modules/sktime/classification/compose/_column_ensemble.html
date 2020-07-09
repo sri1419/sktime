@@ -1,0 +1,601 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.classification.compose._column_ensemble &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.classification.compose._column_ensemble</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.classification.compose._column_ensemble</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; ColumnEnsembleClassifier: For Multivariate Time Series Classification.</span>
+<span class="sd">Builds classifiers on each dimension (column) independently</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Aaron Bostrom&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ColumnEnsembleClassifier&quot;</span><span class="p">]</span>
+
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">clone</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span> <span class="nn">sktime.base</span> <span class="kn">import</span> <span class="n">BaseHeterogenousMetaEstimator</span>
+<span class="kn">from</span> <span class="nn">sktime.classification.base</span> <span class="kn">import</span> <span class="n">BaseClassifier</span>
+
+
+<span class="k">class</span> <span class="nc">BaseColumnEnsembleClassifier</span><span class="p">(</span><span class="n">BaseClassifier</span><span class="p">,</span>
+                                   <span class="n">BaseHeterogenousMetaEstimator</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimators</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">estimators</span> <span class="o">=</span> <span class="n">estimators</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remainder</span> <span class="o">=</span> <span class="s2">&quot;drop&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BaseColumnEnsembleClassifier</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_estimators</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">estimator</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimators</span><span class="p">]</span>
+
+    <span class="nd">@_estimators</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">_estimators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">estimators</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span> <span class="k">for</span> <span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">estimator</span><span class="p">),</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">col</span><span class="p">))</span>
+            <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimators</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">_validate_estimators</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimators</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">names</span><span class="p">,</span> <span class="n">estimators</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">estimators</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_names</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+
+        <span class="c1"># validate estimators</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">estimators</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="s1">&#39;drop&#39;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s2">&quot;fit&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s2">&quot;predict_proba&quot;</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s2">&quot;All estimators should implement fit and predict proba&quot;</span>
+                    <span class="s2">&quot;or can be &#39;drop&#39; &quot;</span>
+                    <span class="s2">&quot;specifiers. &#39;</span><span class="si">%s</span><span class="s2">&#39; (type </span><span class="si">%s</span><span class="s2">) doesn&#39;t.&quot;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">)))</span>
+
+    <span class="c1"># this check whether the column input was a slice object or a tuple.</span>
+    <span class="k">def</span> <span class="nf">_validate_column_callables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Converts callable column specifications.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimators</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">column</span><span class="p">):</span>
+                <span class="n">column</span> <span class="o">=</span> <span class="n">column</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_columns</span> <span class="o">=</span> <span class="n">columns</span>
+
+    <span class="k">def</span> <span class="nf">_validate_remainder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validates ``remainder`` and defines ``_remainder`` targeting</span>
+<span class="sd">        the remaining columns.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">is_estimator</span> <span class="o">=</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remainder</span><span class="p">,</span> <span class="s2">&quot;fit&quot;</span><span class="p">)</span>
+                        <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remainder</span><span class="p">,</span> <span class="s2">&quot;predict_proba&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remainder</span> <span class="o">!=</span> <span class="s1">&#39;drop&#39;</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_estimator</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The remainder keyword needs to be &#39;drop&#39;, &#39;</span><span class="si">%s</span><span class="s2">&#39; was passed &quot;</span>
+                <span class="s2">&quot;instead&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">remainder</span><span class="p">)</span>
+
+        <span class="n">n_columns</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">columns</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_columns</span><span class="p">:</span>
+            <span class="n">cols</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">_get_column_indices</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">columns</span><span class="p">))</span>
+        <span class="n">remaining_idx</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_columns</span><span class="p">))</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">cols</span><span class="p">)))</span> <span class="ow">or</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_remainder</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;remainder&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">remainder</span><span class="p">,</span> <span class="n">remaining_idx</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_iter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">replace_strings</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate (name, estimator, column) tuples.</span>
+
+<span class="sd">        If fitted=True, use the fitted transformers, else use the</span>
+<span class="sd">        user specified transformers updated with converted column names</span>
+<span class="sd">        and potentially appended with transformer for remainder.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_fitted</span><span class="p">:</span>
+            <span class="n">estimators</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimators_</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># interleave the validated column specifiers</span>
+            <span class="n">estimators</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">column</span><span class="p">)</span> <span class="k">for</span>
+                <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">_</span><span class="p">),</span> <span class="n">column</span>
+                <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">estimators</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_columns</span><span class="p">)</span>
+            <span class="p">]</span>
+
+        <span class="c1"># add transformer tuple for remainder</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remainder</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">estimators</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="n">estimators</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_remainder</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">estimators</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">replace_strings</span><span class="p">:</span>
+                <span class="c1"># skip in case of &#39;drop&#39;</span>
+                <span class="k">if</span> <span class="n">estimator</span> <span class="o">==</span> <span class="s1">&#39;drop&#39;</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">elif</span> <span class="n">_is_empty_column_selection</span><span class="p">(</span><span class="n">column</span><span class="p">):</span>
+                    <span class="k">continue</span>
+
+            <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">column</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="c1"># the data passed in could be an array of dataframes?</span>
+        <span class="sd">&quot;&quot;&quot;Fit all estimators, fit the data</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : array-like or DataFrame of shape [n_samples, n_dimensions,</span>
+<span class="sd">        n_length]</span>
+<span class="sd">            Input data, of which specified subsets are used to fit the</span>
+<span class="sd">            transformers.</span>
+
+<span class="sd">        y : array-like, shape (n_samples, ...), optional</span>
+<span class="sd">            Targets for supervised learning.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimators</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">estimators</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s1">&#39;Invalid `estimators` attribute, `estimators`&#39;</span>
+                                 <span class="s1">&#39; should be a list of (string, estimator)&#39;</span>
+                                 <span class="s1">&#39; tuples&#39;</span><span class="p">)</span>
+
+        <span class="c1"># X = _check_X(X)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_estimators</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_column_callables</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_remainder</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">le_</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">le_</span><span class="o">.</span><span class="n">classes_</span>
+        <span class="n">transformed_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">le_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="n">estimators_</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter</span><span class="p">(</span><span class="n">replace_strings</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">estimator</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="n">estimator</span><span class="p">)</span>
+            <span class="n">estimator</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">_get_column</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">column</span><span class="p">),</span>
+                          <span class="n">transformed_y</span><span class="p">)</span>
+            <span class="n">estimators_</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">column</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">estimators_</span> <span class="o">=</span> <span class="n">estimators_</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">_collect_probas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">estimator</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">_get_column</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">column</span><span class="p">))</span> <span class="k">for</span>
+             <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">column</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter</span><span class="p">(</span><span class="n">replace_strings</span><span class="o">=</span><span class="kc">True</span><span class="p">)])</span>
+
+    <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Predict class probabilities for X in &#39;soft&#39; voting &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">avg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_collect_probas</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">avg</span>
+
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">maj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">le_</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">maj</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ColumnEnsembleClassifier"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.compose.ColumnEnsembleClassifier.html#sktime.classification.compose.ColumnEnsembleClassifier">[docs]</a><span class="k">class</span> <span class="nc">ColumnEnsembleClassifier</span><span class="p">(</span><span class="n">BaseColumnEnsembleClassifier</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Applies estimators to columns of an array or pandas DataFrame.</span>
+
+<span class="sd">        This estimator allows different columns or column subsets of the input</span>
+<span class="sd">        to be transformed separately and the features generated by each</span>
+<span class="sd">        transformer</span>
+<span class="sd">        will be ensembled to form a single output.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        estimators : list of tuples</span>
+<span class="sd">            List of (name, transformer, column(s)) tuples specifying the</span>
+<span class="sd">            transformer objects to be applied to subsets of the data.</span>
+
+<span class="sd">            name : string</span>
+<span class="sd">                Like in Pipeline and FeatureUnion, this allows the</span>
+<span class="sd">                transformer and</span>
+<span class="sd">                its parameters to be set using ``set_params`` and searched</span>
+<span class="sd">                in grid</span>
+<span class="sd">                search.</span>
+<span class="sd">            Estimator : estimator or {&#39;drop&#39;}</span>
+<span class="sd">                Estimator must support `fit` and `predict_proba`. Special-cased</span>
+<span class="sd">                strings &#39;drop&#39; and &#39;passthrough&#39; are accepted as well, to</span>
+<span class="sd">                indicate to drop the columns</span>
+<span class="sd">            column(s) : string or int, array-like of string or int, slice, \</span>
+<span class="sd">                boolean mask array or callable</span>
+
+
+<span class="sd">        remainder : {&#39;drop&#39;, &#39;passthrough&#39;} or estimator, default &#39;drop&#39;</span>
+<span class="sd">            By default, only the specified columns in `transformers` are</span>
+<span class="sd">            transformed and combined in the output, and the non-specified</span>
+<span class="sd">            columns are dropped. (default of ``&#39;drop&#39;``).</span>
+<span class="sd">            By specifying ``remainder=&#39;passthrough&#39;``, all remaining columns</span>
+<span class="sd">            that</span>
+<span class="sd">            were not specified in `transformers` will be automatically passed</span>
+<span class="sd">            through. This subset of columns is concatenated with the output of</span>
+<span class="sd">            the transformers.</span>
+<span class="sd">            By setting ``remainder`` to be an estimator, the remaining</span>
+<span class="sd">            non-specified columns will use the ``remainder`` estimator. The</span>
+<span class="sd">            estimator must support :term:`fit` and :term:`transform`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_required_parameters</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;estimators&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="ColumnEnsembleClassifier.__init__"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.compose.ColumnEnsembleClassifier.html#sktime.classification.compose.ColumnEnsembleClassifier.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimators</span><span class="p">,</span> <span class="n">remainder</span><span class="o">=</span><span class="s1">&#39;drop&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remainder</span> <span class="o">=</span> <span class="n">remainder</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ColumnEnsembleClassifier</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">estimators</span><span class="p">,</span>
+                                                       <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ColumnEnsembleClassifier.get_params"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.compose.html#sktime.classification.compose.ColumnEnsembleClassifier.get_params">[docs]</a>    <span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get parameters for this estimator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        deep : boolean, optional</span>
+<span class="sd">            If True, will return the parameters for this estimator and</span>
+<span class="sd">            contained subobjects that are estimators.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        params : mapping of string to any</span>
+<span class="sd">            Parameter names mapped to their values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_params</span><span class="p">(</span><span class="s1">&#39;_estimators&#39;</span><span class="p">,</span> <span class="n">deep</span><span class="o">=</span><span class="n">deep</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ColumnEnsembleClassifier.set_params"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.compose.html#sktime.classification.compose.ColumnEnsembleClassifier.set_params">[docs]</a>    <span class="k">def</span> <span class="nf">set_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the parameters of this estimator.</span>
+
+<span class="sd">        Valid parameter keys can be listed with ``get_params()``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_params</span><span class="p">(</span><span class="s1">&#39;_estimators&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">_get_column</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get feature column(s) from input data X.</span>
+
+<span class="sd">    Supported input types (X): numpy arrays, sparse arrays and DataFrames</span>
+
+<span class="sd">    Supported key types (key):</span>
+<span class="sd">    - scalar: output is 1D</span>
+<span class="sd">    - lists, slices, boolean masks: output is 2D</span>
+<span class="sd">    - callable that returns any of the above</span>
+
+<span class="sd">    Supported key data types:</span>
+
+<span class="sd">    - integer or boolean mask (positional):</span>
+<span class="sd">        - supported for arrays, sparse matrices and dataframes</span>
+<span class="sd">    - string (key-based):</span>
+<span class="sd">        - only supported for dataframes</span>
+<span class="sd">        - So no keys other than strings are allowed (while in principle you</span>
+<span class="sd">          can use any hashable object as key).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># check whether we have string column names or integers</span>
+    <span class="k">if</span> <span class="n">_check_key_type</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">column_names</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">elif</span> <span class="n">_check_key_type</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">column_names</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s1">&#39;dtype&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">):</span>
+        <span class="c1"># boolean mask</span>
+        <span class="n">column_names</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No valid specification of the columns. Only a &quot;</span>
+                         <span class="s2">&quot;scalar, list or slice of all integers or all &quot;</span>
+                         <span class="s2">&quot;strings, or boolean mask is allowed&quot;</span><span class="p">)</span>
+
+    <span class="c1"># ensure that pd.DataFrame is returned rather than</span>
+    <span class="c1"># pd.Series</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">column_names</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">key</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="n">key</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">_check_key_type</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">superclass</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check that scalar, list or slice is of a certain type.</span>
+
+<span class="sd">    This is only used in _get_column and _get_column_indices to check</span>
+<span class="sd">    if the `key` (column specification) is fully integer or fully string-like.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    key : scalar, list, slice, array-like</span>
+<span class="sd">        The column specification to check</span>
+<span class="sd">    superclass : int or str</span>
+<span class="sd">        The type for which to check the `key`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">superclass</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="p">(</span><span class="n">superclass</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)))</span> <span class="ow">and</span>
+                <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="p">(</span><span class="n">superclass</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))))</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">superclass</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">key</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s1">&#39;dtype&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">superclass</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">key</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;i&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># superclass = str</span>
+            <span class="k">return</span> <span class="n">key</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span> <span class="nf">_get_column_indices</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get feature column indices for input data X and key.</span>
+
+<span class="sd">    For accepted values of `key`, see the docstring of _get_column</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_columns</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">_check_key_type</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s1">&#39;dtype&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)):</span>
+        <span class="c1"># Convert key into positive indexes</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_columns</span><span class="p">)[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">_check_key_type</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">all_columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Specifying the columns using strings is only &quot;</span>
+                             <span class="s2">&quot;supported for pandas DataFrames&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">key</span><span class="o">.</span><span class="n">stop</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">all_columns</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># pandas indexing with strings is endpoint included</span>
+                <span class="n">stop</span> <span class="o">=</span> <span class="n">all_columns</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">stop</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">stop</span> <span class="o">=</span> <span class="n">n_columns</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_columns</span><span class="p">)[</span><span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">all_columns</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No valid specification of the columns. Only a &quot;</span>
+                         <span class="s2">&quot;scalar, list or slice of all integers or all &quot;</span>
+                         <span class="s2">&quot;strings, or boolean mask is allowed&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_is_empty_column_selection</span><span class="p">(</span><span class="n">column</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return True if the column selection is empty (empty list or all-False</span>
+<span class="sd">    boolean array).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="s1">&#39;dtype&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">column</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">column</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="s1">&#39;__len__&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">column</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

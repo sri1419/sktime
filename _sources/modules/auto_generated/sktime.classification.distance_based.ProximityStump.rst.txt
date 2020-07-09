@@ -1,0 +1,16 @@
+:mod:`sktime.classification.distance_based`.ProximityStump
+=================================================================
+
+.. currentmodule:: sktime.classification.distance_based
+
+.. autoclass:: ProximityStump
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.classification.distance_based.ProximityStump.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

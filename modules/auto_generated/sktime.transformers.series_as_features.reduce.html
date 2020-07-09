@@ -1,0 +1,301 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.transformers.series_as_features.reduce &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>sktime.transformers.series_as_features.reduce</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-sktime.transformers.series_as_features.reduce">
+<span id="sktime-transformers-series-as-features-reduce"></span><h1>sktime.transformers.series_as_features.reduce<a class="headerlink" href="#module-sktime.transformers.series_as_features.reduce" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="sktime.transformers.series_as_features.reduce.Tabularizer">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.transformers.series_as_features.reduce.</code><code class="sig-name descname">Tabularizer</code><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/reduce.html#Tabularizer"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/reduce.py#L16-L71"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.reduce.Tabularizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sktime.transformers.series_as_features.base.html#sktime.transformers.series_as_features.base.BaseSeriesAsFeaturesTransformer" title="sktime.transformers.series_as_features.base.BaseSeriesAsFeaturesTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.transformers.series_as_features.base.BaseSeriesAsFeaturesTransformer</span></code></a></p>
+<p>A transformer that turns time series/panel data into tabular data.</p>
+<p>This estimator converts nested pandas dataframe containing
+time-series/panel data with numpy arrays or pandas Series in
+dataframe cells into a tabular pandas dataframe with only primitives in
+cells. This is useful for transforming
+time-series/panel data into a format that is accepted by standard
+validation learning algorithms (as in sklearn).</p>
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.reduce.Tabularizer.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/reduce.html#Tabularizer.fit"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/reduce.py#L28-L33"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.reduce.Tabularizer.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>empty fit function, which inheriting transformers can override
+if need be.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.reduce.Tabularizer.inverse_transform">
+<code class="sig-name descname">inverse_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/reduce.html#Tabularizer.inverse_transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/reduce.py#L53-L71"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.reduce.Tabularizer.inverse_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform tabular pandas dataframe into nested dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>pandas DataFrame</em>) – Tabular dataframe with primitives in cells.</p></li>
+<li><p><strong>y</strong> (<em>array-like</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Xt</strong> – Transformed dataframe with series in cells.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.reduce.Tabularizer.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/reduce.html#Tabularizer.transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/reduce.py#L35-L51"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.reduce.Tabularizer.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform nested pandas dataframe into tabular dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>pandas DataFrame</em>) – Nested dataframe with pandas series or numpy arrays in cells.</p></li>
+<li><p><strong>y</strong> (<em>array-like</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Xt</strong> – Transformed dataframe with only primitives in cells.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

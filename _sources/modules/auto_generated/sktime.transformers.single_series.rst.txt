@@ -1,0 +1,23 @@
+sktime.transformers.single\_series
+----------------------------------
+
+.. automodule:: sktime.transformers.single_series
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   sktime.transformers.single_series.detrend
+
+Submodules
+----------
+
+.. toctree::
+
+   sktime.transformers.single_series.adapt
+   sktime.transformers.single_series.base
+   sktime.transformers.single_series.boxcox

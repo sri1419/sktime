@@ -1,0 +1,377 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.transformers.series_as_features.matrix_profile &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>sktime.transformers.series_as_features.matrix_profile</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-sktime.transformers.series_as_features.matrix_profile">
+<span id="sktime-transformers-series-as-features-matrix-profile"></span><h1>sktime.transformers.series_as_features.matrix_profile<a class="headerlink" href="#module-sktime.transformers.series_as_features.matrix_profile" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="sktime.transformers.series_as_features.matrix_profile.MatrixProfile">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.transformers.series_as_features.matrix_profile.</code><code class="sig-name descname">MatrixProfile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">m</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/matrix_profile.html#MatrixProfile"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/matrix_profile.py#L193-L240"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.matrix_profile.MatrixProfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sktime.transformers.series_as_features.base.html#sktime.transformers.series_as_features.base.BaseSeriesAsFeaturesTransformer" title="sktime.transformers.series_as_features.base.BaseSeriesAsFeaturesTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.transformers.series_as_features.base.BaseSeriesAsFeaturesTransformer</span></code></a></p>
+<p>Takes as input a time series dataset and returns the matrix profile and
+index profile for each time series of the dataset.</p>
+<p>Example of use:
+# Xt = MatrixProfile(m).transform(X)
+X, a pandas DataFrame, is the the dataset.
+m, an integer, is the desired subsequence length to be used.
+Xt is the transformed X, i.e., a pandas DataFrame with the same number
+of rows as X, but each row has the matrix profile for the
+corresponding time series.</p>
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.matrix_profile.MatrixProfile.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/matrix_profile.html#MatrixProfile.transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/matrix_profile.py#L211-L240"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.matrix_profile.MatrixProfile.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes as input a time series dataset and returns the matrix profile
+for each single time series of the dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>pandas.DataFrame</em>) – Time series dataset.</p>
+</dd>
+</dl>
+<blockquote>
+<div><dl class="simple">
+<dt>Xt: pandas.DataFrame</dt><dd><p>Dataframe with the same number of rows as the input.
+The number of columns equals the number of subsequences
+of the desired length in each time series.</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.transformers.series_as_features.matrix_profile.calculate_distance_profile">
+<code class="sig-prename descclassname">sktime.transformers.series_as_features.matrix_profile.</code><code class="sig-name descname">calculate_distance_profile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dot_prod</span></em>, <em class="sig-param"><span class="n">q_mean</span></em>, <em class="sig-param"><span class="n">q_std</span></em>, <em class="sig-param"><span class="n">t_mean</span></em>, <em class="sig-param"><span class="n">t_std</span></em>, <em class="sig-param"><span class="n">q_len</span></em>, <em class="sig-param"><span class="n">n_t_subs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/matrix_profile.html#calculate_distance_profile"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/matrix_profile.py#L50-L85"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.matrix_profile.calculate_distance_profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the distance profile for the given query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dot_prod</strong> (<em>numpy.array</em>) – Sliding dot products between the time series and the query.</p></li>
+<li><p><strong>q_mean</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Mean of the elements of the query.</p></li>
+<li><p><strong>q_std</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Standard deviation of elements of the query.</p></li>
+<li><p><strong>t_mean</strong> (<em>numpy.array</em>) – Array with the mean of the elements from each subsequence of
+length(query) from the time series.</p></li>
+<li><p><strong>t_std</strong> (<em>numpy.array</em>) – Array with the standard deviation of the elements from each
+subsequence of length(query) from the time series.</p></li>
+<li><p><strong>q_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Length of the query.</p></li>
+<li><p><strong>n_t_subs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of subsequences in the time series.</p></li>
+</ul>
+</dd>
+</dl>
+<blockquote>
+<div><dl class="simple">
+<dt>d: numpy.array</dt><dd><p>Distance profile of query q.</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.transformers.series_as_features.matrix_profile.minimum_distance">
+<code class="sig-prename descclassname">sktime.transformers.series_as_features.matrix_profile.</code><code class="sig-name descname">minimum_distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mp</span></em>, <em class="sig-param"><span class="n">ip</span></em>, <em class="sig-param"><span class="n">dp</span></em>, <em class="sig-param"><span class="n">i</span></em>, <em class="sig-param"><span class="n">m</span></em>, <em class="sig-param"><span class="n">dp_len</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/matrix_profile.html#minimum_distance"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/matrix_profile.py#L88-L129"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.matrix_profile.minimum_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the minimum distance in the distance profile, considering the
+exclusion zone.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mp</strong> (<em>numpy.array</em>) – Matrix profile.</p></li>
+<li><p><strong>ip</strong> (<em>numpy.array</em>) – Index profile.</p></li>
+<li><p><strong>dp</strong> (<em>numpy.array</em>) – Distance profile.</p></li>
+<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Index of the element to be compared from the matrix profile.</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Length of the subsequences.</p></li>
+<li><p><strong>dp_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Length of the distance profile.</p></li>
+</ul>
+</dd>
+</dl>
+<blockquote>
+<div><dl class="simple">
+<dt>mp: numpy.array</dt><dd><p>Array with the distance between every subsequence and its
+nearest neighbor from the same time series.</p>
+</dd>
+<dt>ip: numpy.array</dt><dd><p>Array with the indexes of the nearest neighbors of each
+subsequence.</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.transformers.series_as_features.matrix_profile.sliding_dot_products">
+<code class="sig-prename descclassname">sktime.transformers.series_as_features.matrix_profile.</code><code class="sig-name descname">sliding_dot_products</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">t</span></em>, <em class="sig-param"><span class="n">q_len</span></em>, <em class="sig-param"><span class="n">t_len</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/matrix_profile.html#sliding_dot_products"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/matrix_profile.py#L9-L47"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.matrix_profile.sliding_dot_products" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the sliding dot products between a query and a time series.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>q</strong> (<em>numpy.array</em>) – Query.</p></li>
+<li><p><strong>t</strong> (<em>numpy.array</em>) – Time series.</p></li>
+<li><p><strong>q_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Length of the query.</p></li>
+<li><p><strong>t_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Length of the time series.</p></li>
+</ul>
+</dd>
+</dl>
+<blockquote>
+<div><dl class="simple">
+<dt>dot_prod: numpy.array</dt><dd><p>Sliding dot products between q and t.</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.transformers.series_as_features.matrix_profile.stomp_self">
+<code class="sig-prename descclassname">sktime.transformers.series_as_features.matrix_profile.</code><code class="sig-name descname">stomp_self</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ts</span></em>, <em class="sig-param"><span class="n">m</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/matrix_profile.html#stomp_self"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/matrix_profile.py#L132-L190"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.matrix_profile.stomp_self" title="Permalink to this definition">¶</a></dt>
+<dd><p>STOMP implementation for self-similarity join.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ts</strong> (<em>numpy.array</em>) – Time series.</p></li>
+<li><p><strong>m</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Length of the subsequences.</p></li>
+</ul>
+</dd>
+</dl>
+<blockquote>
+<div><dl class="simple">
+<dt>mp: numpy.array</dt><dd><p>Array with the distance between every subsequence from ts1
+to the nearest subsequence with same length from ts2.</p>
+</dd>
+<dt>ip: numpy.array</dt><dd><p>Array with the index of the nearest neighbor of ts1 in ts2.</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

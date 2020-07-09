@@ -1,0 +1,30 @@
+sktime.utils
+------------
+
+.. automodule:: sktime.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   sktime.utils.plotting
+   sktime.utils.validation
+
+Submodules
+----------
+
+.. toctree::
+
+   sktime.utils.boxcox
+   sktime.utils.comparison
+   sktime.utils.confidence
+   sktime.utils.data_container
+   sktime.utils.dataset_properties
+   sktime.utils.load_data
+   sktime.utils.results_writing
+   sktime.utils.seasonality
+   sktime.utils.time_series

@@ -1,0 +1,7 @@
+sktime.utils.confidence
+-----------------------
+
+.. automodule:: sktime.utils.confidence
+   :members:
+   :undoc-members:
+   :show-inheritance:

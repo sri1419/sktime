@@ -1,0 +1,508 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.forecasting.compose &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>sktime.forecasting.compose</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-sktime.forecasting.compose">
+<span id="sktime-forecasting-compose"></span><h1>sktime.forecasting.compose<a class="headerlink" href="#module-sktime.forecasting.compose" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="sktime.forecasting.compose.DirectRegressionForecaster">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.forecasting.compose.</code><code class="sig-name descname">DirectRegressionForecaster</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">regressor</span></em>, <em class="sig-param"><span class="n">window_length</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">step_length</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_reduce.html#DirectRegressionForecaster"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_reduce.py#L347-L348"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.DirectRegressionForecaster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.forecasting.compose._reduce.ReducedTabularRegressorMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.forecasting.compose._reduce._DirectReducer</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.forecasting.compose.DirectTimeSeriesRegressionForecaster">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.forecasting.compose.</code><code class="sig-name descname">DirectTimeSeriesRegressionForecaster</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">regressor</span></em>, <em class="sig-param"><span class="n">window_length</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">step_length</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_reduce.html#DirectTimeSeriesRegressionForecaster"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_reduce.py#L358-L360"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.DirectTimeSeriesRegressionForecaster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.forecasting.compose._reduce.ReducedTimeSeriesRegressorMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.forecasting.compose._reduce._DirectReducer</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.forecasting.compose.EnsembleForecaster">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.forecasting.compose.</code><code class="sig-name descname">EnsembleForecaster</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">forecasters</span></em>, <em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_ensemble.html#EnsembleForecaster"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_ensemble.py#L14-L78"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.EnsembleForecaster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.forecasting.base._sktime.OptionalForecastingHorizonMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.forecasting.base._meta.BaseHeterogenousEnsembleForecaster</span></code></p>
+<p>Ensemble of forecasters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>forecasters</strong> (<em>list of</em><em> (</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>, </em><em>estimator</em><em>) </em><em>tuples</em>) – </p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – The number of jobs to run in parallel for fit. None means 1 unless
+in a joblib.parallel_backend context.
+-1 means using all processors.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="sktime.forecasting.compose.EnsembleForecaster.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y_train</span></em>, <em class="sig-param"><span class="n">fh</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">X_train</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_ensemble.html#EnsembleForecaster.fit"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_ensemble.py#L33-L53"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.EnsembleForecaster.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit to training data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_train</strong> (<em>pd.Series</em>) – Target time series to which to fit the forecaster.</p></li>
+<li><p><strong>fh</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em> or </em><em>np.array</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – The forecasters horizon with the steps ahead to to predict.</p></li>
+<li><p><strong>X_train</strong> (<em>pd.DataFrame</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Exogenous variables are ignored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>self</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>returns an instance of self.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.forecasting.compose.EnsembleForecaster.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y_new</span></em>, <em class="sig-param"><span class="n">X_new</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">update_params</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_ensemble.html#EnsembleForecaster.update"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_ensemble.py#L55-L72"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.EnsembleForecaster.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update fitted paramters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_new</strong> (<em>pd.Series</em>) – </p></li>
+<li><p><strong>X_new</strong> (<em>pd.DataFrame</em>) – </p></li>
+<li><p><strong>update_params</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=False</em><em>)</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>self</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>an instance of self</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.forecasting.compose.RecursiveRegressionForecaster">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.forecasting.compose.</code><code class="sig-name descname">RecursiveRegressionForecaster</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">regressor</span></em>, <em class="sig-param"><span class="n">window_length</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">step_length</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_reduce.html#RecursiveRegressionForecaster"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_reduce.py#L351-L353"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.RecursiveRegressionForecaster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.forecasting.compose._reduce.ReducedTabularRegressorMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.forecasting.compose._reduce._RecursiveReducer</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.forecasting.compose.RecursiveTimeSeriesRegressionForecaster">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.forecasting.compose.</code><code class="sig-name descname">RecursiveTimeSeriesRegressionForecaster</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">regressor</span></em>, <em class="sig-param"><span class="n">window_length</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">step_length</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_reduce.html#RecursiveTimeSeriesRegressionForecaster"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_reduce.py#L363-L365"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.RecursiveTimeSeriesRegressionForecaster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.forecasting.compose._reduce.ReducedTimeSeriesRegressorMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.forecasting.compose._reduce._RecursiveReducer</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.forecasting.compose.ReducedRegressionForecaster">
+<code class="sig-prename descclassname">sktime.forecasting.compose.</code><code class="sig-name descname">ReducedRegressionForecaster</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">regressor</span></em>, <em class="sig-param"><span class="n">strategy</span><span class="o">=</span><span class="default_value">'recursive'</span></em>, <em class="sig-param"><span class="n">window_length</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">step_length</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_reduce.html#ReducedRegressionForecaster"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_reduce.py#L398-L422"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.ReducedRegressionForecaster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forecasting based on reduction to tabular regression.</p>
+<p>When fitting, a rolling window approach is used to first transform the
+target series into panel data which is
+then used to train a regressor. During prediction, the last available
+data is used as input to the
+fitted regressors to make forecasts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>regressor</strong> (<em>a regressor</em>) – </p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>..[1] Bontempi, Gianluca &amp; Ben Taieb, Souhaib &amp; Le Borgne, Yann-Aël. (
+2013).</p>
+<blockquote>
+<div><p>Machine Learning Strategies for Time Series Forecasting.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.forecasting.compose.ReducedTimeSeriesRegressionForecaster">
+<code class="sig-prename descclassname">sktime.forecasting.compose.</code><code class="sig-name descname">ReducedTimeSeriesRegressionForecaster</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ts_regressor</span></em>, <em class="sig-param"><span class="n">strategy</span><span class="o">=</span><span class="default_value">'recursive'</span></em>, <em class="sig-param"><span class="n">window_length</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">step_length</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_reduce.html#ReducedTimeSeriesRegressionForecaster"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_reduce.py#L371-L395"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.ReducedTimeSeriesRegressionForecaster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forecasting based on reduction to time series regression.</p>
+<p>When fitting, a rolling window approach is used to first transform the
+target series into panel data which is
+then used to train a time series regressor. During prediction, the last
+available data is used as input to the
+fitted time series regressors to make forecasts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ts_regressor</strong> (<em>a time series regressor</em>) – </p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>..[1] Bontempi, Gianluca &amp; Ben Taieb, Souhaib &amp; Le Borgne, Yann-Aël. (
+2013).</p>
+<blockquote>
+<div><p>Machine Learning Strategies for Time Series Forecasting.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.forecasting.compose.StackingForecaster">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.forecasting.compose.</code><code class="sig-name descname">StackingForecaster</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">forecasters</span></em>, <em class="sig-param"><span class="n">final_regressor</span></em>, <em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_stack.html#StackingForecaster"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_stack.py#L20-L108"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.StackingForecaster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.forecasting.base._sktime.RequiredForecastingHorizonMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.forecasting.base._meta.BaseHeterogenousEnsembleForecaster</span></code></p>
+<dl class="py method">
+<dt id="sktime.forecasting.compose.StackingForecaster.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y_train</span></em>, <em class="sig-param"><span class="n">fh</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">X_train</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_stack.html#StackingForecaster.fit"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_stack.py#L30-L73"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.StackingForecaster.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit to training data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_train</strong> (<em>pd.Series</em>) – Target time series to which to fit the forecaster.</p></li>
+<li><p><strong>fh</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em> or </em><em>np.array</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – The forecasters horizon with the steps ahead to to predict.</p></li>
+<li><p><strong>X_train</strong> (<em>pd.DataFrame</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Exogenous variables are ignored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>self</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>returns an instance of self.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.forecasting.compose.StackingForecaster.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y_new</span></em>, <em class="sig-param"><span class="n">X_new</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">update_params</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_stack.html#StackingForecaster.update"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_stack.py#L75-L94"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.StackingForecaster.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update fitted paramters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_new</strong> (<em>pd.Series</em>) – </p></li>
+<li><p><strong>X_new</strong> (<em>pd.DataFrame</em>) – </p></li>
+<li><p><strong>update_params</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=False</em><em>)</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>self</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>an instance of self</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.forecasting.compose.TransformedTargetForecaster">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.forecasting.compose.</code><code class="sig-name descname">TransformedTargetForecaster</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">steps</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_pipeline.html#TransformedTargetForecaster"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_pipeline.py#L19-L197"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.TransformedTargetForecaster" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.forecasting.base._meta.MetaForecasterMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.forecasting.base._sktime.OptionalForecastingHorizonMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.forecasting.base._sktime.BaseSktimeForecaster</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.base._meta.BaseHeterogenousMetaEstimator</span></code></p>
+<p>Meta-estimator for forecasting transformed time series.</p>
+<dl class="py method">
+<dt id="sktime.forecasting.compose.TransformedTargetForecaster.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y_train</span></em>, <em class="sig-param"><span class="n">fh</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">X_train</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_pipeline.html#TransformedTargetForecaster.fit"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_pipeline.py#L83-L116"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.TransformedTargetForecaster.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit to training data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_train</strong> (<em>pd.Series</em>) – Target time series to which to fit the forecaster.</p></li>
+<li><p><strong>fh</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em> or </em><em>np.array</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – The forecasters horizon with the steps ahead to to predict.</p></li>
+<li><p><strong>X_train</strong> (<em>pd.DataFrame</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Exogenous variables are ignored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>self</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>returns an instance of self.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.forecasting.compose.TransformedTargetForecaster.get_params">
+<code class="sig-name descname">get_params</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">deep</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_pipeline.html#TransformedTargetForecaster.get_params"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_pipeline.py#L175-L187"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.TransformedTargetForecaster.get_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for this estimator.
+:param deep: If True, will return the parameters for this estimator and</p>
+<blockquote>
+<div><p>contained subobjects that are estimators.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>params</strong> – Parameter names mapped to their values.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>mapping of string to any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.forecasting.compose.TransformedTargetForecaster.inverse_transform">
+<code class="sig-name descname">inverse_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_pipeline.html#TransformedTargetForecaster.inverse_transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_pipeline.py#L167-L173"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.TransformedTargetForecaster.inverse_transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sktime.forecasting.compose.TransformedTargetForecaster.named_steps">
+<em class="property">property </em><code class="sig-name descname">named_steps</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.TransformedTargetForecaster.named_steps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map the steps to a dictionary</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.forecasting.compose.TransformedTargetForecaster.set_params">
+<code class="sig-name descname">set_params</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_pipeline.html#TransformedTargetForecaster.set_params"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_pipeline.py#L189-L197"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.TransformedTargetForecaster.set_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the parameters of this estimator.
+Valid parameter keys can be listed with <code class="docutils literal notranslate"><span class="pre">get_params()</span></code>.
+:returns:
+:rtype: self</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.forecasting.compose.TransformedTargetForecaster.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_pipeline.html#TransformedTargetForecaster.transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_pipeline.py#L160-L165"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.TransformedTargetForecaster.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sktime.forecasting.compose.TransformedTargetForecaster.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y_new</span></em>, <em class="sig-param"><span class="n">X_new</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">update_params</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/forecasting/compose/_pipeline.html#TransformedTargetForecaster.update"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/forecasting/compose/_pipeline.py#L134-L158"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.forecasting.compose.TransformedTargetForecaster.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update fitted paramters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_new</strong> (<em>pd.Series</em>) – </p></li>
+<li><p><strong>X_new</strong> (<em>pd.DataFrame</em>) – </p></li>
+<li><p><strong>update_params</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=False</em><em>)</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>self</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>an instance of self</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

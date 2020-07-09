@@ -1,0 +1,16 @@
+:mod:`sktime.transformers.single_series.detrend`.Deseasonalizer
+======================================================================
+
+.. currentmodule:: sktime.transformers.single_series.detrend
+
+.. autoclass:: Deseasonalizer
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.transformers.single_series.detrend.Deseasonalizer.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

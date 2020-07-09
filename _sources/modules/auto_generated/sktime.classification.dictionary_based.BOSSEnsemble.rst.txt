@@ -1,0 +1,16 @@
+:mod:`sktime.classification.dictionary_based`.BOSSEnsemble
+=================================================================
+
+.. currentmodule:: sktime.classification.dictionary_based
+
+.. autoclass:: BOSSEnsemble
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.classification.dictionary_based.BOSSEnsemble.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

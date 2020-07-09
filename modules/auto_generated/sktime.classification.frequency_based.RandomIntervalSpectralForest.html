@@ -1,0 +1,353 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.classification.frequency_based.RandomIntervalSpectralForest &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.classification.frequency_based</span></code>.RandomIntervalSpectralForest</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="sktime-classification-frequency-based-randomintervalspectralforest">
+<h1><a class="reference internal" href="sktime.classification.frequency_based.html#module-sktime.classification.frequency_based" title="sktime.classification.frequency_based"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.classification.frequency_based</span></code></a>.RandomIntervalSpectralForest<a class="headerlink" href="#sktime-classification-frequency-based-randomintervalspectralforest" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="sktime.classification.frequency_based.RandomIntervalSpectralForest">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.classification.frequency_based.</code><code class="sig-name descname">RandomIntervalSpectralForest</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_estimators</span><span class="o">=</span><span class="default_value">200</span></em>, <em class="sig-param"><span class="n">random_state</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_interval</span><span class="o">=</span><span class="default_value">16</span></em>, <em class="sig-param"><span class="n">acf_lag</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">acf_min_values</span><span class="o">=</span><span class="default_value">4</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/classification/frequency_based/_rise.html#RandomIntervalSpectralForest"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/frequency_based/_rise.py#L21-L215"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.frequency_based.RandomIntervalSpectralForest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Random Interval Spectral Forest (RISE).</p>
+<p>Random Interval Spectral Forest: stripped down implementation of RISE
+from Lines 2018:
+&#64;article
+{lines17hive-cote,</p>
+<blockquote>
+<div><dl class="simple">
+<dt>author = {J. Lines, S. Taylor and A. Bagnall},</dt><dd><p>title = {Time Series Classification with HIVE-COTE: The
+Hierarchical Vote Collective of Transformation-Based Ensembles},</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>journal = {ACM Transactions on Knowledge and Data Engineering},
+volume = {12},
+number= {5},
+year = {2018}</p>
+<p>Overview: Input n series length m
+for each tree</p>
+<blockquote>
+<div><p>sample a random intervals
+take the ACF and PS over this interval, and concatenate features
+build tree on new features</p>
+</div></blockquote>
+<p>ensemble the trees through averaging probabilities.
+Need to have a minimum interval for each tree
+This is from the python github.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_estimators</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>ensemble size</em><em>, </em><em>optional</em><em> (</em><em>default = 200</em><em>)</em>) – </p></li>
+<li><p><strong>random_state</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>seed for random</em><em>, </em><em>integer</em><em>, </em><em>optional</em><em> (</em><em>default to no</em>) – </p></li>
+<li><p><strong>seed</strong><strong>)</strong> – </p></li>
+<li><p><strong>min_interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>minimum width of an interval</em><em>, </em><em>optional</em><em> (</em><em>default =</em>) – </p></li>
+<li><p><strong>16</strong><strong>)</strong> – </p></li>
+<li><p><strong>acf_lag</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>maximum number of autocorellation terms to use</em><em> (</em>) – </p></li>
+<li><p><strong>=100</strong><strong>)</strong> (<em>default</em>) – </p></li>
+<li><p><strong>acf_min_values</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>never use fewer than this number of terms to fnd</em>) – </p></li>
+<li><p><strong>correlation</strong><strong> (</strong><strong>default =4</strong><strong>)</strong> (<em>a</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="sktime.classification.frequency_based.RandomIntervalSpectralForest.n_classes">
+<code class="sig-name descname">n_classes</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/frequency_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.frequency_based.RandomIntervalSpectralForest.n_classes" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>, extracted from the data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.frequency_based.RandomIntervalSpectralForest.classifiers">
+<code class="sig-name descname">classifiers</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/frequency_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.frequency_based.RandomIntervalSpectralForest.classifiers" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>array of shape = [n_estimators] of DecisionTree</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="id0">
+<code class="sig-name descname">classifiers</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/frequency_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.frequency_based.RandomIntervalSpectralForest.intervals">
+<code class="sig-name descname">intervals</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/frequency_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.frequency_based.RandomIntervalSpectralForest.intervals" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>array of shape = [n_estimators][2] stores indexes of</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.frequency_based.RandomIntervalSpectralForest.start">
+<code class="sig-name descname">start</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/frequency_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.frequency_based.RandomIntervalSpectralForest.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">and end points for all classifiers</code></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">TO DO</code></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>handle missing values, unequal length series and multivariate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.frequency_based.RandomIntervalSpectralForest.problems">
+<code class="sig-name descname">problems</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/frequency_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.frequency_based.RandomIntervalSpectralForest.problems" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sktime.classification.frequency_based.RandomIntervalSpectralForest.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_estimators</span><span class="o">=</span><span class="default_value">200</span></em>, <em class="sig-param"><span class="n">random_state</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_interval</span><span class="o">=</span><span class="default_value">16</span></em>, <em class="sig-param"><span class="n">acf_lag</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">acf_min_values</span><span class="o">=</span><span class="default_value">4</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/classification/frequency_based/_rise.html#RandomIntervalSpectralForest.__init__"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/frequency_based/_rise.py#L73-L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.frequency_based.RandomIntervalSpectralForest.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="clearer"></div></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,275 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>How to get started &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Forecasting with sktime" href="examples/01_forecasting.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How to get started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/01_forecasting.html">Forecasting with sktime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/02_classification_univariate.html">Univariate time series classification with sktime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/03_classification_multivariate.html">Multivariate time series classification with sktime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/04_benchmarking.html">Benchmarking with sktime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/feature_extraction_with_tsfresh.html">Feature extraction with tsfresh transformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/shapelet_transform.html">Shapelets and the Shapelet Transform with sktime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/mrseql.html">Time series classification with Mr-SEQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/rocket.html">Demo of ROCKET transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/plateau_finder.html">Demo of the PlateauFinder transformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/loading_data.html">Loading data in sktime</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>How to get started</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="how-to-get-started">
+<span id="id1"></span><h1>How to get started<a class="headerlink" href="#how-to-get-started" title="Permalink to this headline">¶</a></h1>
+<p>We assume basic familiarity with <a class="reference external" href="https://scikit-learn.org/stable/">scikit-learn</a>. If you haven’t worked with scikit-learn before, check out their
+<a class="reference external" href="https://scikit-learn.org/stable/getting_started.html">getting-started guide</a>.</p>
+<p>We have a number of tutorial notebooks. If you like to run them interactively, you can launch them on Binder without
+having to install anything.</p>
+<p><a class="reference external" href="https://mybinder.org/v2/gh/alan-turing-institute/sktime/master?filepath=examples/"><img alt="binder" src="https://mybinder.org/badge_logo.svg" /></a></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/01_forecasting.html">Forecasting with sktime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/02_classification_univariate.html">Univariate time series classification with sktime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/03_classification_multivariate.html">Multivariate time series classification with sktime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/04_benchmarking.html">Benchmarking with sktime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/feature_extraction_with_tsfresh.html">Feature extraction with tsfresh transformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/shapelet_transform.html">Shapelets and the Shapelet Transform with sktime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/mrseql.html">Time series classification with Mr-SEQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/rocket.html">Demo of ROCKET transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/plateau_finder.html">Demo of the PlateauFinder transformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/loading_data.html">Loading data in sktime</a></li>
+</ul>
+</div>
+<p>The notebook files can be found <a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/master/examples">here</a>.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

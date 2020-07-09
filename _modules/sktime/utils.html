@@ -1,0 +1,346 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.utils &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.utils</h1><div class="highlight"><pre>
+<span></span><span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Markus Löning&quot;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;all_estimators&quot;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">pkgutil</span>
+<span class="kn">from</span> <span class="nn">importlib</span> <span class="kn">import</span> <span class="n">import_module</span>
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+
+<div class="viewcode-block" id="all_estimators"><a class="viewcode-back" href="../../modules/auto_generated/sktime.utils.html#sktime.utils.all_estimators">[docs]</a><span class="k">def</span> <span class="nf">all_estimators</span><span class="p">(</span><span class="n">estimator_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a list of all estimators from sktime.</span>
+
+<span class="sd">    This function crawls the module and gets all classes that inherit</span>
+<span class="sd">    from sktime&#39;s and sklearn&#39;s base classes.</span>
+
+<span class="sd">    Not included are: the base classes themselves, classes defined in test</span>
+<span class="sd">    modules.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    estimator_type : string, list of string, optional (default=None)</span>
+<span class="sd">        Which kind of estimators should be returned.</span>
+<span class="sd">        - If None, no filter is applied and all estimators are returned.</span>
+<span class="sd">        - Possible values are &#39;classifier&#39;, &#39;regressor&#39;, &#39;transformer&#39; and</span>
+<span class="sd">        &#39;forecaster&#39; to get</span>
+<span class="sd">        estimators only of these specific types, or a list of these to</span>
+<span class="sd">        get the estimators that fit at least one of the types.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    estimators : list of tuples</span>
+<span class="sd">        List of (name, class), where ``name`` is the class name as string</span>
+<span class="sd">        and ``class`` is the actual class.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ..[1]   Modified version from scikit-learn&#39;s `all_estimators()` in</span>
+<span class="sd">    sklearn.utils.__init__.py</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># lazy import to avoid circular imports</span>
+    <span class="kn">import</span> <span class="nn">warnings</span>
+    <span class="kn">from</span> <span class="nn">sktime.forecasting.base</span> <span class="kn">import</span> <span class="n">BaseForecaster</span>
+    <span class="kn">from</span> <span class="nn">sktime.classification.base</span> <span class="kn">import</span> <span class="n">BaseClassifier</span>
+    <span class="kn">from</span> <span class="nn">sktime.regression.base</span> <span class="kn">import</span> <span class="n">BaseRegressor</span>
+    <span class="kn">from</span> <span class="nn">sktime.transformers.series_as_features.base</span> <span class="kn">import</span> \
+        <span class="n">BaseSeriesAsFeaturesTransformer</span>
+    <span class="kn">from</span> <span class="nn">sktime.transformers.single_series.base</span> <span class="kn">import</span> \
+        <span class="n">BaseSingleSeriesTransformer</span>
+
+    <span class="k">def</span> <span class="nf">is_abstract</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s2">&quot;__abstractmethods__&quot;</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">__abstractmethods__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="n">all_classes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">modules_to_ignore</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;tests&quot;</span><span class="p">,</span> <span class="s2">&quot;setup&quot;</span><span class="p">,</span> <span class="s2">&quot;contrib&quot;</span><span class="p">}</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>  <span class="c1"># sktime package</span>
+
+    <span class="c1"># Ignore deprecation warnings triggered at import time and from walking</span>
+    <span class="c1"># packages</span>
+    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">importer</span><span class="p">,</span> <span class="n">modname</span><span class="p">,</span> <span class="n">ispkg</span> <span class="ow">in</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">walk_packages</span><span class="p">(</span>
+                <span class="n">path</span><span class="o">=</span><span class="p">[</span><span class="n">root</span><span class="p">],</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;sktime.&quot;</span><span class="p">):</span>
+            <span class="n">mod_parts</span> <span class="o">=</span> <span class="n">modname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+            <span class="c1"># filter modules</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">part</span> <span class="ow">in</span> <span class="n">modules_to_ignore</span> <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span>
+                   <span class="n">mod_parts</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;._&quot;</span> <span class="ow">in</span> <span class="n">modname</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">module</span> <span class="o">=</span> <span class="n">import_module</span><span class="p">(</span><span class="n">modname</span><span class="p">)</span>
+            <span class="n">classes</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">)</span>
+            <span class="n">classes</span> <span class="o">=</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">klass</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">klass</span> <span class="ow">in</span> <span class="n">classes</span>
+                       <span class="k">if</span>
+                       <span class="ow">not</span> <span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Base&quot;</span><span class="p">))]</span>
+            <span class="n">all_classes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">classes</span><span class="p">)</span>
+
+    <span class="n">all_classes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">all_classes</span><span class="p">)</span>
+
+    <span class="c1"># only keep classes that inherit from base classes</span>
+    <span class="n">base_classes</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;classifier&quot;</span><span class="p">:</span> <span class="n">BaseClassifier</span><span class="p">,</span>
+        <span class="s2">&quot;regressor&quot;</span><span class="p">:</span> <span class="n">BaseRegressor</span><span class="p">,</span>
+        <span class="s2">&quot;series_as_features_transformer&quot;</span><span class="p">:</span> <span class="n">BaseSeriesAsFeaturesTransformer</span><span class="p">,</span>
+        <span class="s2">&quot;single_series_transformer&quot;</span><span class="p">:</span> <span class="n">BaseSingleSeriesTransformer</span><span class="p">,</span>
+        <span class="s2">&quot;forecaster&quot;</span><span class="p">:</span> <span class="n">BaseForecaster</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">estimators</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_classes</span>
+                  <span class="k">if</span> <span class="p">(</span><span class="nb">issubclass</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">base_classes</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span> <span class="ow">and</span>
+                      <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">base_classes</span><span class="o">.</span><span class="n">keys</span><span class="p">())]</span>
+
+    <span class="c1"># get rid of abstract base classes</span>
+    <span class="n">estimators</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">estimators</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">is_abstract</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+
+    <span class="k">if</span> <span class="n">estimator_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">estimator_type</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">estimator_type</span> <span class="o">=</span> <span class="p">[</span><span class="n">estimator_type</span><span class="p">]</span>  <span class="c1"># make iterable</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">estimator_type</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">estimator_type</span><span class="p">)</span>  <span class="c1"># copy</span>
+        <span class="n">filtered_estimators</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">base_class</span> <span class="ow">in</span> <span class="n">base_classes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">estimator_type</span><span class="p">:</span>
+                <span class="n">estimator_type</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">filtered_estimators</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">est</span> <span class="k">for</span> <span class="n">est</span> <span class="ow">in</span> <span class="n">estimators</span>
+                                            <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">est</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">base_class</span><span class="p">)])</span>
+        <span class="n">estimators</span> <span class="o">=</span> <span class="n">filtered_estimators</span>
+
+        <span class="c1"># raise error if any filter names are still left</span>
+        <span class="n">allowed_filters</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;classifier&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;regressor&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;single_series_transformer&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;series_as_features_transformer&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;forecaster&quot;</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">estimator_type</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Parameter `estimator_type` must be None, a string, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;or a list of strings. Allowed strings values are: &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">allowed_filters</span><span class="si">}</span><span class="s2">. But found: </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">estimator_type</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># drop duplicates, sort for reproducibility</span>
+    <span class="c1"># itemgetter is used to ensure the sort does not extend to the 2nd item of</span>
+    <span class="c1"># the tuple</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">estimators</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

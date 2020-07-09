@@ -1,0 +1,625 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.forecasting.arima &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.forecasting.arima</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.forecasting.arima</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3 -u</span>
+<span class="c1"># coding: utf-8</span>
+<span class="c1"># copyright: sktime developers, BSD-3-Clause License (see LICENSE file)</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Markus Löning&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;AutoARIMA&quot;</span>
+<span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.base._base</span> <span class="kn">import</span> <span class="n">DEFAULT_ALPHA</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.base._sktime</span> <span class="kn">import</span> <span class="n">BaseSktimeForecaster</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.base._sktime</span> <span class="kn">import</span> <span class="n">OptionalForecastingHorizonMixin</span>
+
+
+<div class="viewcode-block" id="AutoARIMA"><a class="viewcode-back" href="../../../modules/auto_generated/sktime.forecasting.arima.AutoARIMA.html#sktime.forecasting.arima.AutoARIMA">[docs]</a><span class="k">class</span> <span class="nc">AutoARIMA</span><span class="p">(</span><span class="n">OptionalForecastingHorizonMixin</span><span class="p">,</span> <span class="n">BaseSktimeForecaster</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Automatically discover the optimal order for an ARIMA model.</span>
+
+<span class="sd">    The auto-ARIMA process seeks to identify the most optimal parameters</span>
+<span class="sd">    for an ARIMA model, settling on a single fitted ARIMA model. This</span>
+<span class="sd">    process is based on the commonly-used R function,</span>
+<span class="sd">    forecast::auto.arima [3].</span>
+
+<span class="sd">    Auto-ARIMA works by conducting differencing tests (i.e.,</span>
+<span class="sd">    Kwiatkowski–Phillips–Schmidt–Shin, Augmented Dickey-Fuller or</span>
+<span class="sd">    Phillips–Perron) to determine the order of differencing, d, and then</span>
+<span class="sd">    fitting models within ranges of defined start_p, max_p, start_q, max_q</span>
+<span class="sd">    ranges. If the seasonal optional is enabled, auto-ARIMA also seeks to</span>
+<span class="sd">    identify the optimal P and Q hyper-parameters after conducting the</span>
+<span class="sd">    Canova-Hansen to determine the optimal order of seasonal differencing, D.</span>
+
+<span class="sd">    In order to find the best model, auto-ARIMA optimizes for a given</span>
+<span class="sd">    information_criterion, one of (‘aic’, ‘aicc’, ‘bic’, ‘hqic’, ‘oob’)</span>
+<span class="sd">    (Akaike Information Criterion, Corrected Akaike Information Criterion,</span>
+<span class="sd">    Bayesian Information Criterion, Hannan-Quinn Information Criterion, or</span>
+<span class="sd">    “out of bag”–for validation scoring–respectively) and returns the ARIMA</span>
+<span class="sd">    which minimizes the value.</span>
+
+<span class="sd">    Note that due to stationarity issues, auto-ARIMA might not find a suitable</span>
+<span class="sd">    model that will converge. If this is the case, a ValueError will be thrown</span>
+<span class="sd">    suggesting stationarity-inducing measures be taken prior to re-fitting or</span>
+<span class="sd">    that a new range of order values be selected. Non- stepwise (i.e.,</span>
+<span class="sd">    essentially a grid search) selection can be slow, especially for seasonal</span>
+<span class="sd">    data. Stepwise algorithm is outlined in Hyndman and Khandakar (2008).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    start_p : int, optional (default=2)</span>
+<span class="sd">        The starting value of p, the order (or number of time lags)</span>
+<span class="sd">        of the auto-regressive (“AR”) model. Must be a positive integer.</span>
+<span class="sd">    d : int, optional (default=None)</span>
+<span class="sd">        The order of first-differencing. If None (by default), the value will</span>
+<span class="sd">        automatically be selected based on the results of the test (i.e.,</span>
+<span class="sd">        either the Kwiatkowski–Phillips–Schmidt–Shin, Augmented Dickey-Fuller</span>
+<span class="sd">        or the Phillips–Perron test will be conducted to find the most probable</span>
+<span class="sd">        value). Must be a positive integer or None. Note that if d is None,</span>
+<span class="sd">        the runtime could be significantly longer.</span>
+<span class="sd">    start_q : int, optional (default=2)</span>
+<span class="sd">        The starting value of q, the order of the moving-average (“MA”) model.</span>
+<span class="sd">        Must be a positive integer.</span>
+<span class="sd">    max_p : int, optional (default=5)</span>
+<span class="sd">        The maximum value of p, inclusive. Must be a positive integer greater</span>
+<span class="sd">        than or equal to start_p.</span>
+<span class="sd">    max_d : int, optional (default=2)</span>
+<span class="sd">        The maximum value of d, or the maximum number of non-seasonal</span>
+<span class="sd">        differences. Must be a positive integer greater than or equal to d.</span>
+<span class="sd">    max_q : int, optional (default=5)</span>
+<span class="sd">        he maximum value of q, inclusive. Must be a positive integer greater</span>
+<span class="sd">        than start_q.</span>
+<span class="sd">    start_P : int, optional (default=1)</span>
+<span class="sd">        The starting value of P, the order of the auto-regressive portion of</span>
+<span class="sd">        the seasonal model.</span>
+<span class="sd">    D : int, optional (default=None)</span>
+<span class="sd">        The order of the seasonal differencing. If None (by default, the value</span>
+<span class="sd">        will automatically be selected based on the results of the</span>
+<span class="sd">        seasonal_test. Must be a positive integer or None.</span>
+<span class="sd">    start_Q : int, optional (default=1)</span>
+<span class="sd">        The starting value of Q, the order of the moving-average portion of</span>
+<span class="sd">        the seasonal model.</span>
+<span class="sd">    max_P : int, optional (default=2)</span>
+<span class="sd">        The maximum value of P, inclusive. Must be a positive integer greater</span>
+<span class="sd">        than start_P.</span>
+<span class="sd">    max_D : int, optional (default=1)</span>
+<span class="sd">        The maximum value of D. Must be a positive integer greater than D.</span>
+<span class="sd">    max_Q : int, optional (default=2)</span>
+<span class="sd">        The maximum value of Q, inclusive. Must be a positive integer greater</span>
+<span class="sd">        than start_Q.</span>
+<span class="sd">    max_order : int, optional (default=5)</span>
+<span class="sd">        Maximum value of p+q+P+Q if model selection is not stepwise. If the</span>
+<span class="sd">        sum of p and q is &gt;= max_order, a model will not be fit with those</span>
+<span class="sd">        parameters, but will progress to the next combination. Default is 5.</span>
+<span class="sd">        If max_order is None, it means there are no constraints on maximum</span>
+<span class="sd">        order.</span>
+<span class="sd">    sp : int, optional (default=1)</span>
+<span class="sd">        The period for seasonal differencing, sp refers to the number of</span>
+<span class="sd">        periods in each season. For example, sp is 4 for quarterly data, 12</span>
+<span class="sd">        for monthly data, or 1 for annual (non-seasonal) data. Default is 1.</span>
+<span class="sd">        Note that if sp == 1 (i.e., is non-seasonal), seasonal will be set to</span>
+<span class="sd">        False. For more information on setting this parameter, see Setting sp.</span>
+<span class="sd">        (link to http://alkaline-ml.com/pmdarima/tips_and_tricks.html#period)</span>
+<span class="sd">    seasonal : bool, optional (default=True)</span>
+<span class="sd">        Whether to fit a seasonal ARIMA. Default is True. Note that if</span>
+<span class="sd">        seasonal is True and sp == 1, seasonal will be set to False.</span>
+<span class="sd">    stationary : bool, optional (default=False)</span>
+<span class="sd">        Whether the time-series is stationary and d should be set to zero.</span>
+<span class="sd">    information_criterion : str, optional (default=&#39;aic&#39;)</span>
+<span class="sd">        The information criterion used to select the best ARIMA model. One of</span>
+<span class="sd">        pmdarima.arima.auto_arima.VALID_CRITERIA, (‘aic’, ‘bic’, ‘hqic’,</span>
+<span class="sd">        ‘oob’).</span>
+<span class="sd">    alpha : float, optional (default=0.05)</span>
+<span class="sd">        Level of the test for testing significance.</span>
+<span class="sd">    test : str, optional (default=&#39;kpss&#39;)</span>
+<span class="sd">        Type of unit root test to use in order to detect stationarity if</span>
+<span class="sd">        stationary is False and d is None.</span>
+<span class="sd">    seasonal_test : str, optional (default=&#39;ocsb&#39;)</span>
+<span class="sd">        This determines which seasonal unit root test is used if seasonal is</span>
+<span class="sd">        True and D is None.</span>
+<span class="sd">    stepwise : bool, optional (default=True)</span>
+<span class="sd">        Whether to use the stepwise algorithm outlined in Hyndman and</span>
+<span class="sd">        Khandakar (2008) to identify the optimal model parameters. The</span>
+<span class="sd">        stepwise algorithm can be significantly faster than fitting all (or a</span>
+<span class="sd">        random subset of) hyper-parameter combinations and is less likely to</span>
+<span class="sd">        over-fit the model.</span>
+<span class="sd">    n_jobs : int, optional (default=1)</span>
+<span class="sd">        The number of models to fit in parallel in the case of a grid search</span>
+<span class="sd">        (stepwise=False). Default is 1, but -1 can be used to designate “as</span>
+<span class="sd">        many as possible”.</span>
+<span class="sd">    start_params : array-like, optional (default=None)</span>
+<span class="sd">        Starting parameters for ARMA(p,q). If None, the default is given by</span>
+<span class="sd">        ARMA._fit_start_params.</span>
+<span class="sd">    trend : str, optional (default=None)</span>
+<span class="sd">        The trend parameter. If with_intercept is True, trend will be used. If</span>
+<span class="sd">        with_intercept is False, the trend will be set to a no- intercept</span>
+<span class="sd">        value.</span>
+<span class="sd">    method : str, optional (default=&#39;lbfgs&#39;)</span>
+<span class="sd">        The method determines which solver from scipy.optimize is used, and it</span>
+<span class="sd">        can be chosen from among the following strings:</span>
+
+<span class="sd">        ‘newton’ for Newton-Raphson</span>
+<span class="sd">        ‘nm’ for Nelder-Mead</span>
+<span class="sd">        ‘bfgs’ for Broyden-Fletcher-Goldfarb-Shanno (BFGS)</span>
+<span class="sd">        ‘lbfgs’ for limited-memory BFGS with optional box constraints</span>
+<span class="sd">        ‘powell’ for modified Powell’s method</span>
+<span class="sd">        ‘cg’ for conjugate gradient</span>
+<span class="sd">        ‘ncg’ for Newton-conjugate gradient</span>
+<span class="sd">        ‘basinhopping’ for global basin-hopping solver</span>
+<span class="sd">        The explicit arguments in fit are passed to the solver, with the</span>
+<span class="sd">        exception of the basin-hopping solver. Each solver has several</span>
+<span class="sd">        optional arguments that are not the same across solvers. These can be</span>
+<span class="sd">        passed as **fit_kwargs</span>
+<span class="sd">    maxiter : int, optional (default=50)</span>
+<span class="sd">        The maximum number of function evaluations.</span>
+<span class="sd">    offset_test_args : dict, optional (default=None)</span>
+<span class="sd">        The args to pass to the constructor of the offset (d) test.</span>
+<span class="sd">        See pmdarima.arima.stationarity for more details.</span>
+<span class="sd">    seasonal_test_args : dict, optional (default=None)</span>
+<span class="sd">        The args to pass to the constructor of the seasonal offset (D) test.</span>
+<span class="sd">        See pmdarima.arima.seasonality for more details.</span>
+<span class="sd">    suppress_warnings : bool, optional (default=False)</span>
+<span class="sd">        Many warnings might be thrown inside of statsmodels. If</span>
+<span class="sd">        suppress_warnings is True, all of the warnings coming from ARIMA will</span>
+<span class="sd">        be squelched.</span>
+<span class="sd">    error_action : str, optional (default=&#39;warn&#39;)</span>
+<span class="sd">        If unable to fit an ARIMA due to stationarity issues, whether to warn</span>
+<span class="sd">        (‘warn’), raise the ValueError (‘raise’) or ignore (‘ignore’). Note</span>
+<span class="sd">        that the default behavior is to warn, and fits that fail will be</span>
+<span class="sd">        returned as None. This is the recommended behavior, as statsmodels</span>
+<span class="sd">        ARIMA and SARIMAX models hit bugs periodically that can cause an</span>
+<span class="sd">        otherwise healthy parameter combination to fail for reasons not</span>
+<span class="sd">        related to pmdarima.</span>
+<span class="sd">    trace : bool, optional (default=False)</span>
+<span class="sd">        Whether to print status on the fits. A value of False will print no</span>
+<span class="sd">        debugging information. A value of True will print some. Integer values</span>
+<span class="sd">        exceeding 1 will print increasing amounts of debug information at each</span>
+<span class="sd">        fit.</span>
+<span class="sd">    random : bool, optional (default=&#39;False&#39;)</span>
+<span class="sd">        Similar to grid searches, auto_arima provides the capability to</span>
+<span class="sd">        perform a “random search” over a hyper-parameter space. If random is</span>
+<span class="sd">        True, rather than perform an exhaustive search or stepwise search,</span>
+<span class="sd">        only n_fits ARIMA models will be fit (stepwise must be False for this</span>
+<span class="sd">        option to do anything).</span>
+<span class="sd">    random_state : int, long or numpy RandomState, optional (default=None)</span>
+<span class="sd">        The PRNG for when random=True. Ensures replicable testingand results.</span>
+<span class="sd">    n_fits : int, optional (default=10)</span>
+<span class="sd">        If random is True and a “random search” is going to be performed,</span>
+<span class="sd">        n_iter is the number of ARIMA models to be fit.</span>
+<span class="sd">    out_of_sample_size : int, optional (default=0)</span>
+<span class="sd">        The ARIMA class can fit only a portion of the data if specified, in</span>
+<span class="sd">        order to retain an “out of bag” sample score. This is the number of</span>
+<span class="sd">        examples from the tail of the time series to hold out and use as</span>
+<span class="sd">        validation examples. The model will not be fit on these samples, but</span>
+<span class="sd">        the observations will be added into the model’s endog and exog arrays</span>
+<span class="sd">        so that future forecast values originate from the end of the</span>
+<span class="sd">        endogenous vector.</span>
+
+<span class="sd">        # For instance:</span>
+
+<span class="sd">        # y = [0, 1, 2, 3, 4, 5, 6]</span>
+<span class="sd">        # out_of_sample_size = 2</span>
+
+<span class="sd">        # &gt; Fit on: [0, 1, 2, 3, 4]</span>
+<span class="sd">        # &gt; Score on: [5, 6]</span>
+<span class="sd">        # &gt; Append [5, 6] to end of self.arima_res_.data.endog values,</span>
+<span class="sd">    scoring : str, optional (default=&#39;mse&#39;)</span>
+<span class="sd">        If performing validation (i.e., if out_of_sample_size &gt; 0), the metric</span>
+<span class="sd">        to use for scoring the out-of-sample data. One of (‘mse’, ‘mae’)</span>
+<span class="sd">    scoring_args : dict, optional (default=None)</span>
+<span class="sd">        A dictionary of key-word arguments to be passed to the scoring metric.</span>
+<span class="sd">    with_intercept : bool, optional (default=True)</span>
+<span class="sd">        Whether to include an intercept term.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AutoARIMA.__init__"><a class="viewcode-back" href="../../../modules/auto_generated/sktime.forecasting.arima.AutoARIMA.html#sktime.forecasting.arima.AutoARIMA.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_p</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start_q</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_p</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                 <span class="n">max_d</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_q</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">start_P</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start_Q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_P</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                 <span class="n">max_D</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_Q</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_order</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">seasonal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">stationary</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">information_criterion</span><span class="o">=</span><span class="s1">&#39;aic&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                 <span class="n">test</span><span class="o">=</span><span class="s1">&#39;kpss&#39;</span><span class="p">,</span> <span class="n">seasonal_test</span><span class="o">=</span><span class="s1">&#39;ocsb&#39;</span><span class="p">,</span> <span class="n">stepwise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">start_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;lbfgs&#39;</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+                 <span class="n">offset_test_args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seasonal_test_args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">suppress_warnings</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">error_action</span><span class="o">=</span><span class="s1">&#39;warn&#39;</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">random</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_fits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                 <span class="n">out_of_sample_size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;mse&#39;</span><span class="p">,</span>
+                 <span class="n">scoring_args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">with_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_p</span> <span class="o">=</span> <span class="n">start_p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">d</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_q</span> <span class="o">=</span> <span class="n">start_q</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_p</span> <span class="o">=</span> <span class="n">max_p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_d</span> <span class="o">=</span> <span class="n">max_d</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_q</span> <span class="o">=</span> <span class="n">max_q</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_P</span> <span class="o">=</span> <span class="n">start_P</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">D</span> <span class="o">=</span> <span class="n">D</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_Q</span> <span class="o">=</span> <span class="n">start_Q</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_P</span> <span class="o">=</span> <span class="n">max_P</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_D</span> <span class="o">=</span> <span class="n">max_D</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_Q</span> <span class="o">=</span> <span class="n">max_Q</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_order</span> <span class="o">=</span> <span class="n">max_order</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sp</span> <span class="o">=</span> <span class="n">sp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seasonal</span> <span class="o">=</span> <span class="n">seasonal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationary</span> <span class="o">=</span> <span class="n">stationary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">information_criterion</span> <span class="o">=</span> <span class="n">information_criterion</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test</span> <span class="o">=</span> <span class="n">test</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seasonal_test</span> <span class="o">=</span> <span class="n">seasonal_test</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stepwise</span> <span class="o">=</span> <span class="n">stepwise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">=</span> <span class="n">n_jobs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_params</span> <span class="o">=</span> <span class="n">start_params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trend</span> <span class="o">=</span> <span class="n">trend</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="n">method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span> <span class="o">=</span> <span class="n">maxiter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">offset_test_args</span> <span class="o">=</span> <span class="n">offset_test_args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seasonal_test_args</span> <span class="o">=</span> <span class="n">seasonal_test_args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">suppress_warnings</span> <span class="o">=</span> <span class="n">suppress_warnings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error_action</span> <span class="o">=</span> <span class="n">error_action</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trace</span> <span class="o">=</span> <span class="n">trace</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random</span> <span class="o">=</span> <span class="n">random</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_fits</span> <span class="o">=</span> <span class="n">n_fits</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_of_sample_size</span> <span class="o">=</span> <span class="n">out_of_sample_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scoring</span> <span class="o">=</span> <span class="n">scoring</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scoring_args</span> <span class="o">=</span> <span class="n">scoring_args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">with_intercept</span> <span class="o">=</span> <span class="n">with_intercept</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">AutoARIMA</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="c1"># import inside method to avoid hard dependency</span>
+        <span class="kn">from</span> <span class="nn">pmdarima.arima</span> <span class="kn">import</span> <span class="n">AutoARIMA</span> <span class="k">as</span> <span class="n">_AutoARIMA</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_forecaster</span> <span class="o">=</span> <span class="n">_AutoARIMA</span><span class="p">(</span>
+            <span class="n">start_p</span><span class="o">=</span><span class="n">start_p</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">d</span><span class="p">,</span> <span class="n">start_q</span><span class="o">=</span><span class="n">start_q</span><span class="p">,</span> <span class="n">max_p</span><span class="o">=</span><span class="n">max_p</span><span class="p">,</span>
+            <span class="n">max_d</span><span class="o">=</span><span class="n">max_d</span><span class="p">,</span> <span class="n">max_q</span><span class="o">=</span><span class="n">max_q</span><span class="p">,</span> <span class="n">start_P</span><span class="o">=</span><span class="n">start_P</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">start_Q</span><span class="o">=</span><span class="n">start_Q</span><span class="p">,</span>
+            <span class="n">max_P</span><span class="o">=</span><span class="n">max_P</span><span class="p">,</span>
+            <span class="n">max_D</span><span class="o">=</span><span class="n">max_D</span><span class="p">,</span> <span class="n">max_Q</span><span class="o">=</span><span class="n">max_Q</span><span class="p">,</span> <span class="n">max_order</span><span class="o">=</span><span class="n">max_order</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">sp</span><span class="p">,</span>
+            <span class="n">seasonal</span><span class="o">=</span><span class="n">seasonal</span><span class="p">,</span>
+            <span class="n">stationary</span><span class="o">=</span><span class="n">stationary</span><span class="p">,</span> <span class="n">information_criterion</span><span class="o">=</span><span class="n">information_criterion</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
+            <span class="n">test</span><span class="o">=</span><span class="n">test</span><span class="p">,</span> <span class="n">seasonal_test</span><span class="o">=</span><span class="n">seasonal_test</span><span class="p">,</span> <span class="n">stepwise</span><span class="o">=</span><span class="n">stepwise</span><span class="p">,</span>
+            <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
+            <span class="n">start_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trend</span><span class="o">=</span><span class="n">trend</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span>
+            <span class="n">offset_test_args</span><span class="o">=</span><span class="n">offset_test_args</span><span class="p">,</span>
+            <span class="n">seasonal_test_args</span><span class="o">=</span><span class="n">seasonal_test_args</span><span class="p">,</span>
+            <span class="n">suppress_warnings</span><span class="o">=</span><span class="n">suppress_warnings</span><span class="p">,</span> <span class="n">error_action</span><span class="o">=</span><span class="n">error_action</span><span class="p">,</span>
+            <span class="n">trace</span><span class="o">=</span><span class="n">trace</span><span class="p">,</span>
+            <span class="n">random</span><span class="o">=</span><span class="n">random</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_fits</span><span class="o">=</span><span class="n">n_fits</span><span class="p">,</span>
+            <span class="n">out_of_sample_size</span><span class="o">=</span><span class="n">out_of_sample_size</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">scoring</span><span class="p">,</span>
+            <span class="n">scoring_args</span><span class="o">=</span><span class="n">scoring_args</span><span class="p">,</span> <span class="n">with_intercept</span><span class="o">=</span><span class="n">with_intercept</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoARIMA.fit"><a class="viewcode-back" href="../../../modules/auto_generated/sktime.forecasting.arima.html#sktime.forecasting.arima.AutoARIMA.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">fh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">X_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit to training data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y_train : pd.Series</span>
+<span class="sd">            Target time series to which to fit the forecaster.</span>
+<span class="sd">        fh : int, list or np.array, optional (default=None)</span>
+<span class="sd">            The forecasters horizon with the steps ahead to to predict.</span>
+<span class="sd">        X_train : pd.DataFrame, optional (default=None)</span>
+<span class="sd">            Exogenous variables are ignored</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : returns an instance of self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_oh</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_fh</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_forecaster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">exogenous</span><span class="o">=</span><span class="n">X_train</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_args</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="k">def</span> <span class="nf">_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fh</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_pred_int</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">DEFAULT_ALPHA</span><span class="p">):</span>
+        <span class="c1"># distinguish between in-sample and out-of-sample prediction</span>
+        <span class="n">is_in_sample</span> <span class="o">=</span> <span class="n">fh</span> <span class="o">&lt;=</span> <span class="mi">0</span>
+        <span class="n">is_out_of_sample</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">is_in_sample</span><span class="p">)</span>
+
+        <span class="c1"># pure out-of-sample prediction</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">is_out_of_sample</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_predict_out_of_sample</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+                                               <span class="n">return_pred_int</span><span class="o">=</span><span class="n">return_pred_int</span><span class="p">,</span>
+                                               <span class="n">alpha</span><span class="o">=</span><span class="n">DEFAULT_ALPHA</span><span class="p">)</span>
+
+        <span class="c1"># pure in-sample prediction</span>
+        <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">is_in_sample</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_predict_in_sample</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+                                           <span class="n">return_pred_int</span><span class="o">=</span><span class="n">return_pred_int</span><span class="p">,</span>
+                                           <span class="n">alpha</span><span class="o">=</span><span class="n">DEFAULT_ALPHA</span><span class="p">)</span>
+
+        <span class="c1"># mixed in-sample and out-of-sample prediction</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fh_in_sample</span> <span class="o">=</span> <span class="n">fh</span><span class="p">[</span><span class="n">is_in_sample</span><span class="p">]</span>
+            <span class="n">fh_out_of_sample</span> <span class="o">=</span> <span class="n">fh</span><span class="p">[</span><span class="n">is_out_of_sample</span><span class="p">]</span>
+
+            <span class="n">y_pred_in</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_predict_in_sample</span><span class="p">(</span>
+                <span class="n">fh_in_sample</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+                <span class="n">return_pred_int</span><span class="o">=</span><span class="n">return_pred_int</span><span class="p">,</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="n">DEFAULT_ALPHA</span><span class="p">)</span>
+            <span class="n">y_pred_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_predict_out_of_sample</span><span class="p">(</span>
+                <span class="n">fh_out_of_sample</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+                <span class="n">return_pred_int</span><span class="o">=</span><span class="n">return_pred_int</span><span class="p">,</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="n">DEFAULT_ALPHA</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">y_pred_in</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_pred_out</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_predict_in_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fh</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_pred_int</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                           <span class="n">alpha</span><span class="o">=</span><span class="n">DEFAULT_ALPHA</span><span class="p">):</span>
+        <span class="n">fh_abs</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span><span class="p">)</span>
+        <span class="n">fh_idx</span> <span class="o">=</span> <span class="n">fh_abs</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">fh_abs</span><span class="p">)</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">fh_abs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">fh_abs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">return_pred_int</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+            <span class="n">y_pred</span><span class="p">,</span> <span class="n">pred_int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forecaster</span><span class="o">.</span><span class="n">predict_in_sample</span><span class="p">(</span>
+                <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span>
+                <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">,</span>
+                <span class="n">exogenous</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+                <span class="n">return_conf_int</span><span class="o">=</span><span class="n">return_pred_int</span><span class="p">,</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+            <span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_pred</span><span class="p">[</span><span class="n">fh_idx</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">fh_abs</span><span class="p">)</span>
+            <span class="n">pred_int</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pred_int</span><span class="p">[</span><span class="n">fh_idx</span><span class="p">,</span> <span class="p">:],</span> <span class="n">index</span><span class="o">=</span><span class="n">fh_abs</span><span class="p">,</span>
+                                    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">,</span> <span class="s2">&quot;upper&quot;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">pred_int</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forecaster</span><span class="o">.</span><span class="n">predict_in_sample</span><span class="p">(</span>
+                <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">,</span>
+                <span class="n">exogenous</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+                <span class="n">return_conf_int</span><span class="o">=</span><span class="n">return_pred_int</span><span class="p">,</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_pred</span><span class="p">[</span><span class="n">fh_idx</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">fh_abs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_predict_out_of_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fh</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_pred_int</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                               <span class="n">alpha</span><span class="o">=</span><span class="n">DEFAULT_ALPHA</span><span class="p">):</span>
+        <span class="c1"># make prediction</span>
+        <span class="n">n_periods</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">fh</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span><span class="p">)</span>
+        <span class="n">fh_idx</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">index_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">return_pred_int</span><span class="p">:</span>
+            <span class="n">y_pred</span><span class="p">,</span> <span class="n">pred_int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forecaster</span><span class="o">.</span><span class="n">model_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+                <span class="n">n_periods</span><span class="o">=</span><span class="n">n_periods</span><span class="p">,</span> <span class="n">exogenous</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+                <span class="n">return_conf_int</span><span class="o">=</span><span class="n">return_pred_int</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+            <span class="n">y_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_pred</span><span class="p">[</span><span class="n">fh_idx</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+            <span class="n">pred_int</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pred_int</span><span class="p">[</span><span class="n">fh_idx</span><span class="p">,</span> <span class="p">:],</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span>
+                                    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">,</span> <span class="s2">&quot;upper&quot;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">pred_int</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forecaster</span><span class="o">.</span><span class="n">model_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+                <span class="n">n_periods</span><span class="o">=</span><span class="n">n_periods</span><span class="p">,</span>
+                <span class="n">exogenous</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+                <span class="n">return_conf_int</span><span class="o">=</span><span class="n">return_pred_int</span><span class="p">,</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_pred</span><span class="p">[</span><span class="n">fh_idx</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+
+<div class="viewcode-block" id="AutoARIMA.get_fitted_params"><a class="viewcode-back" href="../../../modules/auto_generated/sktime.forecasting.arima.html#sktime.forecasting.arima.AutoARIMA.get_fitted_params">[docs]</a>    <span class="k">def</span> <span class="nf">get_fitted_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get fitted parameters</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        fitted_params : dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_fitted_param_names</span><span class="p">()</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forecaster</span><span class="o">.</span><span class="n">model_</span><span class="o">.</span><span class="n">arima_res_</span><span class="o">.</span><span class="n">_results</span><span class="o">.</span><span class="n">params</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">param</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">params</span><span class="p">)}</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_fitted_param_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forecaster</span><span class="o">.</span><span class="n">model_</span><span class="o">.</span><span class="n">arima_res_</span><span class="o">.</span><span class="n">_results</span><span class="o">.</span><span class="n">param_names</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

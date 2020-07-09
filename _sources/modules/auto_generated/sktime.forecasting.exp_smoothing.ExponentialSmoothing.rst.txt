@@ -1,0 +1,16 @@
+:mod:`sktime.forecasting.exp_smoothing`.ExponentialSmoothing
+===================================================================
+
+.. currentmodule:: sktime.forecasting.exp_smoothing
+
+.. autoclass:: ExponentialSmoothing
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.forecasting.exp_smoothing.ExponentialSmoothing.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

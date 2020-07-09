@@ -1,0 +1,7 @@
+sktime.utils.time\_series
+-------------------------
+
+.. automodule:: sktime.utils.time_series
+   :members:
+   :undoc-members:
+   :show-inheritance:

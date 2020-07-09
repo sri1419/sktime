@@ -1,0 +1,358 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.forecasting.naive &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.forecasting.naive</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.forecasting.naive</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3 -u</span>
+<span class="c1"># coding: utf-8</span>
+<span class="c1"># copyright: sktime developers, BSD-3-Clause License (see LICENSE file)</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NaiveForecaster&quot;</span><span class="p">]</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Markus Löning&quot;</span>
+
+<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.base._base</span> <span class="kn">import</span> <span class="n">DEFAULT_ALPHA</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.base._sktime</span> <span class="kn">import</span> <span class="n">BaseLastWindowForecaster</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.base._sktime</span> <span class="kn">import</span> <span class="n">OptionalForecastingHorizonMixin</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.forecasting</span> <span class="kn">import</span> <span class="n">check_sp</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.forecasting</span> <span class="kn">import</span> <span class="n">check_window_length</span>
+
+
+<div class="viewcode-block" id="NaiveForecaster"><a class="viewcode-back" href="../../../modules/auto_generated/sktime.forecasting.naive.NaiveForecaster.html#sktime.forecasting.naive.NaiveForecaster">[docs]</a><span class="k">class</span> <span class="nc">NaiveForecaster</span><span class="p">(</span><span class="n">OptionalForecastingHorizonMixin</span><span class="p">,</span>
+                      <span class="n">BaseLastWindowForecaster</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    NaiveForecaster is a forecaster that makes forecasts using simple</span>
+<span class="sd">    strategies.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    strategy : str{&quot;last&quot;, &quot;mean&quot;, &quot;seasonal_last&quot;}, optional (default=&quot;last&quot;)</span>
+<span class="sd">        Strategy used to make forecasts:</span>
+
+<span class="sd">        * &quot;last&quot;: forecast the last value in the training series</span>
+<span class="sd">        * &quot;mean&quot;: forecast the mean of (a given window) of the training series</span>
+<span class="sd">        * &quot;seasonal_last&quot;: forecasts the last value of the same season in</span>
+<span class="sd">        the training series</span>
+
+<span class="sd">    window_length : int or None, optional (default=None)</span>
+<span class="sd">        Window length to use in the `mean` strategy. If None, entire training</span>
+<span class="sd">            series will be used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="NaiveForecaster.__init__"><a class="viewcode-back" href="../../../modules/auto_generated/sktime.forecasting.naive.NaiveForecaster.html#sktime.forecasting.naive.NaiveForecaster.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;last&quot;</span><span class="p">,</span> <span class="n">window_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sp</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NaiveForecaster</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># input checks</span>
+        <span class="c1"># allowed strategies to include: last, constant, seasonal-last,</span>
+        <span class="c1"># mean, median</span>
+        <span class="n">allowed_strategies</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;last&quot;</span><span class="p">,</span> <span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="s2">&quot;seasonal_last&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">strategy</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_strategies</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unknown strategy: </span><span class="si">{</span><span class="n">strategy</span><span class="si">}</span><span class="s2">; expected one of &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">allowed_strategies</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">strategy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sp</span> <span class="o">=</span> <span class="n">sp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_length</span> <span class="o">=</span> <span class="n">window_length</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sp_</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="NaiveForecaster.fit"><a class="viewcode-back" href="../../../modules/auto_generated/sktime.forecasting.naive.html#sktime.forecasting.naive.NaiveForecaster.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">fh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">X_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit to training data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y_train : pd.Series</span>
+<span class="sd">            Target time series to which to fit the forecaster.</span>
+<span class="sd">        fh : int, list or np.array, optional (default=None)</span>
+<span class="sd">            The forecasters horizon with the steps ahead to to predict.</span>
+<span class="sd">        X_train : pd.DataFrame, optional (default=None)</span>
+<span class="sd">            Exogenous variables are ignored</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : returns an instance of self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># X_train is ignored</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_oh</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_fh</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;last&quot;</span><span class="p">,</span> <span class="s2">&quot;seasonal_last&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;For the `last` and `seasonal_last` strategy, &quot;</span>
+                     <span class="s2">&quot;the `window_length_` value will be ignored.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;last&quot;</span><span class="p">,</span> <span class="s2">&quot;mean&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;For the `last` and `mean` strategy, &quot;</span>
+                     <span class="s2">&quot;the `sp` value will be ignored.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window_length_</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;seasonal_last&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                    <span class="s2">&quot;Automatic estimation of the seasonal periodicity `sp` &quot;</span>
+                    <span class="s2">&quot;from the data is not implemented yet; &quot;</span>
+                    <span class="s2">&quot;please specify the `sp` value.&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sp_</span> <span class="o">=</span> <span class="n">check_sp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sp</span><span class="p">)</span>
+
+            <span class="c1"># window length we need for forecasts is just the</span>
+            <span class="c1"># length of seasonal periodicity</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window_length_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sp_</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window_length_</span> <span class="o">=</span> <span class="n">check_window_length</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_length</span><span class="p">)</span>
+
+        <span class="c1">#  if not given, set default window length for the mean strategy</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;mean&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_length</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window_length_</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+
+        <span class="c1"># check window length</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_length_</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oh</span><span class="p">):</span>
+            <span class="n">param</span> <span class="o">=</span> <span class="s2">&quot;sp&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;seasonal_last&quot;</span> <span class="k">else</span> \
+                <span class="s2">&quot;window_length_&quot;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;The </span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">window_length_</span><span class="si">}</span><span class="s2"> is larger than &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;the training series.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="k">def</span> <span class="nf">_predict_last_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fh</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_pred_int</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                             <span class="n">alpha</span><span class="o">=</span><span class="n">DEFAULT_ALPHA</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Internal predict&quot;&quot;&quot;</span>
+        <span class="n">last_window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_last_window</span><span class="p">()</span>
+
+        <span class="c1"># if last window only contains missing values, return nan</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">last_window</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">last_window</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_predict_nan</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">last_window</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">fh</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;seasonal_last&quot;</span><span class="p">:</span>
+            <span class="c1"># we need to replicate the last window if max(fh) is larger than</span>
+            <span class="c1"># sp,</span>
+            <span class="c1"># so that we still make forecasts by repeating the last value</span>
+            <span class="c1"># for that season,</span>
+            <span class="c1"># assume fh is sorted, i.e. max(fh) == fh[-1]</span>
+            <span class="k">if</span> <span class="n">fh</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sp_</span><span class="p">:</span>
+                <span class="n">reps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">fh</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sp_</span><span class="p">))</span>
+                <span class="n">last_window</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">last_window</span><span class="p">,</span> <span class="n">reps</span><span class="o">=</span><span class="n">reps</span><span class="p">)</span>
+
+            <span class="c1"># get zero-based index by subtracting the minimum</span>
+            <span class="n">fh_idx</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">index_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">last_window</span><span class="p">[</span><span class="n">fh_idx</span><span class="p">]</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">last_window</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">fh</span><span class="p">))</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

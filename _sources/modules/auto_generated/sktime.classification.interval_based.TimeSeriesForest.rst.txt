@@ -1,0 +1,16 @@
+:mod:`sktime.classification.interval_based`.TimeSeriesForest
+===================================================================
+
+.. currentmodule:: sktime.classification.interval_based
+
+.. autoclass:: TimeSeriesForest
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.classification.interval_based.TimeSeriesForest.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

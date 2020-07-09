@@ -1,0 +1,358 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.benchmarking.tasks &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>sktime.benchmarking.tasks</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-sktime.benchmarking.tasks">
+<span id="sktime-benchmarking-tasks"></span><h1>sktime.benchmarking.tasks<a class="headerlink" href="#module-sktime.benchmarking.tasks" title="Permalink to this headline">¶</a></h1>
+<p>Unified high-level interface for various time series related learning tasks.</p>
+<dl class="py class">
+<dt id="sktime.benchmarking.tasks.BaseTask">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.benchmarking.tasks.</code><code class="sig-name descname">BaseTask</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">target</span></em>, <em class="sig-param"><span class="n">features</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">metadata</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/benchmarking/tasks.html#BaseTask"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/tasks.py#L12-L188"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.tasks.BaseTask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Abstract base task class.</p>
+<p>A task encapsulates metadata information such as the feature and
+target variable which to fit the data to and additional necessary
+instructions on how to fit and predict.</p>
+<p>Implements attributes and operations shared by all tasks,
+including compatibility checks between the concrete task type and
+passed metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The column name for the target variable to be predicted.</p></li>
+<li><p><strong>features</strong> (<em>list of str</em><em>, </em><em>optinal</em><em>, </em><em>(</em><em>default=None</em><em>)</em>) – The column name(s) for the feature variable. If None, every column
+apart from target will be used as a feature.</p></li>
+<li><p><strong>metadata</strong> (<em>pandas.DataFrame</em>) – Contains the metadata that the task is expected to work with.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="sktime.benchmarking.tasks.BaseTask.check_data_compatibility">
+<code class="sig-name descname">check_data_compatibility</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metadata</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/benchmarking/tasks.html#BaseTask.check_data_compatibility"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/tasks.py#L117-L151"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.tasks.BaseTask.check_data_compatibility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check compatibility of task with passed metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>metadata</strong> (<em>pandas.DataFrame</em>) – Metadata container</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.benchmarking.tasks.BaseTask.features">
+<em class="property">property </em><code class="sig-name descname">features</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/tasks.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.tasks.BaseTask.features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make attributes read-only.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.benchmarking.tasks.BaseTask.metadata">
+<em class="property">property </em><code class="sig-name descname">metadata</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/tasks.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.tasks.BaseTask.metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make attributes read-only.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.benchmarking.tasks.BaseTask.set_metadata">
+<code class="sig-name descname">set_metadata</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metadata</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/benchmarking/tasks.html#BaseTask.set_metadata"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/tasks.py#L69-L115"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.tasks.BaseTask.set_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provide missing metadata information to task if not already set.</p>
+<p>This method is especially useful in orchestration where metadata may
+not be
+available when specifying the task.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>metadata</strong> (<em>pandas.DataFrame</em>) – Metadata container</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>self</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>an instance of self</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.benchmarking.tasks.BaseTask.target">
+<em class="property">property </em><code class="sig-name descname">target</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/tasks.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.tasks.BaseTask.target" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make attributes read-only.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.benchmarking.tasks.TSCTask">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.benchmarking.tasks.</code><code class="sig-name descname">TSCTask</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">target</span></em>, <em class="sig-param"><span class="n">features</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">metadata</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/benchmarking/tasks.html#TSCTask"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/tasks.py#L191-L215"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.tasks.TSCTask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#sktime.benchmarking.tasks.BaseTask" title="sktime.benchmarking.tasks.BaseTask"><code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.benchmarking.tasks.BaseTask</span></code></a></p>
+<p>Time series classification task.</p>
+<p>A task encapsulates metadata information such as the feature and target
+variable
+to which to fit the data to and any additional necessary instructions on
+how
+to fit and predict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The column name for the target variable to be predicted.</p></li>
+<li><p><strong>features</strong> (<em>list of str</em><em>, </em><em>optinal</em><em> (</em><em>default=None</em><em>)</em>) – The column name(s) for the feature variable. If None, every column
+apart from target will be used as a feature.</p></li>
+<li><p><strong>metadata</strong> (<em>pandas.DataFrame</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Contains the metadata that the task is expected to work with.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.benchmarking.tasks.TSRTask">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.benchmarking.tasks.</code><code class="sig-name descname">TSRTask</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">target</span></em>, <em class="sig-param"><span class="n">features</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">metadata</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/benchmarking/tasks.html#TSRTask"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/tasks.py#L218-L242"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.tasks.TSRTask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#sktime.benchmarking.tasks.BaseTask" title="sktime.benchmarking.tasks.BaseTask"><code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.benchmarking.tasks.BaseTask</span></code></a></p>
+<p>Time series regression task.</p>
+<p>A task encapsulates metadata information such as the feature and target
+variable
+to which to fit the data to and any additional necessary instructions on
+how
+to fit and predict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The column name for the target variable to be predicted.</p></li>
+<li><p><strong>features</strong> (<em>list of str</em><em>, </em><em>optinal</em><em> (</em><em>default=None</em><em>)</em>) – The column name(s) for the feature variable. If None, every column
+apart from target will be used as a feature.</p></li>
+<li><p><strong>metadata</strong> (<em>pandas.DataFrame</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Contains the metadata that the task is expected to work with.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,334 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.transformers.single_series.adapt &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.transformers.single_series.adapt</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.transformers.single_series.adapt</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3 -u</span>
+<span class="c1"># coding: utf-8</span>
+<span class="c1"># copyright: sktime developers, BSD-3-Clause License (see LICENSE file)</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Markus Löning&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;SingleSeriesTransformAdaptor&quot;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">clone</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils.metaestimators</span> <span class="kn">import</span> <span class="n">if_delegate_has_method</span>
+<span class="kn">from</span> <span class="nn">sktime.transformers.single_series.base</span> <span class="kn">import</span> \
+    <span class="n">BaseSingleSeriesTransformer</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.forecasting</span> <span class="kn">import</span> <span class="n">check_y</span>
+
+
+<div class="viewcode-block" id="SingleSeriesTransformAdaptor"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.html#sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor">[docs]</a><span class="k">class</span> <span class="nc">SingleSeriesTransformAdaptor</span><span class="p">(</span><span class="n">BaseSingleSeriesTransformer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Adaptor for scikit-learn-like tabular transformers to single series</span>
+<span class="sd">    setting.</span>
+
+<span class="sd">    This is useful for applying scikit-learn transformers to single series,</span>
+<span class="sd">    but only works with transformers that</span>
+<span class="sd">    do not require multiple instances for fitting.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    transformer : Estimator</span>
+<span class="sd">        scikit-learn-like transformer to fit and apply to single series</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_required_parameters</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;transformer&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="SingleSeriesTransformAdaptor.__init__"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.html#sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transformer</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span> <span class="o">=</span> <span class="n">transformer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transformer_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SingleSeriesTransformAdaptor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SingleSeriesTransformAdaptor.fit"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.transformers.single_series.adapt.html#sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y_train : pd.Series</span>
+<span class="sd">        fit_params : dict</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">check_y</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+
+        <span class="n">x_train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tabularise</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+        <span class="n">transformer</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transformer_</span> <span class="o">=</span> <span class="n">transformer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_tabularise</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convert single series into single-column tabular array&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_detabularise</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convert single-column tabular array to single series&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SingleSeriesTransformAdaptor.transform"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.transformers.single_series.adapt.html#sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">transform_params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Transform data.</span>
+<span class="sd">        Returns a transformed version of y.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y : pd.Series</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        yt : pd.Series</span>
+<span class="sd">            Transformed time series.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">check_y</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tabularise</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">xt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformer_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detabularise</span><span class="p">(</span><span class="n">xt</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SingleSeriesTransformAdaptor.inverse_transform"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.transformers.single_series.adapt.html#sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.inverse_transform">[docs]</a>    <span class="nd">@if_delegate_has_method</span><span class="p">(</span><span class="n">delegate</span><span class="o">=</span><span class="s2">&quot;transformer&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">inverse_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">transform_params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Inverse transform data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y : pd.Series</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        yt : pd.Series</span>
+<span class="sd">            Inverse-transformed time series.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">check_y</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tabularise</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">xt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformer_</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detabularise</span><span class="p">(</span><span class="n">xt</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SingleSeriesTransformAdaptor.update"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.transformers.single_series.adapt.html#sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_new</span><span class="p">,</span> <span class="n">update_params</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update fitted parameters</span>
+
+<span class="sd">         Parameters</span>
+<span class="sd">         ----------</span>
+<span class="sd">         y_new : pd.Series</span>
+<span class="sd">         update_params : bool, optional (default=False)</span>
+
+<span class="sd">         Returns</span>
+<span class="sd">         -------</span>
+<span class="sd">         self : an instance of self</span>
+<span class="sd">         &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;update is not implemented yet&quot;</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

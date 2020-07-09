@@ -1,0 +1,35 @@
+sktime.transformers.series\_as\_features
+----------------------------------------
+
+.. automodule:: sktime.transformers.series_as_features
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   sktime.transformers.series_as_features.dictionary_based
+   sktime.transformers.series_as_features.summarize
+
+Submodules
+----------
+
+.. toctree::
+
+   sktime.transformers.series_as_features.base
+   sktime.transformers.series_as_features.compose
+   sktime.transformers.series_as_features.dwt
+   sktime.transformers.series_as_features.hog1d
+   sktime.transformers.series_as_features.interpolate
+   sktime.transformers.series_as_features.matrix_profile
+   sktime.transformers.series_as_features.padder
+   sktime.transformers.series_as_features.pca
+   sktime.transformers.series_as_features.reduce
+   sktime.transformers.series_as_features.rocket
+   sktime.transformers.series_as_features.segment
+   sktime.transformers.series_as_features.shapelets
+   sktime.transformers.series_as_features.slope
+   sktime.transformers.series_as_features.truncation

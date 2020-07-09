@@ -1,0 +1,419 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>sktime</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<p><a class="reference external" href="https://travis-ci.com/alan-turing-institute/sktime"><img alt="travis" src="https://img.shields.io/travis/com/alan-turing-institute/sktime/master?logo=travis" /></a> <a class="reference external" href="https://ci.appveyor.com/project/mloning/sktime"><img alt="appveyor" src="https://img.shields.io/appveyor/ci/mloning/sktime/master?logo=appveyor" /></a> <a class="reference external" href="https://dev.azure.com/mloning/sktime/_build"><img alt="azure" src="https://img.shields.io/azure-devops/build/mloning/30e41314-4c72-4751-9ffb-f7e8584fc7bd/1/master?logo=azure-pipelines" /></a> <a class="reference external" href="https://pypi.org/project/sktime/"><img alt="pypi" src="https://img.shields.io/pypi/v/sktime" /></a> <a class="reference external" href="https://gitter.im/sktime/community"><img alt="gitter" src="https://img.shields.io/gitter/room/alan-turing-institute/sktime?logo=gitter" /></a> <a class="reference external" href="https://mybinder.org/v2/gh/alan-turing-institute/sktime/master?filepath=examples"><img alt="binder" src="https://mybinder.org/badge_logo.svg" /></a> <a class="reference external" href="https://doi.org/10.5281/zenodo.3749000"><img alt="zenodo" src="https://zenodo.org/badge/DOI/10.5281/zenodo.3749000.svg" /></a></p>
+<div class="section" id="sktime">
+<h1>sktime<a class="headerlink" href="#sktime" title="Permalink to this headline">¶</a></h1>
+<p>sktime is Python toolbox for machine learning with time series. We currently
+support:</p>
+<ul class="simple">
+<li><p>Forecasting,</p></li>
+<li><p>Time series classification,</p></li>
+<li><p>Time series regression.</p></li>
+</ul>
+<p>sktime provides dedicated time series algorithms and <a class="reference external" href="https://github.com/scikit-learn/scikit-learn">scikit-learn</a> compatible tools
+for building, tuning, and evaluating composite models.</p>
+<p>For deep learning methods, see our companion package: <a class="reference external" href="https://github.com/sktime/sktime-dl">sktime-dl</a>.</p>
+<hr class="docutils" />
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>The package is available via PyPI using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install sktime
+</pre></div>
+</div>
+<p>The package is actively being developed and some features may
+not be stable yet.</p>
+<div class="section" id="development-version">
+<h3>Development Version<a class="headerlink" href="#development-version" title="Permalink to this headline">¶</a></h3>
+<p>To install the development version, please see our
+<a class="reference external" href="https://alan-turing-institute.github.io/sktime/installation.html">advanced installation instructions</a>.</p>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="forecasting">
+<h3>Forecasting<a class="headerlink" href="#forecasting" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sktime.datasets</span> <span class="kn">import</span> <span class="n">load_airline</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.theta</span> <span class="kn">import</span> <span class="n">ThetaForecaster</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.model_selection</span> <span class="kn">import</span> <span class="n">temporal_train_test_split</span>
+<span class="kn">from</span> <span class="nn">sktime.performance_metrics.forecasting</span> <span class="kn">import</span> <span class="n">smape_loss</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">load_airline</span><span class="p">()</span>
+<span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">temporal_train_test_split</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">fh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># forecasting horizon</span>
+<span class="n">forecaster</span> <span class="o">=</span> <span class="n">ThetaForecaster</span><span class="p">(</span><span class="n">sp</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>  <span class="c1"># monthly seasonal periodicity</span>
+<span class="n">forecaster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">forecaster</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+<span class="n">smape_loss</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mf">0.1722386848882188</span>
+</pre></div>
+</div>
+<p>For more, check out the <a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/master/examples/01_forecasting.ipynb">forecasting tutorial</a>.</p>
+</div>
+<div class="section" id="time-series-classification">
+<h3>Time Series Classification<a class="headerlink" href="#time-series-classification" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sktime.datasets</span> <span class="kn">import</span> <span class="n">load_arrow_head</span>
+<span class="kn">from</span> <span class="nn">sktime.classification.compose</span> <span class="kn">import</span> <span class="n">TimeSeriesForestClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_arrow_head</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">classifier</span> <span class="o">=</span> <span class="n">TimeSeriesForestClassifier</span><span class="p">()</span>
+<span class="n">classifier</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">classifier</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mf">0.7924528301886793</span>
+</pre></div>
+</div>
+<p>For more, check out the <a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/master/examples/02_classification_univariate.ipynb">time series classification tutorial</a>.</p>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Check out our <a class="reference external" href="https://github.com/alan-turing-institute/sktime/tree/master/examples">examples notebooks</a> - you can run them on <a class="reference external" href="https://mybinder.org/v2/gh/alan-turing-institute/sktime/master?filepath=examples">Binder</a> without having to install anything!</p></li>
+<li><p>Read our detailed <a class="reference external" href="https://alan-turing-institute.github.io/sktime/">API reference</a>.</p></li>
+<li><p>Check out our previous <a class="reference external" href="https://github.com/sktime/sktime-workshops">tutorials and sprints</a>.</p></li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="api-overview">
+<h2>API Overview<a class="headerlink" href="#api-overview" title="Permalink to this headline">¶</a></h2>
+<p>sktime is a unified toolbox for machine learning with time series. Time
+series give rise to multiple learning tasks (e.g.
+forecasting and time series classification). The goal of sktime is to
+provide all the necessary to solve these tasks, including dedicated time
+series algorithms as well as tools for building, tuning and evaluating
+composite models.</p>
+<p>Many of these tasks are related, and an algorithm that can
+solve one of them can often be re-used to help solve another one, an idea
+called reduction. sktime’s unified interface allows to easily adapt an
+algorithm for one task to another.</p>
+<p>For example, to use a regression algorithm to solve a forecasting task, we
+can simply write:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sktime.datasets</span> <span class="kn">import</span> <span class="n">load_airline</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.compose</span> <span class="kn">import</span> <span class="n">ReducedRegressionForecaster</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.model_selection</span> <span class="kn">import</span> <span class="n">temporal_train_test_split</span>
+<span class="kn">from</span> <span class="nn">sktime.performance_metrics.forecasting</span> <span class="kn">import</span> <span class="n">smape_loss</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">load_airline</span><span class="p">()</span>
+<span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">temporal_train_test_split</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">fh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># forecasting horizon</span>
+<span class="n">regressor</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">()</span>
+<span class="n">forecaster</span> <span class="o">=</span> <span class="n">ReducedRegressionForecaster</span><span class="p">(</span><span class="n">regressor</span><span class="p">,</span> <span class="n">window_length</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">forecaster</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">forecaster</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+<span class="n">smape_loss</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="mf">0.12726230426056875</span>
+</pre></div>
+</div>
+<p>For more details, check out our <a class="reference external" href="http://learningsys.org/neurips19/assets/papers/sktime_ml_systems_neurips2019.pdf">paper</a>.</p>
+<p>Currently, sktime provides:</p>
+<ul class="simple">
+<li><p>State-of-the-art algorithms for time series classification and regression, ported from the Java-based <a class="reference external" href="https://github.com/uea-machine-learning/tsml/">tsml</a> toolkit, as well as forecasting,</p></li>
+<li><p>Transformers, including single-series transformations (e.g. detrending or deseasonalization) and series-as-features transformations (e.g. feature extractors), as well as tools to compose different transformers,</p></li>
+<li><p>Pipelining,</p></li>
+<li><p>Tuning,</p></li>
+<li><p>Ensembling, such as a fully customisable random forest for time-series classification and regression, as well as ensembling for multivariate problems,</p></li>
+</ul>
+<p>For a list of implemented methods, see our <a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/master/ESTIMATOR_OVERVIEW.md">estimator overview</a>.</p>
+<p>In addition, sktime includes an experimental high-level API that unifies multiple learning tasks, partially inspired by the APIs of <a class="reference external" href="https://mlr.mlr-org.com">mlr</a> and <a class="reference external" href="https://www.openml.org">openML</a>.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="development-roadmap">
+<h2>Development Roadmap<a class="headerlink" href="#development-roadmap" title="Permalink to this headline">¶</a></h2>
+<p>sktime is under active development. We’re looking for new contributors, all
+contributions are welcome!</p>
+<ol class="arabic simple">
+<li><p>Multivariate/panel forecasting based on a modified <a class="reference external" href="https://github.com/alan-turing-institute/pysf/">pysf</a> API,</p></li>
+<li><p>Unsupervised learning, including time series clustering,</p></li>
+<li><p>Time series annotation, including segmentation and outlier detection,</p></li>
+<li><p>Specialised data container for efficient handling of time series/panel data in a modelling workflow and separation of time series meta-data,</p></li>
+<li><p>Probabilistic modelling framework for time series, including survival and point process models based on an adapted <a class="reference external" href="https://github.com/alan-turing-institute/skpro/">skpro</a> interface.</p></li>
+</ol>
+<p>For more details, read this <a class="reference external" href="https://github.com/alan-turing-institute/sktime/issues/228">issue</a>.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="how-to-contribute">
+<h2>How to contribute<a class="headerlink" href="#how-to-contribute" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>First check out our <a class="reference external" href="https://alan-turing-institute.github.io/sktime/how_to_contribute.html">guide on how to contribute</a>.</p></li>
+<li><p><a class="reference external" href="https://gitter.im/sktime/community?source=orgpage">Chat</a> with us or <a class="reference external" href="https://github.com/alan-turing-institute/sktime/issues/new/choose">raise an issue</a> if you get stuck or have questions.</p></li>
+<li><p>Please also take a look at our <a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/master/CODE_OF_CONDUCT.rst">Code of Conduct</a>.</p></li>
+</ul>
+<p>For former and current contributors, see our <a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/master/CONTRIBUTORS.md">overview</a>.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="how-to-cite-sktime">
+<h2>How to cite sktime<a class="headerlink" href="#how-to-cite-sktime" title="Permalink to this headline">¶</a></h2>
+<p>If you use sktime in a scientific publication, we would appreciate citations to the following paper:</p>
+<p><a class="reference external" href="http://learningsys.org/neurips19/assets/papers/sktime_ml_systems_neurips2019.pdf">Markus Löning, Anthony Bagnall, Sajaysurya Ganesh, Viktor Kazakov, Jason Lines, Franz Király (2019): “sktime: A Unified Interface for Machine Learning with Time Series”</a></p>
+<p>Bibtex entry:</p>
+<div class="highlight-latex notranslate"><div class="highlight"><pre><span></span>@inproceedings<span class="nb">{</span>sktime,
+    author = <span class="nb">{</span>L<span class="nb">{</span><span class="k">\&quot;</span><span class="nb">{</span>o<span class="nb">}}</span>ning, Markus and Bagnall, Anthony and Ganesh, Sajaysurya and Kazakov, Viktor and Lines, Jason and Kir<span class="nb">{</span><span class="k">\&#39;</span><span class="nb">{</span>a<span class="nb">}}</span>ly, Franz J<span class="nb">}</span>,
+    booktitle = <span class="nb">{</span>Workshop on Systems for ML at NeurIPS 2019<span class="nb">}</span>,
+    title = <span class="nb">{{</span>sktime: A Unified Interface for Machine Learning with Time Series<span class="nb">}}</span>,
+    date = <span class="nb">{</span>2019<span class="nb">}</span>,
+<span class="nb">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="navigation">
+<h2>Navigation<a class="headerlink" href="#navigation" title="Permalink to this headline">¶</a></h2>
+<p>From here, you can navigate to:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

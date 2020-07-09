@@ -1,0 +1,1277 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Feature extraction with tsfresh transformer &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Shapelets and the Shapelet Transform with sktime" href="shapelet_transform.html" />
+    <link rel="prev" title="Benchmarking with sktime" href="04_benchmarking.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../how_to_get_started.html">How to get started</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="01_forecasting.html">Forecasting with sktime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_classification_univariate.html">Univariate time series classification with sktime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_classification_multivariate.html">Multivariate time series classification with sktime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_benchmarking.html">Benchmarking with sktime</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Feature extraction with tsfresh transformer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Preliminaries">Preliminaries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Univariate-time-series-classification-data">Univariate time series classification data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Using-tsfresh-to-extract-features">Using tsfresh to extract features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Using-tsfresh-with-sktime">Using tsfresh with sktime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Multivariate-time-series-classification-data">Multivariate time series classification data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="shapelet_transform.html">Shapelets and the Shapelet Transform with sktime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mrseql.html">Time series classification with Mr-SEQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rocket.html">Demo of ROCKET transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plateau_finder.html">Demo of the PlateauFinder transformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loading_data.html">Loading data in sktime</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../how_to_get_started.html">How to get started</a> &raquo;</li>
+        
+      <li>Feature extraction with tsfresh transformer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<p><a class="reference external" href="https://mybinder.org/v2/gh/alan-turing-institute/sktime/master?filepath=examples/feature_extraction_with_tsfresh.ipynb"><img alt="binder" src="https://mybinder.org/badge_logo.svg" /></a></p>
+<div class="section" id="Feature-extraction-with-tsfresh-transformer">
+<h1>Feature extraction with tsfresh transformer<a class="headerlink" href="#Feature-extraction-with-tsfresh-transformer" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial, we show how you can use sktime with <a class="reference external" href="https://tsfresh.readthedocs.io">tsfresh</a> to first extract features from time series, so that we can then use any scikit-learn estimator.</p>
+<div class="section" id="Preliminaries">
+<h2>Preliminaries<a class="headerlink" href="#Preliminaries" title="Permalink to this headline">¶</a></h2>
+<p>You have to install tsfresh if you haven’t already. To install it, uncomment the cell below:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># !pip install --upgrade tsfresh</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span> <span class="nn">sktime.datasets</span> <span class="kn">import</span> <span class="n">load_basic_motions</span>
+<span class="kn">from</span> <span class="nn">sktime.datasets</span> <span class="kn">import</span> <span class="n">load_arrow_head</span>
+<span class="kn">from</span> <span class="nn">sktime.transformers.series_as_features.summarize</span> <span class="kn">import</span> \
+    <span class="n">TSFreshFeatureExtractor</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Univariate-time-series-classification-data">
+<h2>Univariate time series classification data<a class="headerlink" href="#Univariate-time-series-classification-data" title="Permalink to this headline">¶</a></h2>
+<p>For more details on the data set, see the <a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/master/examples/02_classification_univariate.ipynb">univariate time series classification notebook</a>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_arrow_head</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(158, 1) (158,) (53, 1) (53,)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>dim_0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>47</th>
+      <td>0     -1.4233
+1     -1.3883
+2     -1.3233
+3   ...</td>
+    </tr>
+    <tr>
+      <th>168</th>
+      <td>0     -1.5317
+1     -1.5413
+2     -1.5150
+3   ...</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>0     -1.6737
+1     -1.6715
+2     -1.6602
+3   ...</td>
+    </tr>
+    <tr>
+      <th>97</th>
+      <td>0     -2.1468
+1     -2.1483
+2     -2.1332
+3   ...</td>
+    </tr>
+    <tr>
+      <th>137</th>
+      <td>0     -1.6130
+1     -1.6113
+2     -1.5963
+3   ...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># binary classification task</span>
+<span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([&#39;0&#39;, &#39;1&#39;, &#39;2&#39;], dtype=object)
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Using-tsfresh-to-extract-features">
+<h2>Using tsfresh to extract features<a class="headerlink" href="#Using-tsfresh-to-extract-features" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># tf = TsFreshTransfomer()</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">TSFreshFeatureExtractor</span><span class="p">(</span><span class="n">default_fc_parameters</span><span class="o">=</span><span class="s2">&quot;efficient&quot;</span><span class="p">,</span> <span class="n">show_warnings</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">Xt</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">Xt</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/travis/build/alan-turing-institute/sktime/sktime/transformers/series_as_features/summarize/_tsfresh.py:150: UserWarning: Found non-unique index, replaced with unique index.
+  warn(&#34;Found non-unique index, replaced with unique index.&#34;)
+Feature Extraction: 100%|██████████| 5/5 [00:22&lt;00:00,  4.44s/it]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>variable</th>
+      <th>dim_0__abs_energy</th>
+      <th>dim_0__absolute_sum_of_changes</th>
+      <th>dim_0__agg_autocorrelation__f_agg_"mean"__maxlag_40</th>
+      <th>dim_0__agg_autocorrelation__f_agg_"median"__maxlag_40</th>
+      <th>dim_0__agg_autocorrelation__f_agg_"var"__maxlag_40</th>
+      <th>dim_0__agg_linear_trend__attr_"intercept"__chunk_len_10__f_agg_"max"</th>
+      <th>dim_0__agg_linear_trend__attr_"intercept"__chunk_len_10__f_agg_"mean"</th>
+      <th>dim_0__agg_linear_trend__attr_"intercept"__chunk_len_10__f_agg_"min"</th>
+      <th>dim_0__agg_linear_trend__attr_"intercept"__chunk_len_10__f_agg_"var"</th>
+      <th>dim_0__agg_linear_trend__attr_"intercept"__chunk_len_50__f_agg_"max"</th>
+      <th>...</th>
+      <th>dim_0__symmetry_looking__r_0.9500000000000001</th>
+      <th>dim_0__time_reversal_asymmetry_statistic__lag_1</th>
+      <th>dim_0__time_reversal_asymmetry_statistic__lag_2</th>
+      <th>dim_0__time_reversal_asymmetry_statistic__lag_3</th>
+      <th>dim_0__value_count__value_-1</th>
+      <th>dim_0__value_count__value_0</th>
+      <th>dim_0__value_count__value_1</th>
+      <th>dim_0__variance</th>
+      <th>dim_0__variance_larger_than_standard_deviation</th>
+      <th>dim_0__variation_coefficient</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>250.001804</td>
+      <td>80.006922</td>
+      <td>0.268863</td>
+      <td>0.309570</td>
+      <td>0.112210</td>
+      <td>0.247175</td>
+      <td>-0.174947</td>
+      <td>-1.079735</td>
+      <td>0.207072</td>
+      <td>1.028496</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>0.026014</td>
+      <td>0.009221</td>
+      <td>0.001828</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.996023</td>
+      <td>0.0</td>
+      <td>7.116489e+05</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>250.000137</td>
+      <td>74.267442</td>
+      <td>0.377671</td>
+      <td>0.444606</td>
+      <td>0.092169</td>
+      <td>-0.226793</td>
+      <td>-0.669387</td>
+      <td>-1.186474</td>
+      <td>0.095314</td>
+      <td>0.709578</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>0.027791</td>
+      <td>0.004080</td>
+      <td>-0.010069</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.996016</td>
+      <td>0.0</td>
+      <td>1.278059e+06</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>249.998742</td>
+      <td>78.042719</td>
+      <td>0.350495</td>
+      <td>0.393683</td>
+      <td>0.078272</td>
+      <td>-0.345638</td>
+      <td>-0.696779</td>
+      <td>-1.236708</td>
+      <td>0.108092</td>
+      <td>0.657413</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>0.036067</td>
+      <td>0.004697</td>
+      <td>-0.014438</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.996011</td>
+      <td>0.0</td>
+      <td>-7.036485e+05</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>249.999331</td>
+      <td>81.465244</td>
+      <td>0.294482</td>
+      <td>0.297854</td>
+      <td>0.057714</td>
+      <td>-0.325546</td>
+      <td>-0.633322</td>
+      <td>-1.040047</td>
+      <td>0.079833</td>
+      <td>0.533229</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>0.050728</td>
+      <td>-0.004668</td>
+      <td>-0.049672</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.996013</td>
+      <td>0.0</td>
+      <td>8.003168e+05</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>249.999570</td>
+      <td>75.740292</td>
+      <td>0.370202</td>
+      <td>0.429531</td>
+      <td>0.085676</td>
+      <td>-0.290490</td>
+      <td>-0.680240</td>
+      <td>-1.199385</td>
+      <td>0.099466</td>
+      <td>0.663122</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>0.031119</td>
+      <td>0.005069</td>
+      <td>-0.012406</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.996014</td>
+      <td>0.0</td>
+      <td>-4.554532e+06</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 757 columns</p>
+</div></div>
+</div>
+</div>
+<div class="section" id="Using-tsfresh-with-sktime">
+<h2>Using tsfresh with sktime<a class="headerlink" href="#Using-tsfresh-with-sktime" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">classifier</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span>
+    <span class="n">TSFreshFeatureExtractor</span><span class="p">(</span><span class="n">default_fc_parameters</span><span class="o">=</span><span class="s2">&quot;efficient&quot;</span><span class="p">,</span> <span class="n">show_warnings</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">RandomForestClassifier</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="n">classifier</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">classifier</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/travis/build/alan-turing-institute/sktime/sktime/transformers/series_as_features/summarize/_tsfresh.py:150: UserWarning: Found non-unique index, replaced with unique index.
+  warn(&#34;Found non-unique index, replaced with unique index.&#34;)
+Feature Extraction: 100%|██████████| 5/5 [00:22&lt;00:00,  4.49s/it]
+/Users/travis/build/alan-turing-institute/sktime/sktime/transformers/series_as_features/summarize/_tsfresh.py:150: UserWarning: Found non-unique index, replaced with unique index.
+  warn(&#34;Found non-unique index, replaced with unique index.&#34;)
+Feature Extraction: 100%|██████████| 5/5 [00:07&lt;00:00,  1.50s/it]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.8867924528301887
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Multivariate-time-series-classification-data">
+<h2>Multivariate time series classification data<a class="headerlink" href="#Multivariate-time-series-classification-data" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_basic_motions</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(60, 6) (60,) (20, 6) (20,)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># multivariate input data</span>
+<span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>dim_0</th>
+      <th>dim_1</th>
+      <th>dim_2</th>
+      <th>dim_3</th>
+      <th>dim_4</th>
+      <th>dim_5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>0    -0.247409
+1    -0.247409
+2    -0.771290
+3...</td>
+      <td>0    -0.060459
+1    -0.060459
+2    -0.047618
+3...</td>
+      <td>0    -0.608565
+1    -0.608565
+2    -0.294411
+3...</td>
+      <td>0    -0.023970
+1    -0.023970
+2    -0.269001
+3...</td>
+      <td>0     0.101208
+1     0.101208
+2     0.111862
+3...</td>
+      <td>0     0.071911
+1     0.071911
+2     0.135832
+3...</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>0    -0.623875
+1    -0.623875
+2    -1.081529
+3...</td>
+      <td>0    -2.123436
+1    -2.123436
+2    -0.121519
+3...</td>
+      <td>0    -0.513654
+1    -0.513654
+2     0.809464
+3...</td>
+      <td>0    -0.143822
+1    -0.143822
+2    -1.081329
+3...</td>
+      <td>0     0.058594
+1     0.058594
+2    -0.127842
+3...</td>
+      <td>0     1.086656
+1     1.086656
+2     0.066584
+3...</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>0    -0.761604
+1    -0.761604
+2     0.121078
+3...</td>
+      <td>0     0.260125
+1     0.260125
+2    -1.423255
+3...</td>
+      <td>0    -0.064487
+1    -0.064487
+2     0.075600
+3...</td>
+      <td>0     0.069248
+1     0.069248
+2    -0.282318
+3...</td>
+      <td>0     0.242367
+1     0.242367
+2    -0.332922
+3...</td>
+      <td>0    -0.007990
+1    -0.007990
+2     0.239704
+3...</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>0    -1.801504
+1    -1.801504
+2    -0.480725
+3...</td>
+      <td>0     2.344990
+1     2.344990
+2    -0.994385
+3...</td>
+      <td>0     0.281253
+1     0.281253
+2     0.378807
+3...</td>
+      <td>0     0.716447
+1     0.716447
+2    -0.870923
+3...</td>
+      <td>0     0.162466
+1     0.162466
+2     0.095881
+3...</td>
+      <td>0     0.921527
+1     0.921527
+2    -0.474080
+3...</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>0    -0.255266
+1    -0.255266
+2    -0.792226
+3...</td>
+      <td>0    -0.154748
+1    -0.154748
+2    -1.176848
+3...</td>
+      <td>0    -0.273293
+1    -0.273293
+2    -0.709993
+3...</td>
+      <td>0    -0.050604
+1    -0.050604
+2    -0.237040
+3...</td>
+      <td>0     0.015980
+1     0.015980
+2    -0.314278
+3...</td>
+      <td>0     0.013317
+1     0.013317
+2     0.170456
+3...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">t</span> <span class="o">=</span> <span class="n">TSFreshFeatureExtractor</span><span class="p">(</span><span class="n">default_fc_parameters</span><span class="o">=</span><span class="s2">&quot;efficient&quot;</span><span class="p">,</span> <span class="n">show_warnings</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">Xt</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">Xt</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/travis/build/alan-turing-institute/sktime/sktime/transformers/series_as_features/summarize/_tsfresh.py:150: UserWarning: Found non-unique index, replaced with unique index.
+  warn(&#34;Found non-unique index, replaced with unique index.&#34;)
+Feature Extraction: 100%|██████████| 5/5 [00:39&lt;00:00,  7.90s/it]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>variable</th>
+      <th>dim_0__abs_energy</th>
+      <th>dim_0__absolute_sum_of_changes</th>
+      <th>dim_0__agg_autocorrelation__f_agg_"mean"__maxlag_40</th>
+      <th>dim_0__agg_autocorrelation__f_agg_"median"__maxlag_40</th>
+      <th>dim_0__agg_autocorrelation__f_agg_"var"__maxlag_40</th>
+      <th>dim_0__agg_linear_trend__attr_"intercept"__chunk_len_10__f_agg_"max"</th>
+      <th>dim_0__agg_linear_trend__attr_"intercept"__chunk_len_10__f_agg_"mean"</th>
+      <th>dim_0__agg_linear_trend__attr_"intercept"__chunk_len_10__f_agg_"min"</th>
+      <th>dim_0__agg_linear_trend__attr_"intercept"__chunk_len_10__f_agg_"var"</th>
+      <th>dim_0__agg_linear_trend__attr_"intercept"__chunk_len_50__f_agg_"max"</th>
+      <th>...</th>
+      <th>dim_5__symmetry_looking__r_0.9500000000000001</th>
+      <th>dim_5__time_reversal_asymmetry_statistic__lag_1</th>
+      <th>dim_5__time_reversal_asymmetry_statistic__lag_2</th>
+      <th>dim_5__time_reversal_asymmetry_statistic__lag_3</th>
+      <th>dim_5__value_count__value_-1</th>
+      <th>dim_5__value_count__value_0</th>
+      <th>dim_5__value_count__value_1</th>
+      <th>dim_5__variance</th>
+      <th>dim_5__variance_larger_than_standard_deviation</th>
+      <th>dim_5__variation_coefficient</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>10.812641</td>
+      <td>11.473969</td>
+      <td>-0.012083</td>
+      <td>-0.005872</td>
+      <td>0.007912</td>
+      <td>-0.119671</td>
+      <td>-0.323769</td>
+      <td>-0.578856</td>
+      <td>0.014234</td>
+      <td>-0.020851</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>-0.000157</td>
+      <td>-0.000877</td>
+      <td>-0.001491</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.015948</td>
+      <td>0.0</td>
+      <td>12.814993</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4402.264342</td>
+      <td>368.618270</td>
+      <td>-0.025780</td>
+      <td>-0.068173</td>
+      <td>0.027653</td>
+      <td>14.404859</td>
+      <td>3.550912</td>
+      <td>-2.012951</td>
+      <td>33.151709</td>
+      <td>28.820866</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>-81.172944</td>
+      <td>21.164744</td>
+      <td>10.776898</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>15.749446</td>
+      <td>1.0</td>
+      <td>-112.371986</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>220.949429</td>
+      <td>104.677565</td>
+      <td>-0.009585</td>
+      <td>-0.050995</td>
+      <td>0.059427</td>
+      <td>2.753245</td>
+      <td>0.627320</td>
+      <td>-0.862156</td>
+      <td>1.634518</td>
+      <td>3.490647</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>0.029599</td>
+      <td>0.139377</td>
+      <td>0.368081</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.671577</td>
+      <td>1.0</td>
+      <td>62.315369</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5716.535296</td>
+      <td>375.788586</td>
+      <td>-0.010798</td>
+      <td>-0.084170</td>
+      <td>0.054152</td>
+      <td>19.190912</td>
+      <td>5.136329</td>
+      <td>-1.663644</td>
+      <td>38.880657</td>
+      <td>28.832684</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>-22.050941</td>
+      <td>-18.937862</td>
+      <td>3.202976</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>12.342621</td>
+      <td>1.0</td>
+      <td>-42.197112</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>176.508713</td>
+      <td>96.948338</td>
+      <td>-0.002837</td>
+      <td>-0.050350</td>
+      <td>0.059774</td>
+      <td>2.667797</td>
+      <td>0.628195</td>
+      <td>-1.039077</td>
+      <td>1.588622</td>
+      <td>4.086922</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>0.101057</td>
+      <td>0.271404</td>
+      <td>0.256932</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.357756</td>
+      <td>1.0</td>
+      <td>-69.665962</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 4542 columns</p>
+</div></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<p>Generated by <a class="reference external" href="https://nbsphinx.readthedocs.io/">nbsphinx</a>. The Jupyter notebook file can be found <a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/master/examples/feature_extraction_with_tsfresh.ipynb">here</a>.</p>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+:mod:`sktime.classification.shapelet_based`.MrSEQLClassifier
+===================================================================
+
+.. currentmodule:: sktime.classification.shapelet_based
+
+.. autoclass:: MrSEQLClassifier
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.classification.shapelet_based.MrSEQLClassifier.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

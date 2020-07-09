@@ -1,0 +1,623 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.utils.validation.forecasting &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../utils.html">sktime.utils</a> &raquo;</li>
+        
+          <li><a href="../validation.html">sktime.utils.validation</a> &raquo;</li>
+        
+      <li>sktime.utils.validation.forecasting</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.utils.validation.forecasting</h1><div class="highlight"><pre>
+<span></span><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;check_y&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;check_X&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;check_y_X&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;check_fh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;check_cv&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;check_window_length&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;check_step_length&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;check_time_index&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;check_consistent_time_index&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;check_alpha&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;check_fh_values&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;check_cutoffs&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;check_scoring&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;check_sp&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;check_fh_is_relative&quot;</span>
+<span class="p">]</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Markus Löning&quot;</span><span class="p">,</span> <span class="s2">&quot;@big-o&quot;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation</span> <span class="kn">import</span> <span class="n">is_int</span>
+
+
+<div class="viewcode-block" id="check_y_X"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.utils.validation.forecasting.html#sktime.utils.validation.forecasting.check_y_X">[docs]</a><span class="k">def</span> <span class="nf">check_y_X</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Validate input data.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : pandas Series or numpy ndarray</span>
+<span class="sd">    X : pandas DataFrame</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If y is an invalid input</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">check_y</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">check_consistent_time_index</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">X</span></div>
+
+
+<div class="viewcode-block" id="check_y"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.utils.validation.forecasting.html#sktime.utils.validation.forecasting.check_y">[docs]</a><span class="k">def</span> <span class="nf">check_y</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">allow_empty</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">allow_constant</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Validate input data.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : pd.Series</span>
+<span class="sd">    allow_empty : bool, optional (default=False)</span>
+<span class="sd">        If True, empty `y` does not raise an error.</span>
+<span class="sd">    allow_constant : bool, optional (default=True)</span>
+<span class="sd">        If True, constant `y` does not raise an error.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    y : pd.Series</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError, TypeError</span>
+<span class="sd">        If y is an invalid input</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if pandas series or numpy array</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;`y` must be a pandas Series, but found type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># check that series is not empty</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_empty</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;`y` must contain at least some observations, but found &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;empty series: </span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_constant</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;All values of `y` are the same&quot;</span><span class="p">)</span>
+
+    <span class="c1"># check time index</span>
+    <span class="n">check_time_index</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span></div>
+
+
+<div class="viewcode-block" id="check_cv"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.utils.validation.forecasting.html#sktime.utils.validation.forecasting.check_cv">[docs]</a><span class="k">def</span> <span class="nf">check_cv</span><span class="p">(</span><span class="n">cv</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check CV generators.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    cv : CV generator</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        if cv does not have the required attributes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">sktime.forecasting.model_selection._split</span> <span class="kn">import</span> <span class="n">BaseSplitter</span>
+    <span class="n">allowed_base_class</span> <span class="o">=</span> <span class="n">BaseSplitter</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cv</span><span class="p">,</span> <span class="n">allowed_base_class</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`cv` is not an instance of </span><span class="si">{</span><span class="n">allowed_base_class</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cv</span></div>
+
+
+<div class="viewcode-block" id="check_time_index"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.utils.validation.forecasting.html#sktime.utils.validation.forecasting.check_time_index">[docs]</a><span class="k">def</span> <span class="nf">check_time_index</span><span class="p">(</span><span class="n">time_index</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check time index.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    time_index : pd.Index or np.array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    time_index : pd.Index</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_index</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">time_index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">time_index</span><span class="p">)</span>
+
+    <span class="c1"># period or datetime index are not support yet</span>
+    <span class="n">supported_index_types</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">RangeIndex</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Int64Index</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">UInt64Index</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_index</span><span class="p">,</span> <span class="n">supported_index_types</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">time_index</span><span class="p">)</span><span class="si">}</span><span class="s2"> is not supported, &quot;</span>
+                                  <span class="sa">f</span><span class="s2">&quot;please use one of &quot;</span>
+                                  <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">supported_index_types</span><span class="si">}</span><span class="s2"> instead.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">time_index</span><span class="o">.</span><span class="n">is_monotonic</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Time index must be sorted (monotonically increasing), &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;but found: </span><span class="si">{</span><span class="n">time_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">time_index</span></div>
+
+
+<div class="viewcode-block" id="check_X"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.utils.validation.forecasting.html#sktime.utils.validation.forecasting.check_X">[docs]</a><span class="k">def</span> <span class="nf">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Validate input data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : pandas.DataFrame</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    X : pandas.DataFrame</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If y is an invalid input</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`X` must a pandas DataFrame, but found: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;`X` must consist of a single row, but found: </span><span class="si">{</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> rows&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Check if index is the same for all columns.</span>
+
+    <span class="c1"># Get index from first row, can be either pd.Series or np.array.</span>
+    <span class="n">first_index</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                                <span class="s1">&#39;index&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">pd</span><span class="o">.</span><span class="n">RangeIndex</span><span class="p">(</span>
+        <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># Series must contain now least 2 observations, otherwise should be</span>
+    <span class="c1"># primitive.</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">first_index</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;Time series must contain now least 2 observations, but found: &#39;</span>
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">first_index</span><span class="p">)</span><span class="si">}</span><span class="s1"> observations in column: </span><span class="si">{</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Compare with remaining columns</span>
+    <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">index</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="p">],</span>
+                                              <span class="s1">&#39;index&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">pd</span><span class="o">.</span><span class="n">RangeIndex</span><span class="p">(</span>
+            <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">first_index</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Found time series with unequal index in column </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s1">. &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;Input time-series must have the same index.&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">X</span></div>
+
+
+<div class="viewcode-block" id="check_window_length"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.utils.validation.forecasting.html#sktime.utils.validation.forecasting.check_window_length">[docs]</a><span class="k">def</span> <span class="nf">check_window_length</span><span class="p">(</span><span class="n">window_length</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Validate window length&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">window_length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_int</span><span class="p">(</span><span class="n">window_length</span><span class="p">)</span> <span class="ow">or</span> <span class="n">window_length</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;`window_length_` must be a positive integer &gt;= 1 or None, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;but found: </span><span class="si">{</span><span class="n">window_length</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">window_length</span></div>
+
+
+<div class="viewcode-block" id="check_step_length"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.utils.validation.forecasting.html#sktime.utils.validation.forecasting.check_step_length">[docs]</a><span class="k">def</span> <span class="nf">check_step_length</span><span class="p">(</span><span class="n">step_length</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Validate window length&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">step_length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_int</span><span class="p">(</span><span class="n">step_length</span><span class="p">)</span> <span class="ow">or</span> <span class="n">step_length</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;`step_length` must be a positive integer &gt;= 1 or None, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;but found: </span><span class="si">{</span><span class="n">step_length</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">step_length</span></div>
+
+
+<div class="viewcode-block" id="check_sp"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.utils.validation.forecasting.html#sktime.utils.validation.forecasting.check_sp">[docs]</a><span class="k">def</span> <span class="nf">check_sp</span><span class="p">(</span><span class="n">sp</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Validate seasonal periodicity.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sp : int</span>
+<span class="sd">        Seasonal periodicity</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    sp : int</span>
+<span class="sd">        Validated seasonal periodicity</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">sp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_int</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span> <span class="ow">or</span> <span class="n">sp</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`sp` must be a positive integer &gt;= 1 or None&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sp</span></div>
+
+
+<div class="viewcode-block" id="check_fh"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.utils.validation.forecasting.html#sktime.utils.validation.forecasting.check_fh">[docs]</a><span class="k">def</span> <span class="nf">check_fh</span><span class="p">(</span><span class="n">fh</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Validate forecasting horizon.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fh : int, list of int, array of int or FH</span>
+<span class="sd">        Forecasting horizon with steps ahead to predict.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fh : FH</span>
+<span class="sd">        Checked forecasting horizon.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">sktime.forecasting.base._fh</span> <span class="kn">import</span> <span class="n">FH</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="n">FH</span><span class="p">):</span>
+        <span class="n">fh</span> <span class="o">=</span> <span class="n">FH</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fh</span></div>
+
+
+<div class="viewcode-block" id="check_fh_is_relative"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.utils.validation.forecasting.html#sktime.utils.validation.forecasting.check_fh_is_relative">[docs]</a><span class="k">def</span> <span class="nf">check_fh_is_relative</span><span class="p">(</span><span class="n">fh</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check if fh is relative.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fh : np.array, list, int or FH</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError : if fh is not relative</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">sktime.forecasting</span> <span class="kn">import</span> <span class="n">FH</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="n">FH</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">fh</span><span class="o">.</span><span class="n">is_relative</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`fh` must be relative, but found absolute `fh`&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="check_consistent_time_index"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.utils.validation.forecasting.html#sktime.utils.validation.forecasting.check_consistent_time_index">[docs]</a><span class="k">def</span> <span class="nf">check_consistent_time_index</span><span class="p">(</span><span class="o">*</span><span class="n">ys</span><span class="p">,</span> <span class="n">y_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check that y_test and y_pred have consistent indices.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y_test : pd.Series</span>
+<span class="sd">    y_pred : pd.Series</span>
+<span class="sd">    y_train : pd.Series</span>
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If time indicies are not equal</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># only validate indices if data is passed as pd.Series</span>
+    <span class="n">first_index</span> <span class="o">=</span> <span class="n">ys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+    <span class="n">check_time_index</span><span class="p">(</span><span class="n">first_index</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">ys</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="n">check_time_index</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">first_index</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Found inconsistent time indices.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">y_train</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">check_time_index</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">y_train</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">first_index</span><span class="o">.</span><span class="n">min</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Found `y_train` with time index which is not &quot;</span>
+                             <span class="s2">&quot;before time index of `y_pred`&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="check_alpha"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.utils.validation.forecasting.html#sktime.utils.validation.forecasting.check_alpha">[docs]</a><span class="k">def</span> <span class="nf">check_alpha</span><span class="p">(</span><span class="n">alpha</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check that a confidence level alpha (or list of alphas) is valid.</span>
+<span class="sd">    All alpha values must lie in the open interval (0, 1).</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    alpha : float, list of float</span>
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If alpha is outside the range (0, 1).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># check type</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">alpha</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;When `alpha` is passed as a list, &quot;</span>
+                             <span class="s2">&quot;it must be a list of floats&quot;</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="p">[</span><span class="n">alpha</span><span class="p">]</span>  <span class="c1"># make iterable</span>
+
+    <span class="c1"># check range</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">alpha</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`alpha` must lie in the open interval (0, 1), &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;but found: </span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">alpha</span></div>
+
+
+<div class="viewcode-block" id="check_cutoffs"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.utils.validation.forecasting.html#sktime.utils.validation.forecasting.check_cutoffs">[docs]</a><span class="k">def</span> <span class="nf">check_cutoffs</span><span class="p">(</span><span class="n">cutoffs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cutoffs</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;`cutoffs` must be a np.array, but found: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">cutoffs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span><span class="n">is_int</span><span class="p">(</span><span class="n">cutoff</span><span class="p">)</span> <span class="k">for</span> <span class="n">cutoff</span> <span class="ow">in</span> <span class="n">cutoffs</span><span class="p">]):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;All cutoff points must be integers&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">cutoffs</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`cutoffs must be 1-dimensional array&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">cutoffs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Found empty `cutoff` array&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">cutoffs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="check_scoring"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.utils.validation.forecasting.html#sktime.utils.validation.forecasting.check_scoring">[docs]</a><span class="k">def</span> <span class="nf">check_scoring</span><span class="p">(</span><span class="n">scoring</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">sktime.performance_metrics.forecasting._classes</span> <span class="kn">import</span> \
+        <span class="n">MetricFunctionWrapper</span>
+    <span class="kn">from</span> <span class="nn">sktime.performance_metrics.forecasting</span> <span class="kn">import</span> <span class="n">sMAPE</span>
+
+    <span class="k">if</span> <span class="n">scoring</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sMAPE</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">scoring</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`scoring` must be a callable object&quot;</span><span class="p">)</span>
+
+    <span class="n">allowed_base_class</span> <span class="o">=</span> <span class="n">MetricFunctionWrapper</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scoring</span><span class="p">,</span> <span class="n">allowed_base_class</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;`scoring` must inherit from `</span><span class="si">{</span><span class="n">allowed_base_class</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">scoring</span></div>
+
+
+<div class="viewcode-block" id="check_fh_values"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.utils.validation.forecasting.html#sktime.utils.validation.forecasting.check_fh_values">[docs]</a><span class="k">def</span> <span class="nf">check_fh_values</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Validate forecasting horizon values.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    values : int, list of int, array of int</span>
+<span class="sd">        Forecasting horizon with steps ahead to predict.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError : if values do not meet criteria</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fh : numpy array of int</span>
+<span class="sd">        Sorted and validated forecasting horizon.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># check single integer</span>
+    <span class="k">if</span> <span class="n">is_int</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">values</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+
+    <span class="c1"># check array</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`fh` must be a 1d array, but found shape: &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">values</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;If `fh` is passed as an array, it must &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;be an array of integers, but found an &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;array of type: </span><span class="si">{</span><span class="n">values</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># check list</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">([</span><span class="n">is_int</span><span class="p">(</span><span class="n">h</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">values</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;If `fh` is passed as a list, &quot;</span>
+                            <span class="s2">&quot;it has to be a list of integers.&quot;</span><span class="p">)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`fh` has to be either a numpy array, list, &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;or a single integer, but found: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># check fh is not empty</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`fh` cannot be empty, please specify now least one &quot;</span>
+                        <span class="s2">&quot;step to forecast.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># check fh does not contain duplicates</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">values</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`fh` should not contain duplicates.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># sort fh</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">values</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+:mod:`sktime.forecasting.model_selection`.CutoffSplitter
+===============================================================
+
+.. currentmodule:: sktime.forecasting.model_selection
+
+.. autoclass:: CutoffSplitter
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.forecasting.model_selection.CutoffSplitter.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

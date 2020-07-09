@@ -1,0 +1,626 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Dictionary based time series classification in sktime &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Dictionary based time series classification in sktime</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<p><a class="reference external" href="https://mybinder.org/v2/gh/alan-turing-institute/sktime/master?filepath=examples/dictionary_based_classification.ipynb"><img alt="binder" src="https://mybinder.org/badge_logo.svg" /></a></p>
+<div class="section" id="Dictionary-based-time-series-classification-in-sktime">
+<h1>Dictionary based time series classification in sktime<a class="headerlink" href="#Dictionary-based-time-series-classification-in-sktime" title="Permalink to this headline">¶</a></h1>
+<p>Dictionary based approaches adapt the bag of words model commonly used in signal processing, computer vision and audio processing for time series classification. Dictionary based classifiers have the same broad structure. A sliding window of length <span class="math notranslate nohighlight">\(w\)</span> is run across a series. For each window, the real valued series of length <span class="math notranslate nohighlight">\(w\)</span> is converted through approximation and discretisation processes into a symbolic string of length <span class="math notranslate nohighlight">\(l\)</span>, which consists of <span class="math notranslate nohighlight">\(\alpha\)</span> possible
+letters. The occurrence in a series of each ‘word’ from the dictionary defined by <span class="math notranslate nohighlight">\(l\)</span> and <span class="math notranslate nohighlight">\(\alpha\)</span> is counted, and once the sliding window has completed the series is transformed into a histogram. Classification is based on the histograms of the words extracted from the series, rather than the raw data.</p>
+<p>Currently 3 dictionary based classifiers and implemented in sktime, both making use of the Symbolic Fourier Approximation (SFA)[1] transform to discretise into words. These are the Bag of SFA Symbols (BOSS)[2], with options for improved efficiency and usability via contracting (cBOSS)[3] and the Temporal Dictionary Ensemble (TDE)[4]</p>
+<p>In this notebook, we will demonstrate how to use BOSS, cBOSS and TDE on the ItalyPowerDemand dataset. Both algorithms are currently only compatible with univariate time series datasets.</p>
+<div class="section" id="References:">
+<h2>References:<a class="headerlink" href="#References:" title="Permalink to this headline">¶</a></h2>
+<p>[1] Schäfer, P., &amp; Högqvist, M. (2012). SFA: a symbolic fourier approximation and index for similarity search in high dimensional datasets. In Proceedings of the 15th International Conference on Extending Database Technology (pp. 516-527).</p>
+<p>[2] Schäfer, P. (2015). The BOSS is concerned with time series classification in the presence of noise. Data Mining and Knowledge Discovery, 29(6), 1505-1530.</p>
+<p>[3] Middlehurst, M., Vickers, W., &amp; Bagnall, A. (2019). Scalable dictionary classifiers for time series classification. In International Conference on Intelligent Data Engineering and Automated Learning (pp. 11-19). Springer, Cham.</p>
+<p>[4] Middlehurst, M., Large, J., Cawley, G., &amp; Bagnall, A. (2020). The Temporal Dictionary Ensemble (TDE) Classifier for Time Series Classification. In The European Conference on Machine Learning and Principles and Practice of Knowledge Discovery in Databases.</p>
+<p>[5] Large, J., Bagnall, A., Malinowski, S., &amp; Tavenard, R. (2019). On time series classification with dictionary-based classifiers. Intelligent Data Analysis, 23(5), 1073-1089.</p>
+<p>[6] Schäfer, P., &amp; Leser, U. (2017). Fast and accurate time series classification with weasel. In Proceedings of the 2017 ACM on Conference on Information and Knowledge Management (pp. 637-646).</p>
+<div class="section" id="1.-Imports">
+<h3>1. Imports<a class="headerlink" href="#1.-Imports" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sktime.classification.dictionary_based</span> <span class="kn">import</span> <span class="n">BOSSEnsemble</span>
+<span class="kn">from</span> <span class="nn">sktime.classification.dictionary_based</span> <span class="kn">import</span> <span class="n">TemporalDictionaryEnsemble</span>
+
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+<span class="kn">from</span> <span class="nn">sktime.datasets</span> <span class="kn">import</span> <span class="n">load_italy_power_demand</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="2.-Load-data">
+<h3>2. Load data<a class="headerlink" href="#2.-Load-data" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">load_italy_power_demand</span><span class="p">(</span><span class="n">split</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">load_italy_power_demand</span><span class="p">(</span><span class="n">split</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[:</span><span class="mi">50</span><span class="p">]</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">y_test</span><span class="p">[:</span><span class="mi">50</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(67, 1) (67,) (50, 1) (50,)
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="3.-Bag-of-SFA-Symbols-(BOSS)">
+<h3>3. Bag of SFA Symbols (BOSS)<a class="headerlink" href="#3.-Bag-of-SFA-Symbols-(BOSS)" title="Permalink to this headline">¶</a></h3>
+<p>BOSS is an ensemble of individual BOSS classifiers making use of the SFA transform. The classifier performs grid-search through a large number of individual classifiers for parameters <span class="math notranslate nohighlight">\(l\)</span>, <span class="math notranslate nohighlight">\(\alpha\)</span>, <span class="math notranslate nohighlight">\(w\)</span> and <span class="math notranslate nohighlight">\(p\)</span> (normalise each window). Of the classifiers searched only those within 92% accuracy of the best classifier are retained. Individual BOSS classifiers use a non-symmetric distance function, BOSS distance, in conjunction with a nearest neighbour classifier.</p>
+<p>As tuning is handled inside the classifier, BOSS has very little parameters to be altered and generally should be run using default settings.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">boss</span> <span class="o">=</span> <span class="n">BOSSEnsemble</span><span class="p">()</span>
+<span class="n">boss</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">boss_preds</span> <span class="o">=</span> <span class="n">boss</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BOSS Accuracy: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">boss_preds</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+BOSS Accuracy: 0.88
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="4.-Contractable-BOSS-(cBOSS)">
+<h3>4. Contractable BOSS (cBOSS)<a class="headerlink" href="#4.-Contractable-BOSS-(cBOSS)" title="Permalink to this headline">¶</a></h3>
+<p>cBOSS significantly speeds up BOSS with no signficant difference in accuracy by improving how the ensemble is formed. cBOSS utilises a filtered random selection of parameters to find its ensemble members. Each ensemble member is built on a 70% subsample of the train data, using random sampling without replacement. An exponential weighting scheme for the predictions of the base classifiers is introduced.</p>
+<p>A new parameter for the number of parameters samples <span class="math notranslate nohighlight">\(k\)</span> is introduced. of which the top <span class="math notranslate nohighlight">\(s\)</span> (max ensemble size) with the highest accuracy are kept for the final ensemble. The <span class="math notranslate nohighlight">\(k\)</span> parameter is replaceable with a time limit <span class="math notranslate nohighlight">\(t\)</span> through contracting.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Recommended non-contract cBOSS parameters</span>
+<span class="n">cboss</span> <span class="o">=</span> <span class="n">BOSSEnsemble</span><span class="p">(</span><span class="n">randomised_ensemble</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">n_parameter_samples</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
+                    <span class="n">max_ensemble_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># cBOSS with a 5 minute build time contract</span>
+<span class="c1">#cboss = BOSSEnsemble(randomised_ensemble=True,</span>
+<span class="c1">#                    time_limit=5,</span>
+<span class="c1">#                    max_ensemble_size=50)</span>
+
+<span class="n">cboss</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">cboss_preds</span> <span class="o">=</span> <span class="n">cboss</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cBOSS Accuracy: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">cboss_preds</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+cBOSS Accuracy: 0.9
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="5.-Temporal-Dictionary-Ensemble-(TDE)">
+<h3>5. Temporal Dictionary Ensemble (TDE)<a class="headerlink" href="#5.-Temporal-Dictionary-Ensemble-(TDE)" title="Permalink to this headline">¶</a></h3>
+<p>TDE aggregates the best compoents of 3 classifiers extending from the original BOSS algorithm. The ensemble structure and improvements of cBOSS are used; Spatial pyramids are introduced from Spatial BOSS (S-BOSS)[5]; From Word Extraction for Time Series Classification (WEASEL)[6] bigrams and Information Gain Binning (IGB), a replacement for the multiple coefficient binning (MCB) used by SFA, are included. Two new parameters are included in the ensemble parameter search, the number of spatial
+pyramid levels <span class="math notranslate nohighlight">\(h\)</span> and whether to use IGB or MCB <span class="math notranslate nohighlight">\(b\)</span>. A Gaussian processes regressor is used to select new parameter sets to evaluate for the ensemble, predicting the accuracy of a set of parameter values using past classifier performances.</p>
+<p>Inheriting the cBOSS ensemble structure, the number of parameter samples <span class="math notranslate nohighlight">\(k\)</span>, time limit <span class="math notranslate nohighlight">\(t\)</span> and max ensemble size <span class="math notranslate nohighlight">\(s\)</span> remain as parameters to be set accounting for memory and time requirements.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Recommended non-contract TDE parameters</span>
+<span class="n">tde</span> <span class="o">=</span> <span class="n">TemporalDictionaryEnsemble</span><span class="p">(</span><span class="n">n_parameter_samples</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
+                                 <span class="n">max_ensemble_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                                 <span class="n">randomly_selected_params</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># TDE with a 5 minute build time contract</span>
+<span class="c1">#tde = TemporalDictionaryEnsemble(time_limit=5,</span>
+<span class="c1">#                                 max_ensemble_size=100,</span>
+<span class="c1">#                                 randomly_selected_params=50)</span>
+
+<span class="n">tde</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">tde_preds</span> <span class="o">=</span> <span class="n">tde</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TDE Accuracy: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">tde_preds</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+TDE Accuracy: 1.0
+</pre></div></div>
+</div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<p>Generated by <a class="reference external" href="https://nbsphinx.readthedocs.io/">nbsphinx</a>. The Jupyter notebook file can be found <a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/master/examples/dictionary_based_classification.ipynb">here</a>.</p>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,893 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API Reference &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Changelog" href="changelog.html" />
+    <link rel="prev" title="Loading data in sktime" href="examples/loading_data.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#sktime-classification-time-series-classification"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.classification</span></code>: Time series classification</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#composition">Composition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dictionary-based">Dictionary-based</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distance-based">Distance-based</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#frequency-based">Frequency-based</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#interval-based">Interval-based</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shapelet-based">Shapelet-based</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sktime-regression-time-series-regression"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.regression</span></code>: Time series regression</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Composition</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sktime-series-as-features-series-as-features-tools"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.series_as_features</span></code>: Series-as-features tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Composition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-selection">Model selection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sktime-forecasting-time-series-forecasting"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.forecasting</span></code>: Time series forecasting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#naive">Naive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#trend">Trend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exponential-smoothing">Exponential Smoothing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#arima">ARIMA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#theta">Theta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Composition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Model selection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sktime-transformers-time-series-transformers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.transformers</span></code>: Time series transformers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#series-as-features-transformers">Series-as-features transformers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">Dictionary-based</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#summarize">Summarize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#compose">Compose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#matrix-profile">Matrix profile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pca">PCA</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reduce">Reduce</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rocket">Rocket</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#segment">Segment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#shapelet">Shapelet</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#single-series-transformers">Single-series transformers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#detrend">Detrend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#adapt">Adapt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#box-cox">Box-cox</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sktime-utils-utility-function"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.utils</span></code>: Utility function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sktime-exceptions-exceptions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.exceptions</span></code>: Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>API Reference</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="api-reference">
+<span id="id1"></span><h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<p>This is the class and function reference for <code class="docutils literal notranslate"><span class="pre">sktime</span></code>.</p>
+<style type="text/css">
+    h1 {
+        /* margin: 0 -10px 0 -10px; */
+        text-align: center;
+        background-color: #cde8ef;
+        /* font-family: Helvetica, Arial, sans-serif; */
+        /* font-size: 190%; */
+        border-radius: 0 15px 0 15px;
+        -moz-border-radius: 0 15px 0 15px;
+        padding: 10px;
+    }
+
+    h2 {
+        background-color: #BED4EB;
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    h3 {
+        padding: 5px;
+        border-radius: 10px;
+        background-color: #eee;
+    }
+</style><table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+</tbody>
+</table>
+<div class="section" id="sktime-classification-time-series-classification">
+<span id="classification-ref"></span><h2><a class="reference internal" href="modules/classification.html#module-sktime.classification" title="sktime.classification"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.classification</span></code></a>: Time series classification<a class="headerlink" href="#sktime-classification-time-series-classification" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">sktime.classification</span></code> module contains algorithms and composition
+tools for time series classification.</p>
+<span class="target" id="module-sktime.classification"></span><div class="section" id="composition">
+<h3>Composition<a class="headerlink" href="#composition" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.classification.compose.TimeSeriesForestClassifier.html#sktime.classification.compose.TimeSeriesForestClassifier" title="sktime.classification.compose.TimeSeriesForestClassifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeSeriesForestClassifier</span></code></a>([estimator, …])</p></td>
+<td><p>Time-Series Forest Classifier.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.classification.compose.ColumnEnsembleClassifier.html#sktime.classification.compose.ColumnEnsembleClassifier" title="sktime.classification.compose.ColumnEnsembleClassifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ColumnEnsembleClassifier</span></code></a>(estimators[, …])</p></td>
+<td><p>Applies estimators to columns of an array or pandas DataFrame.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="dictionary-based">
+<h3>Dictionary-based<a class="headerlink" href="#dictionary-based" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.classification.dictionary_based.BOSSIndividual.html#sktime.classification.dictionary_based.BOSSIndividual" title="sktime.classification.dictionary_based.BOSSIndividual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BOSSIndividual</span></code></a>([window_size, word_length, …])</p></td>
+<td><p>Single Bag of SFA Symbols (BOSS) classifier</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.classification.dictionary_based.BOSSEnsemble.html#sktime.classification.dictionary_based.BOSSEnsemble" title="sktime.classification.dictionary_based.BOSSEnsemble"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BOSSEnsemble</span></code></a>([randomised_ensemble, …])</p></td>
+<td><p>Bag of SFA Symbols (BOSS)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="distance-based">
+<h3>Distance-based<a class="headerlink" href="#distance-based" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.classification.distance_based.KNeighborsTimeSeriesClassifier.html#sktime.classification.distance_based.KNeighborsTimeSeriesClassifier" title="sktime.classification.distance_based.KNeighborsTimeSeriesClassifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KNeighborsTimeSeriesClassifier</span></code></a>([…])</p></td>
+<td><p>An adapted version of the scikit-learn KNeighborsClassifier to work with time series data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.classification.distance_based.ElasticEnsemble.html#sktime.classification.distance_based.ElasticEnsemble" title="sktime.classification.distance_based.ElasticEnsemble"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ElasticEnsemble</span></code></a>([distance_measures, …])</p></td>
+<td><p>The Elastic Ensemble as described in &#64;article{lines15elastic,   title={Time Series Classification with Ensembles of Elastic Distance   Measures},   author={J.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.classification.distance_based.ProximityForest.html#sktime.classification.distance_based.ProximityForest" title="sktime.classification.distance_based.ProximityForest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProximityForest</span></code></a>([random_state, …])</p></td>
+<td><p>Proximity Forest class to model a decision tree forest which uses</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.classification.distance_based.ProximityTree.html#sktime.classification.distance_based.ProximityTree" title="sktime.classification.distance_based.ProximityTree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProximityTree</span></code></a>([random_state, get_exemplars, …])</p></td>
+<td><p>Proximity Tree class to model a decision tree which uses distance measures to partition data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.classification.distance_based.ProximityStump.html#sktime.classification.distance_based.ProximityStump" title="sktime.classification.distance_based.ProximityStump"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProximityStump</span></code></a>([random_state, …])</p></td>
+<td><p>Proximity Stump class to model a decision stump which uses a distance measure to partition data.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="frequency-based">
+<h3>Frequency-based<a class="headerlink" href="#frequency-based" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.classification.frequency_based.RandomIntervalSpectralForest.html#sktime.classification.frequency_based.RandomIntervalSpectralForest" title="sktime.classification.frequency_based.RandomIntervalSpectralForest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomIntervalSpectralForest</span></code></a>([n_estimators, …])</p></td>
+<td><p>Random Interval Spectral Forest (RISE).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="interval-based">
+<h3>Interval-based<a class="headerlink" href="#interval-based" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.classification.interval_based.TimeSeriesForest.html#sktime.classification.interval_based.TimeSeriesForest" title="sktime.classification.interval_based.TimeSeriesForest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeSeriesForest</span></code></a>([random_state, …])</p></td>
+<td><p>Time-Series Forest Classifier.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="shapelet-based">
+<h3>Shapelet-based<a class="headerlink" href="#shapelet-based" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.classification.shapelet_based.ShapeletTransformClassifier.html#sktime.classification.shapelet_based.ShapeletTransformClassifier" title="sktime.classification.shapelet_based.ShapeletTransformClassifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShapeletTransformClassifier</span></code></a>([…])</p></td>
+<td><p>Shapelet Transform Classifier</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.classification.shapelet_based.MrSEQLClassifier.html#sktime.classification.shapelet_based.MrSEQLClassifier" title="sktime.classification.shapelet_based.MrSEQLClassifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MrSEQLClassifier</span></code></a>([seql_mode, symrep, …])</p></td>
+<td><p>Time Series Classification with multiple symbolic representations and SEQL (Mr-SEQL)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="sktime-regression-time-series-regression">
+<span id="regression-ref"></span><h2><a class="reference internal" href="modules/regression.html#module-sktime.regression" title="sktime.regression"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.regression</span></code></a>: Time series regression<a class="headerlink" href="#sktime-regression-time-series-regression" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">sktime.regression</span></code> module contains algorithms and composition
+tools for time series regression.</p>
+<span class="target" id="module-sktime.regression"></span><div class="section" id="id2">
+<h3>Composition<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.regression.compose.TimeSeriesForestRegressor.html#sktime.regression.compose.TimeSeriesForestRegressor" title="sktime.regression.compose.TimeSeriesForestRegressor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeSeriesForestRegressor</span></code></a>([estimator, …])</p></td>
+<td><p>Time-Series Forest Regressor.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="sktime-series-as-features-series-as-features-tools">
+<span id="series-as-features-ref"></span><h2><a class="reference internal" href="modules/series_as_features.html#module-sktime.series_as_features" title="sktime.series_as_features"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.series_as_features</span></code></a>: Series-as-features tools<a class="headerlink" href="#sktime-series-as-features-series-as-features-tools" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">sktime.series_as_features</span></code> module contains algorithms and composition
+tools that are shared by the classification and regression modules.</p>
+<span class="target" id="module-sktime.series_as_features"></span><div class="section" id="id3">
+<h3>Composition<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.series_as_features.compose.FeatureUnion.html#sktime.series_as_features.compose.FeatureUnion" title="sktime.series_as_features.compose.FeatureUnion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FeatureUnion</span></code></a>(transformer_list[, n_jobs, …])</p></td>
+<td><p>Concatenates results of multiple transformer objects.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="model-selection">
+<h3>Model selection<a class="headerlink" href="#model-selection" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.series_as_features.model_selection.PresplitFilesCV.html#sktime.series_as_features.model_selection.PresplitFilesCV" title="sktime.series_as_features.model_selection.PresplitFilesCV"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PresplitFilesCV</span></code></a>([cv])</p></td>
+<td><p>Cross-validation iterator over split predefined in files.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.series_as_features.model_selection.SingleSplit.html#sktime.series_as_features.model_selection.SingleSplit" title="sktime.series_as_features.model_selection.SingleSplit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SingleSplit</span></code></a>([test_size, train_size, …])</p></td>
+<td><p>Helper class for orchestration that uses a single split for training and testing.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="sktime-forecasting-time-series-forecasting">
+<span id="forecasting-ref"></span><h2><a class="reference internal" href="modules/forecasting.html#module-sktime.forecasting" title="sktime.forecasting"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.forecasting</span></code></a>: Time series forecasting<a class="headerlink" href="#sktime-forecasting-time-series-forecasting" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">sktime.forecasting</span></code> module contains algorithms and composition
+tools for forecasting.</p>
+<span class="target" id="module-sktime.forecasting"></span><div class="section" id="naive">
+<h3>Naive<a class="headerlink" href="#naive" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.naive.NaiveForecaster.html#sktime.forecasting.naive.NaiveForecaster" title="sktime.forecasting.naive.NaiveForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NaiveForecaster</span></code></a>([strategy, window_length, sp])</p></td>
+<td><p>NaiveForecaster is a forecaster that makes forecasts using simple strategies.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="trend">
+<h3>Trend<a class="headerlink" href="#trend" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.trend.PolynomialTrendForecaster.html#sktime.forecasting.trend.PolynomialTrendForecaster" title="sktime.forecasting.trend.PolynomialTrendForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PolynomialTrendForecaster</span></code></a>([regressor, …])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="exponential-smoothing">
+<h3>Exponential Smoothing<a class="headerlink" href="#exponential-smoothing" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.exp_smoothing.ExponentialSmoothing.html#sktime.forecasting.exp_smoothing.ExponentialSmoothing" title="sktime.forecasting.exp_smoothing.ExponentialSmoothing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExponentialSmoothing</span></code></a>([trend, damped, …])</p></td>
+<td><p>Holt-Winters exponential smoothing forecaster.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="arima">
+<h3>ARIMA<a class="headerlink" href="#arima" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.arima.AutoARIMA.html#sktime.forecasting.arima.AutoARIMA" title="sktime.forecasting.arima.AutoARIMA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AutoARIMA</span></code></a>([start_p, d, start_q, max_p, …])</p></td>
+<td><p>Automatically discover the optimal order for an ARIMA model.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="theta">
+<h3>Theta<a class="headerlink" href="#theta" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.theta.ThetaForecaster.html#sktime.forecasting.theta.ThetaForecaster" title="sktime.forecasting.theta.ThetaForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ThetaForecaster</span></code></a>([smoothing_level, …])</p></td>
+<td><p>Theta method of forecasting.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id4">
+<h3>Composition<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.compose.EnsembleForecaster.html#sktime.forecasting.compose.EnsembleForecaster" title="sktime.forecasting.compose.EnsembleForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EnsembleForecaster</span></code></a>(forecasters[, n_jobs])</p></td>
+<td><p>Ensemble of forecasters</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.compose.TransformedTargetForecaster.html#sktime.forecasting.compose.TransformedTargetForecaster" title="sktime.forecasting.compose.TransformedTargetForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TransformedTargetForecaster</span></code></a>(steps)</p></td>
+<td><p>Meta-estimator for forecasting transformed time series.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.compose.DirectRegressionForecaster.html#sktime.forecasting.compose.DirectRegressionForecaster" title="sktime.forecasting.compose.DirectRegressionForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DirectRegressionForecaster</span></code></a>(regressor[, …])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.compose.DirectTimeSeriesRegressionForecaster.html#sktime.forecasting.compose.DirectTimeSeriesRegressionForecaster" title="sktime.forecasting.compose.DirectTimeSeriesRegressionForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DirectTimeSeriesRegressionForecaster</span></code></a>(regressor)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.compose.RecursiveRegressionForecaster.html#sktime.forecasting.compose.RecursiveRegressionForecaster" title="sktime.forecasting.compose.RecursiveRegressionForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RecursiveRegressionForecaster</span></code></a>(regressor[, …])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.compose.RecursiveTimeSeriesRegressionForecaster.html#sktime.forecasting.compose.RecursiveTimeSeriesRegressionForecaster" title="sktime.forecasting.compose.RecursiveTimeSeriesRegressionForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RecursiveTimeSeriesRegressionForecaster</span></code></a>(…)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.compose.ReducedRegressionForecaster.html#sktime.forecasting.compose.ReducedRegressionForecaster" title="sktime.forecasting.compose.ReducedRegressionForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReducedRegressionForecaster</span></code></a>(regressor[, …])</p></td>
+<td><p>Forecasting based on reduction to tabular regression.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.compose.ReducedTimeSeriesRegressionForecaster.html#sktime.forecasting.compose.ReducedTimeSeriesRegressionForecaster" title="sktime.forecasting.compose.ReducedTimeSeriesRegressionForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReducedTimeSeriesRegressionForecaster</span></code></a>(…[, …])</p></td>
+<td><p>Forecasting based on reduction to time series regression.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.compose.StackingForecaster.html#sktime.forecasting.compose.StackingForecaster" title="sktime.forecasting.compose.StackingForecaster"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StackingForecaster</span></code></a>(forecasters, final_regressor)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id5">
+<h3>Model selection<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.model_selection.CutoffSplitter.html#sktime.forecasting.model_selection.CutoffSplitter" title="sktime.forecasting.model_selection.CutoffSplitter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CutoffSplitter</span></code></a>(cutoffs[, fh, window_length])</p></td>
+<td><p>Manual window splitter to split time series at given cutoff points.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.model_selection.SingleWindowSplitter.html#sktime.forecasting.model_selection.SingleWindowSplitter" title="sktime.forecasting.model_selection.SingleWindowSplitter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SingleWindowSplitter</span></code></a>(fh[, window_length])</p></td>
+<td><p>Single window splitter</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.model_selection.SlidingWindowSplitter.html#sktime.forecasting.model_selection.SlidingWindowSplitter" title="sktime.forecasting.model_selection.SlidingWindowSplitter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SlidingWindowSplitter</span></code></a>([fh, window_length, …])</p></td>
+<td><p>Sliding window splitter</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.model_selection.ForecastingGridSearchCV.html#sktime.forecasting.model_selection.ForecastingGridSearchCV" title="sktime.forecasting.model_selection.ForecastingGridSearchCV"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ForecastingGridSearchCV</span></code></a>(forecaster, cv, …)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.forecasting.model_selection.temporal_train_test_split.html#sktime.forecasting.model_selection.temporal_train_test_split" title="sktime.forecasting.model_selection.temporal_train_test_split"><code class="xref py py-obj docutils literal notranslate"><span class="pre">temporal_train_test_split</span></code></a>(*arrays[, …])</p></td>
+<td><p>Split arrays or matrices into sequential train and test subsets Creates train/test splits over endogenous arrays an optional exogenous arrays.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="sktime-transformers-time-series-transformers">
+<span id="transformers-ref"></span><h2><a class="reference internal" href="modules/transformers.html#module-sktime.transformers" title="sktime.transformers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.transformers</span></code></a>: Time series transformers<a class="headerlink" href="#sktime-transformers-time-series-transformers" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">sktime.transformers</span></code> module contains classes for data transformations.</p>
+<span class="target" id="module-sktime.transformers"></span><div class="section" id="series-as-features-transformers">
+<h3>Series-as-features transformers<a class="headerlink" href="#series-as-features-transformers" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h4>Dictionary-based<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.dictionary_based.PAA.html#sktime.transformers.series_as_features.dictionary_based.PAA" title="sktime.transformers.series_as_features.dictionary_based.PAA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PAA</span></code></a>([num_intervals])</p></td>
+<td><p>(PAA) Piecewise Aggregate Approximation Transformer, as described in Eamonn Keogh, Kaushik Chakrabarti, Michael Pazzani, and Sharad Mehrotra.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.dictionary_based.SFA.html#sktime.transformers.series_as_features.dictionary_based.SFA" title="sktime.transformers.series_as_features.dictionary_based.SFA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SFA</span></code></a>([word_length, alphabet_size, …])</p></td>
+<td><p>SFA (Symbolic Fourier Approximation) Transformer, as described in</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.dictionary_based.SAX.html#sktime.transformers.series_as_features.dictionary_based.SAX" title="sktime.transformers.series_as_features.dictionary_based.SAX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SAX</span></code></a>([word_length, alphabet_size, …])</p></td>
+<td><p>SAX (Symbolic Aggregate approXimation) Transformer, as described in Jessica Lin, Eamonn Keogh, Li Wei and Stefano Lonardi, “Experiencing SAX: a novel symbolic representation of time series” Data Mining and Knowledge Discovery, 15(2):107-144 Overview: for each series:     run a sliding window across the series     for each window         shorten the series with PAA (Piecewise Approximate Aggregation)         discretise the shortened seried into fixed bins         form a word from these discrete values by default SAX produces a single word per series (window_size=0).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="summarize">
+<h4>Summarize<a class="headerlink" href="#summarize" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.summarize.DerivativeSlopeTransformer.html#sktime.transformers.series_as_features.summarize.DerivativeSlopeTransformer" title="sktime.transformers.series_as_features.summarize.DerivativeSlopeTransformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DerivativeSlopeTransformer</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.summarize.PlateauFinder.html#sktime.transformers.series_as_features.summarize.PlateauFinder" title="sktime.transformers.series_as_features.summarize.PlateauFinder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PlateauFinder</span></code></a>([value, min_length])</p></td>
+<td><p>Transformer that finds segments of the same given value, plateau in the time series, and returns the starting indices and lengths.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.summarize.RandomIntervalFeatureExtractor.html#sktime.transformers.series_as_features.summarize.RandomIntervalFeatureExtractor" title="sktime.transformers.series_as_features.summarize.RandomIntervalFeatureExtractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomIntervalFeatureExtractor</span></code></a>([…])</p></td>
+<td><p>Transformer that segments time-series into random intervals and subsequently extracts series-to-primitives features from each interval.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.summarize.FittedParamExtractor.html#sktime.transformers.series_as_features.summarize.FittedParamExtractor" title="sktime.transformers.series_as_features.summarize.FittedParamExtractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FittedParamExtractor</span></code></a>(forecaster, param_names)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor.html#sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor" title="sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TSFreshRelevantFeatureExtractor</span></code></a>([…])</p></td>
+<td><p>Transformer for extracting and selecting features.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.summarize.TSFreshFeatureExtractor.html#sktime.transformers.series_as_features.summarize.TSFreshFeatureExtractor" title="sktime.transformers.series_as_features.summarize.TSFreshFeatureExtractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TSFreshFeatureExtractor</span></code></a>([…])</p></td>
+<td><p>Transformer for extracting time series features</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="compose">
+<h4>Compose<a class="headerlink" href="#compose" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.compose.ColumnTransformer.html#sktime.transformers.series_as_features.compose.ColumnTransformer" title="sktime.transformers.series_as_features.compose.ColumnTransformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ColumnTransformer</span></code></a>(transformers[, remainder, …])</p></td>
+<td><p>Applies transformers to columns of an array or pandas DataFrame.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.compose.RowTransformer.html#sktime.transformers.series_as_features.compose.RowTransformer" title="sktime.transformers.series_as_features.compose.RowTransformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RowTransformer</span></code></a>(transformer)</p></td>
+<td><p>A convenience wrapper for row-wise transformers to apply transformation to all rows.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.compose.ColumnConcatenator.html#sktime.transformers.series_as_features.compose.ColumnConcatenator" title="sktime.transformers.series_as_features.compose.ColumnConcatenator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ColumnConcatenator</span></code></a>()</p></td>
+<td><p>Transformer that concatenates multivariate time series/panel data into long univiariate time series/panel     data by simply concatenating times series in time.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="matrix-profile">
+<h4>Matrix profile<a class="headerlink" href="#matrix-profile" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.matrix_profile.MatrixProfile.html#sktime.transformers.series_as_features.matrix_profile.MatrixProfile" title="sktime.transformers.series_as_features.matrix_profile.MatrixProfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MatrixProfile</span></code></a>([m])</p></td>
+<td><p>Takes as input a time series dataset and returns the matrix profile and index profile for each time series of the dataset.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="pca">
+<h4>PCA<a class="headerlink" href="#pca" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.pca.PCATransformer.html#sktime.transformers.series_as_features.pca.PCATransformer" title="sktime.transformers.series_as_features.pca.PCATransformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCATransformer</span></code></a>([n_components])</p></td>
+<td><p>Transformer that applies Principle Components Analysis to a univariate time series.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="reduce">
+<h4>Reduce<a class="headerlink" href="#reduce" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.reduce.Tabularizer.html#sktime.transformers.series_as_features.reduce.Tabularizer" title="sktime.transformers.series_as_features.reduce.Tabularizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Tabularizer</span></code></a>()</p></td>
+<td><p>A transformer that turns time series/panel data into tabular data.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="rocket">
+<h4>Rocket<a class="headerlink" href="#rocket" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.rocket.Rocket.html#sktime.transformers.series_as_features.rocket.Rocket" title="sktime.transformers.series_as_features.rocket.Rocket"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Rocket</span></code></a>([num_kernels, normalise, random_state])</p></td>
+<td><p>ROCKET</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="segment">
+<h4>Segment<a class="headerlink" href="#segment" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.segment.IntervalSegmenter.html#sktime.transformers.series_as_features.segment.IntervalSegmenter" title="sktime.transformers.series_as_features.segment.IntervalSegmenter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IntervalSegmenter</span></code></a>([intervals])</p></td>
+<td><p>Interval segmentation transformer.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.segment.RandomIntervalSegmenter.html#sktime.transformers.series_as_features.segment.RandomIntervalSegmenter" title="sktime.transformers.series_as_features.segment.RandomIntervalSegmenter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomIntervalSegmenter</span></code></a>([n_intervals, …])</p></td>
+<td><p>Transformer that segments time-series into random intervals with random starting points and lengths.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="shapelet">
+<h4>Shapelet<a class="headerlink" href="#shapelet" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.shapelets.ShapeletTransform.html#sktime.transformers.series_as_features.shapelets.ShapeletTransform" title="sktime.transformers.series_as_features.shapelets.ShapeletTransform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShapeletTransform</span></code></a>([min_shapelet_length, …])</p></td>
+<td><p>Shapelet Transform.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.series_as_features.shapelets.ContractedShapeletTransform.html#sktime.transformers.series_as_features.shapelets.ContractedShapeletTransform" title="sktime.transformers.series_as_features.shapelets.ContractedShapeletTransform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ContractedShapeletTransform</span></code></a>([…])</p></td>
+<td><p>Contracted Shapelet Transform.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="single-series-transformers">
+<h3>Single-series transformers<a class="headerlink" href="#single-series-transformers" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="detrend">
+<h4>Detrend<a class="headerlink" href="#detrend" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.single_series.detrend.Detrender.html#sktime.transformers.single_series.detrend.Detrender" title="sktime.transformers.single_series.detrend.Detrender"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Detrender</span></code></a>(forecaster)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.single_series.detrend.Deseasonalizer.html#sktime.transformers.single_series.detrend.Deseasonalizer" title="sktime.transformers.single_series.detrend.Deseasonalizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Deseasonalizer</span></code></a>([sp, model])</p></td>
+<td><p>A transformer that removes a seasonal and trend components from time series</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.single_series.detrend.ConditionalDeseasonalizer.html#sktime.transformers.single_series.detrend.ConditionalDeseasonalizer" title="sktime.transformers.single_series.detrend.ConditionalDeseasonalizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConditionalDeseasonalizer</span></code></a>([…])</p></td>
+<td><p>A transformer that removes a seasonal and trend components from time series, conditional on seasonality test.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="adapt">
+<h4>Adapt<a class="headerlink" href="#adapt" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.html#sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor" title="sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SingleSeriesTransformAdaptor</span></code></a>(transformer)</p></td>
+<td><p>Adaptor for scikit-learn-like tabular transformers to single series setting.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="box-cox">
+<h4>Box-cox<a class="headerlink" href="#box-cox" title="Permalink to this headline">¶</a></h4>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.transformers.single_series.boxcox.BoxCoxTransformer.html#sktime.transformers.single_series.boxcox.BoxCoxTransformer" title="sktime.transformers.single_series.boxcox.BoxCoxTransformer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BoxCoxTransformer</span></code></a>([bounds, method])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="section" id="sktime-utils-utility-function">
+<span id="utils-ref"></span><h2><a class="reference internal" href="modules/auto_generated/sktime.utils.html#module-sktime.utils" title="sktime.utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.utils</span></code></a>: Utility function<a class="headerlink" href="#sktime-utils-utility-function" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">sktime.utils</span></code> module contains utility functions.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.utils.plotting.html#module-sktime.utils.plotting" title="sktime.utils.plotting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sktime.utils.plotting</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="modules/auto_generated/sktime.utils.validation.html#module-sktime.utils.validation" title="sktime.utils.validation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sktime.utils.validation</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.utils.data_container.html#module-sktime.utils.data_container" title="sktime.utils.data_container"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sktime.utils.data_container</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="sktime-exceptions-exceptions">
+<span id="exceptions-ref"></span><h2><a class="reference internal" href="modules/auto_generated/sktime.exceptions.html#module-sktime.exceptions" title="sktime.exceptions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.exceptions</span></code></a>: Exceptions<a class="headerlink" href="#sktime-exceptions-exceptions" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">sktime.exceptions</span></code> module contains classes for exceptions and warnings.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="modules/auto_generated/sktime.exceptions.html#module-sktime.exceptions" title="sktime.exceptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sktime.exceptions</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

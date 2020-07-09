@@ -1,0 +1,533 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.transformers.series_as_features.summarize._tsfresh &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.transformers.series_as_features.summarize._tsfresh</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.transformers.series_as_features.summarize._tsfresh</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3 -u</span>
+<span class="c1"># coding: utf-8</span>
+<span class="c1"># copyright: sktime developers, BSD-3-Clause License (see LICENSE file)</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Ayushmaan Seth&quot;</span><span class="p">,</span> <span class="s2">&quot;Markus Löning&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;TSFreshFeatureExtractor&quot;</span><span class="p">,</span> <span class="s2">&quot;TSFreshRelevantFeatureExtractor&quot;</span><span class="p">]</span>
+
+<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+
+<span class="kn">from</span> <span class="nn">sktime.transformers.series_as_features.base</span> <span class="kn">import</span> \
+    <span class="n">BaseSeriesAsFeaturesTransformer</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.data_container</span> <span class="kn">import</span> <span class="n">from_nested_to_long</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.series_as_features</span> <span class="kn">import</span> <span class="n">check_X</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.series_as_features</span> <span class="kn">import</span> <span class="n">check_X_y</span>
+
+
+<span class="k">class</span> <span class="nc">BaseTSFreshFeatureExtractor</span><span class="p">(</span><span class="n">BaseSeriesAsFeaturesTransformer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base adapter class for tsfresh transformers&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default_fc_parameters</span><span class="o">=</span><span class="s2">&quot;efficient&quot;</span><span class="p">,</span>
+                 <span class="n">kind_to_fc_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">show_warnings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">disable_progressbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">impute_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">profiling</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">profiling_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">profiling_sorting</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">distributor</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_fc_parameters</span> <span class="o">=</span> <span class="n">default_fc_parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kind_to_fc_parameters</span> <span class="o">=</span> <span class="n">kind_to_fc_parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">=</span> <span class="n">n_jobs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chunksize</span> <span class="o">=</span> <span class="n">chunksize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_warnings</span> <span class="o">=</span> <span class="n">show_warnings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disable_progressbar</span> <span class="o">=</span> <span class="n">disable_progressbar</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">impute_function</span> <span class="o">=</span> <span class="n">impute_function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profiling</span> <span class="o">=</span> <span class="n">profiling</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profiling_sorting</span> <span class="o">=</span> <span class="n">profiling_sorting</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profiling_filename</span> <span class="o">=</span> <span class="n">profiling_filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distributor</span> <span class="o">=</span> <span class="n">distributor</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_fc_parameters_</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">BaseTSFreshFeatureExtractor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : pd.DataFrame</span>
+<span class="sd">            nested pandas DataFrame of shape [n_samples, n_columns]</span>
+<span class="sd">        y : pd.Series or np.array</span>
+<span class="sd">            Target variable</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : an instance of self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_fc_parameters_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_extraction_params</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">_get_extraction_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Helper function to set default parameters from tsfresh</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># lazy imports to avoid hard dependency</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.defaults</span> <span class="kn">import</span> <span class="n">CHUNKSIZE</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.defaults</span> <span class="kn">import</span> <span class="n">DISABLE_PROGRESSBAR</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.utilities.dataframe_functions</span> <span class="kn">import</span> <span class="n">impute</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.defaults</span> <span class="kn">import</span> <span class="n">N_PROCESSES</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.defaults</span> <span class="kn">import</span> <span class="n">PROFILING</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.defaults</span> <span class="kn">import</span> <span class="n">PROFILING_FILENAME</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.defaults</span> <span class="kn">import</span> <span class="n">PROFILING_SORTING</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.defaults</span> <span class="kn">import</span> <span class="n">SHOW_WARNINGS</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.feature_extraction.settings</span> <span class="kn">import</span> \
+            <span class="n">ComprehensiveFCParameters</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.feature_extraction.settings</span> <span class="kn">import</span> <span class="n">EfficientFCParameters</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.feature_extraction.settings</span> <span class="kn">import</span> <span class="n">MinimalFCParameters</span>
+
+        <span class="c1"># Set defaults from tsfresh</span>
+        <span class="n">extraction_params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;kind_to_fc_parameters&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">kind_to_fc_parameters</span><span class="p">,</span>
+            <span class="s2">&quot;n_jobs&quot;</span><span class="p">:</span> <span class="n">N_PROCESSES</span><span class="p">,</span>
+            <span class="s2">&quot;chunksize&quot;</span><span class="p">:</span> <span class="n">CHUNKSIZE</span><span class="p">,</span>
+            <span class="s2">&quot;show_warnings&quot;</span><span class="p">:</span> <span class="n">SHOW_WARNINGS</span><span class="p">,</span>
+            <span class="s2">&quot;disable_progressbar&quot;</span><span class="p">:</span> <span class="n">DISABLE_PROGRESSBAR</span><span class="p">,</span>
+            <span class="s2">&quot;impute_function&quot;</span><span class="p">:</span> <span class="n">impute</span><span class="p">,</span>
+            <span class="s2">&quot;profiling_sorting&quot;</span><span class="p">:</span> <span class="n">PROFILING_SORTING</span><span class="p">,</span>
+            <span class="s2">&quot;profiling_filename&quot;</span><span class="p">:</span> <span class="n">PROFILING_FILENAME</span><span class="p">,</span>
+            <span class="s2">&quot;profile&quot;</span><span class="p">:</span> <span class="n">PROFILING</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Replace defaults with user defined parameters</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">extraction_params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">extraction_params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="c1"># Convert convenience string arguments to tsfresh parameters classes</span>
+        <span class="n">fc_param_lookup</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;minimal&quot;</span><span class="p">:</span> <span class="n">MinimalFCParameters</span><span class="p">(),</span>
+            <span class="s2">&quot;efficient&quot;</span><span class="p">:</span> <span class="n">EfficientFCParameters</span><span class="p">(),</span>
+            <span class="s2">&quot;comprehensive&quot;</span><span class="p">:</span> <span class="n">ComprehensiveFCParameters</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default_fc_parameters</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_fc_parameters</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fc_param_lookup</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;If `default_fc_parameters` is passed as a &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;string, &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;it must be one of&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">fc_param_lookup</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">, but found: &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">default_fc_parameters</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fc_parameters</span> <span class="o">=</span> <span class="n">fc_param_lookup</span><span class="p">[</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">default_fc_parameters</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fc_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_fc_parameters</span>
+        <span class="n">extraction_params</span><span class="p">[</span><span class="s2">&quot;default_fc_parameters&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fc_parameters</span>
+
+        <span class="k">return</span> <span class="n">extraction_params</span>
+
+
+<div class="viewcode-block" id="TSFreshFeatureExtractor"><a class="viewcode-back" href="../../../../../modules/auto_generated/sktime.transformers.series_as_features.summarize.TSFreshFeatureExtractor.html#sktime.transformers.series_as_features.summarize.TSFreshFeatureExtractor">[docs]</a><span class="k">class</span> <span class="nc">TSFreshFeatureExtractor</span><span class="p">(</span><span class="n">BaseTSFreshFeatureExtractor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Transformer for extracting time series features</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ..[1]  https://github.com/blue-yonder/tsfresh</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TSFreshFeatureExtractor.transform"><a class="viewcode-back" href="../../../../../modules/auto_generated/sktime.transformers.series_as_features.summarize.html#sktime.transformers.series_as_features.summarize.TSFreshFeatureExtractor.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Transform X.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : pd.DataFrame</span>
+<span class="sd">            nested pandas DataFrame of shape [n_samples, n_columns]</span>
+<span class="sd">        y : pd.Series, optional (default=None)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Xt : pandas DataFrame</span>
+<span class="sd">          Transformed pandas DataFrame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># input checks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="c1"># tsfresh requires unique index, returns only values for</span>
+        <span class="c1"># unique index values</span>
+        <span class="k">if</span> <span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Found non-unique index, replaced with unique index.&quot;</span><span class="p">)</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">Xt</span> <span class="o">=</span> <span class="n">from_nested_to_long</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="c1"># lazy imports to avoid hard dependency</span>
+        <span class="kn">from</span> <span class="nn">tsfresh</span> <span class="kn">import</span> <span class="n">extract_features</span>
+        <span class="n">extraction_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_extraction_params</span><span class="p">()</span>
+        <span class="n">Xt</span> <span class="o">=</span> <span class="n">extract_features</span><span class="p">(</span>
+            <span class="n">Xt</span><span class="p">,</span>
+            <span class="n">column_id</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">,</span>
+            <span class="n">column_value</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span>
+            <span class="n">column_kind</span><span class="o">=</span><span class="s2">&quot;column&quot;</span><span class="p">,</span>
+            <span class="n">column_sort</span><span class="o">=</span><span class="s2">&quot;time_index&quot;</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">extraction_params</span><span class="p">)</span>
+
+        <span class="c1"># When using the long input format, tsfresh seems to sort the index,</span>
+        <span class="c1"># here we make sure we return the dataframe in the sort order as the</span>
+        <span class="c1"># input data</span>
+        <span class="k">return</span> <span class="n">Xt</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="TSFreshRelevantFeatureExtractor"><a class="viewcode-back" href="../../../../../modules/auto_generated/sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor.html#sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor">[docs]</a><span class="k">class</span> <span class="nc">TSFreshRelevantFeatureExtractor</span><span class="p">(</span><span class="n">BaseTSFreshFeatureExtractor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Transformer for extracting and selecting features.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ..[1]  https://github.com/blue-yonder/tsfresh</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TSFreshRelevantFeatureExtractor.__init__"><a class="viewcode-back" href="../../../../../modules/auto_generated/sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor.html#sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default_fc_parameters</span><span class="o">=</span><span class="s2">&quot;efficient&quot;</span><span class="p">,</span>
+                 <span class="n">kind_to_fc_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">show_warnings</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">disable_progressbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">impute_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">profiling</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">profiling_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">profiling_sorting</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">distributor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">test_for_binary_target_binary_feature</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">test_for_binary_target_real_feature</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">test_for_real_target_binary_feature</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">test_for_real_target_real_feature</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fdr_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">hypotheses_independent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">ml_task</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">TSFreshRelevantFeatureExtractor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">default_fc_parameters</span><span class="o">=</span><span class="n">default_fc_parameters</span><span class="p">,</span>
+            <span class="n">kind_to_fc_parameters</span><span class="o">=</span><span class="n">kind_to_fc_parameters</span><span class="p">,</span>
+            <span class="n">chunksize</span><span class="o">=</span><span class="n">chunksize</span><span class="p">,</span>
+            <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
+            <span class="n">show_warnings</span><span class="o">=</span><span class="n">show_warnings</span><span class="p">,</span>
+            <span class="n">disable_progressbar</span><span class="o">=</span><span class="n">disable_progressbar</span><span class="p">,</span>
+            <span class="n">impute_function</span><span class="o">=</span><span class="n">impute_function</span><span class="p">,</span>
+            <span class="n">profiling</span><span class="o">=</span><span class="n">profiling</span><span class="p">,</span>
+            <span class="n">profiling_filename</span><span class="o">=</span><span class="n">profiling_filename</span><span class="p">,</span>
+            <span class="n">profiling_sorting</span><span class="o">=</span><span class="n">profiling_sorting</span><span class="p">,</span>
+            <span class="n">distributor</span><span class="o">=</span><span class="n">distributor</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_for_binary_target_binary_feature</span> <span class="o">=</span> \
+            <span class="n">test_for_binary_target_binary_feature</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_for_binary_target_real_feature</span> <span class="o">=</span> \
+            <span class="n">test_for_binary_target_real_feature</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_for_real_target_binary_feature</span> <span class="o">=</span> \
+            <span class="n">test_for_real_target_binary_feature</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_for_real_target_real_feature</span> <span class="o">=</span> \
+            <span class="n">test_for_real_target_real_feature</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fdr_level</span> <span class="o">=</span> <span class="n">fdr_level</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hypotheses_independent</span> <span class="o">=</span> <span class="n">hypotheses_independent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ml_task</span> <span class="o">=</span> <span class="n">ml_task</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_selection_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Helper function to set default values from tsfresh</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># lazy imports to avoid hard dependency</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.defaults</span> <span class="kn">import</span> <span class="n">TEST_FOR_BINARY_TARGET_BINARY_FEATURE</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.defaults</span> <span class="kn">import</span> <span class="n">TEST_FOR_BINARY_TARGET_REAL_FEATURE</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.defaults</span> <span class="kn">import</span> <span class="n">TEST_FOR_REAL_TARGET_BINARY_FEATURE</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.defaults</span> <span class="kn">import</span> <span class="n">TEST_FOR_REAL_TARGET_REAL_FEATURE</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.defaults</span> <span class="kn">import</span> <span class="n">FDR_LEVEL</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.defaults</span> <span class="kn">import</span> <span class="n">HYPOTHESES_INDEPENDENT</span>
+
+        <span class="c1"># Set defaults</span>
+        <span class="n">selection_params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;test_for_binary_target_binary_feature&quot;</span><span class="p">:</span>
+                <span class="n">TEST_FOR_BINARY_TARGET_BINARY_FEATURE</span><span class="p">,</span>
+            <span class="s2">&quot;test_for_binary_target_real_feature&quot;</span><span class="p">:</span>
+                <span class="n">TEST_FOR_BINARY_TARGET_REAL_FEATURE</span><span class="p">,</span>
+            <span class="s2">&quot;test_for_real_target_binary_feature&quot;</span><span class="p">:</span>
+                <span class="n">TEST_FOR_REAL_TARGET_BINARY_FEATURE</span><span class="p">,</span>
+            <span class="s2">&quot;test_for_real_target_real_feature&quot;</span><span class="p">:</span>
+                <span class="n">TEST_FOR_REAL_TARGET_REAL_FEATURE</span><span class="p">,</span>
+            <span class="s2">&quot;fdr_level&quot;</span><span class="p">:</span> <span class="n">FDR_LEVEL</span><span class="p">,</span>
+            <span class="s2">&quot;hypotheses_independent&quot;</span><span class="p">:</span> <span class="n">HYPOTHESES_INDEPENDENT</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Replace defaults with user defined parameters</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">selection_params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">selection_params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">return</span> <span class="n">selection_params</span>
+
+<div class="viewcode-block" id="TSFreshRelevantFeatureExtractor.fit"><a class="viewcode-back" href="../../../../../modules/auto_generated/sktime.transformers.series_as_features.summarize.html#sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : pd.DataFrame</span>
+<span class="sd">            nested pandas DataFrame of shape [n_samples, n_columns]</span>
+<span class="sd">        y : pd.Series or np.array</span>
+<span class="sd">            Target variable</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : an instance of self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># lazy imports to avoid hard dependency</span>
+        <span class="kn">from</span> <span class="nn">tsfresh.transformers.feature_selector</span> <span class="kn">import</span> <span class="n">FeatureSelector</span>
+
+        <span class="c1"># input checks</span>
+        <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> requires `y` in `fit`.&quot;</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">extractor_</span> <span class="o">=</span> <span class="n">TSFreshFeatureExtractor</span><span class="p">(</span>
+            <span class="n">default_fc_parameters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">default_fc_parameters</span><span class="p">,</span>
+            <span class="n">kind_to_fc_parameters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kind_to_fc_parameters</span><span class="p">,</span>
+            <span class="n">chunksize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chunksize</span><span class="p">,</span>
+            <span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">,</span>
+            <span class="n">show_warnings</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">show_warnings</span><span class="p">,</span>
+            <span class="n">disable_progressbar</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">disable_progressbar</span><span class="p">,</span>
+            <span class="n">profiling</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">profiling</span><span class="p">,</span>
+            <span class="n">profiling_filename</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">profiling_filename</span><span class="p">,</span>
+            <span class="n">profiling_sorting</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">profiling_sorting</span>
+        <span class="p">)</span>
+
+        <span class="n">selection_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_selection_params</span><span class="p">()</span>
+        <span class="n">extraction_param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_extraction_params</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selector_</span> <span class="o">=</span> <span class="n">FeatureSelector</span><span class="p">(</span>
+            <span class="n">n_jobs</span><span class="o">=</span><span class="n">extraction_param</span><span class="p">[</span><span class="s2">&quot;n_jobs&quot;</span><span class="p">],</span>
+            <span class="n">chunksize</span><span class="o">=</span><span class="n">extraction_param</span><span class="p">[</span><span class="s2">&quot;chunksize&quot;</span><span class="p">],</span>
+            <span class="n">ml_task</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ml_task</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">selection_params</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">Xt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extractor_</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selector_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xt</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="TSFreshRelevantFeatureExtractor.transform"><a class="viewcode-back" href="../../../../../modules/auto_generated/sktime.transformers.series_as_features.summarize.html#sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Transform X.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : pd.DataFrame</span>
+<span class="sd">            nested pandas DataFrame of shape [n_samples, n_columns]</span>
+<span class="sd">        y : pd.Series or np.array</span>
+<span class="sd">            Target variable</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Xt : pandas DataFrame</span>
+<span class="sd">          Transformed pandas DataFrame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">Xt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extractor_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">Xt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selector_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">Xt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Xt</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">index</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

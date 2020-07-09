@@ -1,0 +1,16 @@
+:mod:`sktime.transformers.series_as_features.dictionary_based`.SFA
+=========================================================================
+
+.. currentmodule:: sktime.transformers.series_as_features.dictionary_based
+
+.. autoclass:: SFA
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.transformers.series_as_features.dictionary_based.SFA.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

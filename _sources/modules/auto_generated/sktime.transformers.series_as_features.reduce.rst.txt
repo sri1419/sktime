@@ -1,0 +1,7 @@
+sktime.transformers.series\_as\_features.reduce
+-----------------------------------------------
+
+.. automodule:: sktime.transformers.series_as_features.reduce
+   :members:
+   :undoc-members:
+   :show-inheritance:

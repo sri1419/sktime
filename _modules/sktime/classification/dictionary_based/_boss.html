@@ -1,0 +1,722 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.classification.dictionary_based._boss &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.classification.dictionary_based._boss</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.classification.dictionary_based._boss</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; BOSS classifiers</span>
+<span class="sd">dictionary based BOSS classifiers based on SFA transform. Contains a single</span>
+<span class="sd">BOSS and a BOSS ensemble</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Matthew Middlehurst&quot;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;BOSSEnsemble&quot;</span><span class="p">,</span> <span class="s2">&quot;BOSSIndividual&quot;</span><span class="p">,</span> <span class="s2">&quot;boss_distance&quot;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">compress</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils.multiclass</span> <span class="kn">import</span> <span class="n">class_distribution</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">check_random_state</span>
+<span class="kn">from</span> <span class="nn">sktime.classification.base</span> <span class="kn">import</span> <span class="n">BaseClassifier</span>
+<span class="kn">from</span> <span class="nn">sktime.transformers.series_as_features.dictionary_based</span> <span class="kn">import</span> <span class="n">SFA</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.series_as_features</span> <span class="kn">import</span> <span class="n">check_X</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.series_as_features</span> <span class="kn">import</span> <span class="n">check_X_y</span>
+
+
+<span class="c1"># TO DO: Make more efficient</span>
+
+
+<div class="viewcode-block" id="BOSSEnsemble"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.dictionary_based.BOSSEnsemble.html#sktime.classification.dictionary_based.BOSSEnsemble">[docs]</a><span class="k">class</span> <span class="nc">BOSSEnsemble</span><span class="p">(</span><span class="n">BaseClassifier</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Bag of SFA Symbols (BOSS)</span>
+
+<span class="sd">    Bag of SFA Symbols Ensemble: implementation of BOSS from Schafer:</span>
+<span class="sd">    @article</span>
+<span class="sd">    {schafer15boss,</span>
+<span class="sd">     author = {Patrick Schäfer,</span>
+<span class="sd">            title = {The BOSS is concerned with time series classification</span>
+<span class="sd">            in the presence of noise},</span>
+<span class="sd">            journal = {Data Mining and Knowledge Discovery},</span>
+<span class="sd">            volume = {29},</span>
+<span class="sd">            number= {6},</span>
+<span class="sd">            year = {2015}</span>
+<span class="sd">    }</span>
+<span class="sd">    Overview: Input n series length m</span>
+<span class="sd">    BOSS performs a gird search over a set of parameter values, evaluating</span>
+<span class="sd">    each with a LOOCV. It then retains</span>
+<span class="sd">    all ensemble members within 92% of the best. There are three primary</span>
+<span class="sd">    parameters:</span>
+<span class="sd">            alpha: alphabet size</span>
+<span class="sd">            w: window length</span>
+<span class="sd">            l: word length.</span>
+<span class="sd">    for any combination, a single BOSS slides a window length w along the</span>
+<span class="sd">    series. The w length window is shortened to</span>
+<span class="sd">    an l length word through taking a Fourier transform and keeping the</span>
+<span class="sd">    first l/2 complex coefficients. These l</span>
+<span class="sd">    coefficents are then discretised into alpha possible values, to form a</span>
+<span class="sd">    word length l. A histogram of words for each</span>
+<span class="sd">    series is formed and stored. fit involves finding n histograms.</span>
+
+<span class="sd">    predict uses 1 nearest neighbour with a bespoke distance function.</span>
+
+<span class="sd">    For the Java version, see</span>
+<span class="sd">    https://github.com/uea-machine-learning/tsml/blob/master/src/main/java</span>
+<span class="sd">    /tsml/classifiers/dictionary_based/BOSS.java</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    randomised_ensemble     : bool, turns the option to just randomise the</span>
+<span class="sd">    ensemble members rather than cross validate (cBOSS) (default=False)</span>
+<span class="sd">    n_parameter_samples     : int, if search is randomised, number of</span>
+<span class="sd">    parameter combos to try (default=250)</span>
+<span class="sd">    threshold               : double [0,1]. retain all classifiers within</span>
+<span class="sd">    threshold% of the best one, optional (default =0.92)</span>
+<span class="sd">    max_ensemble_size       : int or None, retain a maximum number of</span>
+<span class="sd">    classifiers, even if within threshold, optional</span>
+<span class="sd">    (default = 500, recommended 50 for cBOSS)</span>
+<span class="sd">    max_win_len_prop        : maximum window length as a proportion of</span>
+<span class="sd">    series length (default =1)</span>
+<span class="sd">    time_limit              : time contract to limit build time in minutes</span>
+<span class="sd">    (default=0, no limit)</span>
+<span class="sd">    min_window              : minimum window size, (default=10)</span>
+<span class="sd">    random_state            : int or None, seed for random, integer,</span>
+<span class="sd">    optional (default to no seed)</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_classes               : extracted from the data</span>
+<span class="sd">    n_instances             : extracted from the data</span>
+<span class="sd">    n_estimators           : The final number of classifiers used (</span>
+<span class="sd">    &lt;=max_ensemble_size)</span>
+<span class="sd">    series_length           : length of all series (assumed equal)</span>
+<span class="sd">    classifiers             : array of DecisionTree classifiers</span>
+<span class="sd">    weights                 : weight of each classifier in the ensemble</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BOSSEnsemble.__init__"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.dictionary_based.BOSSEnsemble.html#sktime.classification.dictionary_based.BOSSEnsemble.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">randomised_ensemble</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">n_parameter_samples</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
+                 <span class="n">threshold</span><span class="o">=</span><span class="mf">0.92</span><span class="p">,</span>
+                 <span class="n">max_ensemble_size</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+                 <span class="n">max_win_len_prop</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">time_limit</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                 <span class="n">min_window</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                 <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span>
+                 <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">randomised_ensemble</span> <span class="o">=</span> <span class="n">randomised_ensemble</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_parameter_samples</span> <span class="o">=</span> <span class="n">n_parameter_samples</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="o">=</span> <span class="n">threshold</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_ensemble_size</span> <span class="o">=</span> <span class="n">max_ensemble_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_win_len_prop</span> <span class="o">=</span> <span class="n">max_win_len_prop</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_limit</span> <span class="o">=</span> <span class="n">time_limit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight_sum</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_classes</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">class_dictionary</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_estimators</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">series_length</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_instances</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">word_lengths</span> <span class="o">=</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm_options</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_window</span> <span class="o">=</span> <span class="n">min_window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_size</span> <span class="o">=</span> <span class="mi">4</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BOSSEnsemble</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BOSSEnsemble.fit"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.dictionary_based.html#sktime.classification.dictionary_based.BOSSEnsemble.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Build an ensemble of BOSS classifiers from the training set (X,</span>
+<span class="sd">        y), either through randomising over the para</span>
+<span class="sd">         space to make a fixed size ensemble quickly or by creating a</span>
+<span class="sd">         variable size ensemble of those within a threshold</span>
+<span class="sd">         of the best</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : nested pandas DataFrame of shape [n_instances, 1]</span>
+<span class="sd">            Nested dataframe with univariate time-series in cells.</span>
+<span class="sd">        y : array-like, shape = [n_instances] The class labels.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">enforce_univariate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">values</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="k">else</span> <span class="n">y</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_limit</span> <span class="o">*</span> <span class="mi">60</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_instances</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">series_length</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span> <span class="o">=</span> <span class="n">class_distribution</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">classVal</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes_</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">class_dictionary</span><span class="p">[</span><span class="n">classVal</span><span class="p">]</span> <span class="o">=</span> <span class="n">index</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Window length parameter space dependent on series length</span>
+
+        <span class="n">max_window_searches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">series_length</span> <span class="o">/</span> <span class="mi">4</span>
+        <span class="n">max_window</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">series_length</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_win_len_prop</span><span class="p">)</span>
+        <span class="n">win_inc</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">max_window</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_window</span><span class="p">)</span> <span class="o">/</span> <span class="n">max_window_searches</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">win_inc</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">win_inc</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="c1"># cBOSS</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">randomised_ensemble</span><span class="p">:</span>
+            <span class="n">possible_parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unique_parameters</span><span class="p">(</span><span class="n">max_window</span><span class="p">,</span> <span class="n">win_inc</span><span class="p">)</span>
+            <span class="n">num_classifiers</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="n">train_time</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">subsample_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_instances</span> <span class="o">*</span> <span class="mf">0.7</span><span class="p">)</span>
+            <span class="n">lowest_acc</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">lowest_acc_idx</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="n">rng</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_limit</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">n_parameter_samples</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="k">while</span> <span class="p">(</span><span class="n">train_time</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_limit</span> <span class="ow">or</span> <span class="n">num_classifiers</span> <span class="o">&lt;</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">n_parameter_samples</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">possible_parameters</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">parameters</span> <span class="o">=</span> <span class="n">possible_parameters</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span>
+                    <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">possible_parameters</span><span class="p">)))</span>
+
+                <span class="n">subsample</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_instances</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">subsample_size</span><span class="p">,</span>
+                                       <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">X_subsample</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">subsample</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="n">y_subsample</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">subsample</span><span class="p">]</span>
+
+                <span class="n">boss</span> <span class="o">=</span> <span class="n">BOSSIndividual</span><span class="p">(</span><span class="o">*</span><span class="n">parameters</span><span class="p">,</span>
+                                      <span class="n">alphabet_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">alphabet_size</span><span class="p">,</span>
+                                      <span class="n">save_words</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                      <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+                <span class="n">boss</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_subsample</span><span class="p">,</span> <span class="n">y_subsample</span><span class="p">)</span>
+                <span class="n">boss</span><span class="o">.</span><span class="n">_clean</span><span class="p">()</span>
+
+                <span class="n">boss</span><span class="o">.</span><span class="n">accuracy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_individual_train_acc</span><span class="p">(</span><span class="n">boss</span><span class="p">,</span> <span class="n">y_subsample</span><span class="p">,</span>
+                                                           <span class="n">subsample_size</span><span class="p">,</span>
+                                                           <span class="n">lowest_acc</span><span class="p">)</span>
+                <span class="n">weight</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">boss</span><span class="o">.</span><span class="n">accuracy</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">num_classifiers</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_ensemble_size</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">boss</span><span class="o">.</span><span class="n">accuracy</span> <span class="o">&lt;</span> <span class="n">lowest_acc</span><span class="p">:</span>
+                        <span class="n">lowest_acc</span> <span class="o">=</span> <span class="n">boss</span><span class="o">.</span><span class="n">accuracy</span>
+                        <span class="n">lowest_acc_idx</span> <span class="o">=</span> <span class="n">num_classifiers</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">boss</span><span class="p">)</span>
+
+                <span class="k">elif</span> <span class="n">boss</span><span class="o">.</span><span class="n">accuracy</span> <span class="o">&gt;</span> <span class="n">lowest_acc</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">lowest_acc_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">weight</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span><span class="p">[</span><span class="n">lowest_acc_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">boss</span>
+                    <span class="n">lowest_acc</span><span class="p">,</span> <span class="n">lowest_acc_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worst_ensemble_acc</span><span class="p">()</span>
+
+                <span class="n">num_classifiers</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">train_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+        <span class="c1"># BOSS</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">max_acc</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">min_max_acc</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">normalise</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">norm_options</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">win_size</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_window</span><span class="p">,</span> <span class="n">max_window</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                      <span class="n">win_inc</span><span class="p">):</span>
+                    <span class="n">boss</span> <span class="o">=</span> <span class="n">BOSSIndividual</span><span class="p">(</span><span class="n">win_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">word_lengths</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                          <span class="n">normalise</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_size</span><span class="p">,</span>
+                                          <span class="n">save_words</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                          <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+                    <span class="n">boss</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+                    <span class="n">best_classifier_for_win_size</span> <span class="o">=</span> <span class="n">boss</span>
+                    <span class="n">best_acc_for_win_size</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                    <span class="n">best_word_len</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">word_lengths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">word_len</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">word_lengths</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">boss</span> <span class="o">=</span> <span class="n">boss</span><span class="o">.</span><span class="n">_shorten_bags</span><span class="p">(</span><span class="n">word_len</span><span class="p">)</span>
+
+                        <span class="n">boss</span><span class="o">.</span><span class="n">accuracy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_individual_train_acc</span><span class="p">(</span>
+                            <span class="n">boss</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_instances</span><span class="p">,</span> <span class="n">best_acc_for_win_size</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">boss</span><span class="o">.</span><span class="n">accuracy</span> <span class="o">&gt;=</span> <span class="n">best_acc_for_win_size</span><span class="p">:</span>
+                            <span class="n">best_acc_for_win_size</span> <span class="o">=</span> <span class="n">boss</span><span class="o">.</span><span class="n">accuracy</span>
+                            <span class="n">best_classifier_for_win_size</span> <span class="o">=</span> <span class="n">boss</span>
+                            <span class="n">best_word_len</span> <span class="o">=</span> <span class="n">word_len</span>
+
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_include_in_ensemble</span><span class="p">(</span><span class="n">best_acc_for_win_size</span><span class="p">,</span>
+                                                 <span class="n">max_acc</span><span class="p">,</span>
+                                                 <span class="n">min_max_acc</span><span class="p">,</span>
+                                                 <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span><span class="p">)):</span>
+                        <span class="n">best_classifier_for_win_size</span><span class="o">.</span><span class="n">_clean</span><span class="p">()</span>
+                        <span class="n">best_classifier_for_win_size</span><span class="o">.</span><span class="n">_set_word_len</span><span class="p">(</span>
+                            <span class="n">best_word_len</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_classifier_for_win_size</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">best_acc_for_win_size</span> <span class="o">&gt;</span> <span class="n">max_acc</span><span class="p">:</span>
+                            <span class="n">max_acc</span> <span class="o">=</span> <span class="n">best_acc_for_win_size</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">compress</span><span class="p">(</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span><span class="p">,</span> <span class="p">[</span>
+                                    <span class="n">classifier</span><span class="o">.</span><span class="n">accuracy</span> <span class="o">&gt;=</span> <span class="n">max_acc</span> <span class="o">*</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">classifier</span> <span class="ow">in</span>
+                                    <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span><span class="p">)]))</span>
+
+                        <span class="n">min_max_acc</span><span class="p">,</span> <span class="n">min_acc_ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worst_ensemble_acc</span><span class="p">()</span>
+
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_ensemble_size</span><span class="p">:</span>
+                            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span><span class="p">[</span><span class="n">min_acc_ind</span><span class="p">]</span>
+                            <span class="n">min_max_acc</span><span class="p">,</span> <span class="n">min_acc_ind</span> <span class="o">=</span> \
+                                <span class="bp">self</span><span class="o">.</span><span class="n">_worst_ensemble_acc</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span><span class="p">))]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_estimators</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="BOSSEnsemble.predict"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.dictionary_based.html#sktime.classification.dictionary_based.BOSSEnsemble.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">classes_</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="n">prob</span> <span class="o">==</span> <span class="n">prob</span><span class="o">.</span><span class="n">max</span><span class="p">())))]</span> <span class="k">for</span> <span class="n">prob</span>
+                <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)])</span></div>
+
+<div class="viewcode-block" id="BOSSEnsemble.predict_proba"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.dictionary_based.html#sktime.classification.dictionary_based.BOSSEnsemble.predict_proba">[docs]</a>    <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">enforce_univariate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">sums</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_classes</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">clf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span><span class="p">):</span>
+            <span class="n">preds</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="n">sums</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_dictionary</span><span class="p">[</span><span class="n">preds</span><span class="p">[</span><span class="n">i</span><span class="p">]]]</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+
+        <span class="n">dists</span> <span class="o">=</span> <span class="n">sums</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_classes</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_sum</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dists</span></div>
+
+    <span class="k">def</span> <span class="nf">_include_in_ensemble</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">acc</span><span class="p">,</span> <span class="n">max_acc</span><span class="p">,</span> <span class="n">min_max_acc</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">acc</span> <span class="o">&gt;=</span> <span class="n">max_acc</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">size</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_ensemble_size</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">acc</span> <span class="o">&gt;</span> <span class="n">min_max_acc</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">_worst_ensemble_acc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">min_acc</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">min_acc_idx</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">classifier</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">classifier</span><span class="o">.</span><span class="n">accuracy</span> <span class="o">&lt;</span> <span class="n">min_acc</span><span class="p">:</span>
+                <span class="n">min_acc</span> <span class="o">=</span> <span class="n">classifier</span><span class="o">.</span><span class="n">accuracy</span>
+                <span class="n">min_acc_idx</span> <span class="o">=</span> <span class="n">c</span>
+
+        <span class="k">return</span> <span class="n">min_acc</span><span class="p">,</span> <span class="n">min_acc_idx</span>
+
+    <span class="k">def</span> <span class="nf">_get_train_probs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">num_inst</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_inst</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_classes</span><span class="p">))</span>
+        <span class="n">divisor</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_classes</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_inst</span><span class="p">):</span>
+            <span class="n">sums</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_classes</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">clf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span><span class="p">):</span>
+                <span class="n">sums</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">class_dictionary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">_train_predict</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)]</span> <span class="o">+=</span> \
+                    <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+
+            <span class="n">dists</span> <span class="o">=</span> <span class="n">sums</span> <span class="o">/</span> <span class="n">divisor</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_classes</span><span class="p">):</span>
+                <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">dists</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">results</span>
+
+    <span class="k">def</span> <span class="nf">_unique_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_window</span><span class="p">,</span> <span class="n">win_inc</span><span class="p">):</span>
+        <span class="n">possible_parameters</span> <span class="o">=</span> <span class="p">[[</span><span class="n">win_size</span><span class="p">,</span> <span class="n">word_len</span><span class="p">,</span> <span class="n">normalise</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">normalise</span>
+                               <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">norm_options</span><span class="p">)</span>
+                               <span class="k">for</span> <span class="n">win_size</span> <span class="ow">in</span>
+                               <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_window</span><span class="p">,</span> <span class="n">max_window</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">win_inc</span><span class="p">)</span>
+                               <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">word_len</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">word_lengths</span><span class="p">)]</span>
+
+        <span class="k">return</span> <span class="n">possible_parameters</span>
+
+    <span class="k">def</span> <span class="nf">_individual_train_acc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boss</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">train_size</span><span class="p">,</span> <span class="n">lowest_acc</span><span class="p">):</span>
+        <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">required_correct</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lowest_acc</span> <span class="o">*</span> <span class="n">train_size</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">train_size</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">correct</span> <span class="o">+</span> <span class="n">train_size</span> <span class="o">-</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">required_correct</span><span class="p">:</span>
+                <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+            <span class="n">c</span> <span class="o">=</span> <span class="n">boss</span><span class="o">.</span><span class="n">_train_predict</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="n">correct</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">correct</span> <span class="o">/</span> <span class="n">train_size</span></div>
+
+
+<div class="viewcode-block" id="BOSSIndividual"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.dictionary_based.BOSSIndividual.html#sktime.classification.dictionary_based.BOSSIndividual">[docs]</a><span class="k">class</span> <span class="nc">BOSSIndividual</span><span class="p">(</span><span class="n">BaseClassifier</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Single Bag of SFA Symbols (BOSS) classifier</span>
+
+<span class="sd">    Bag of SFA Symbols Ensemble: implementation of BOSS from Schaffer :</span>
+<span class="sd">    @article</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BOSSIndividual.__init__"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.dictionary_based.BOSSIndividual.html#sktime.classification.dictionary_based.BOSSIndividual.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">window_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                 <span class="n">word_length</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+                 <span class="n">norm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">alphabet_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                 <span class="n">save_words</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span>
+                 <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span> <span class="o">=</span> <span class="n">window_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">word_length</span> <span class="o">=</span> <span class="n">word_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm</span> <span class="o">=</span> <span class="n">norm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_size</span> <span class="o">=</span> <span class="n">alphabet_size</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_words</span> <span class="o">=</span> <span class="n">save_words</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span> <span class="o">=</span> <span class="n">SFA</span><span class="p">(</span><span class="n">word_length</span><span class="o">=</span><span class="n">word_length</span><span class="p">,</span>
+                               <span class="n">alphabet_size</span><span class="o">=</span><span class="n">alphabet_size</span><span class="p">,</span>
+                               <span class="n">window_size</span><span class="o">=</span><span class="n">window_size</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
+                               <span class="n">remove_repeat_words</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                               <span class="n">save_words</span><span class="o">=</span><span class="n">save_words</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transformed_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">accuracy</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">class_vals</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">class_dictionary</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BOSSIndividual</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BOSSIndividual.fit"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.dictionary_based.html#sktime.classification.dictionary_based.BOSSIndividual.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">check_X_y</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">enforce_univariate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">sfa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transformed_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">series</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">series</span> <span class="ow">in</span> <span class="n">sfa</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">class_vals</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span> <span class="o">=</span> <span class="n">class_distribution</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">classVal</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes_</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">class_dictionary</span><span class="p">[</span><span class="n">classVal</span><span class="p">]</span> <span class="o">=</span> <span class="n">index</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="BOSSIndividual.predict"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.dictionary_based.html#sktime.classification.dictionary_based.BOSSIndividual.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">enforce_univariate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">check_random_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+
+        <span class="n">classes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">test_bags</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">test_bags</span> <span class="o">=</span> <span class="p">[</span><span class="n">series</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">series</span> <span class="ow">in</span> <span class="n">test_bags</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]]</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">test_bag</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">test_bags</span><span class="p">):</span>
+            <span class="n">best_dist</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">float_info</span><span class="o">.</span><span class="n">max</span>
+            <span class="n">nn</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">bag</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformed_data</span><span class="p">):</span>
+                <span class="n">dist</span> <span class="o">=</span> <span class="n">boss_distance</span><span class="p">(</span><span class="n">test_bag</span><span class="p">,</span> <span class="n">bag</span><span class="p">,</span> <span class="n">best_dist</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">dist</span> <span class="o">&lt;</span> <span class="n">best_dist</span> <span class="ow">or</span> <span class="p">(</span><span class="n">dist</span> <span class="o">==</span> <span class="n">best_dist</span> <span class="ow">and</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+                                        <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">):</span>
+                    <span class="n">best_dist</span> <span class="o">=</span> <span class="n">dist</span>
+                    <span class="n">nn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_vals</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+
+            <span class="n">classes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nn</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">classes</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BOSSIndividual.predict_proba"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.classification.dictionary_based.html#sktime.classification.dictionary_based.BOSSIndividual.predict_proba">[docs]</a>    <span class="k">def</span> <span class="nf">predict_proba</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">preds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">dists</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">dists</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_dictionary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">preds</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">dists</span></div>
+
+    <span class="k">def</span> <span class="nf">_train_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">train_num</span><span class="p">):</span>
+        <span class="n">test_bag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformed_data</span><span class="p">[</span><span class="n">train_num</span><span class="p">]</span>
+        <span class="n">best_dist</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">float_info</span><span class="o">.</span><span class="n">max</span>
+        <span class="n">nn</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">bag</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformed_data</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="n">train_num</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">dist</span> <span class="o">=</span> <span class="n">boss_distance</span><span class="p">(</span><span class="n">test_bag</span><span class="p">,</span> <span class="n">bag</span><span class="p">,</span> <span class="n">best_dist</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">dist</span> <span class="o">&lt;</span> <span class="n">best_dist</span><span class="p">:</span>
+                <span class="n">best_dist</span> <span class="o">=</span> <span class="n">dist</span>
+                <span class="n">nn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_vals</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">nn</span>
+
+    <span class="k">def</span> <span class="nf">_shorten_bags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word_len</span><span class="p">):</span>
+        <span class="n">new_boss</span> <span class="o">=</span> <span class="n">BOSSIndividual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_size</span><span class="p">,</span> <span class="n">word_len</span><span class="p">,</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">alphabet_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">,</span>
+                                  <span class="n">save_words</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">save_words</span><span class="p">,</span>
+                                  <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="n">new_boss</span><span class="o">.</span><span class="n">transformer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span>
+        <span class="n">sfa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span><span class="o">.</span><span class="n">_shorten_bags</span><span class="p">(</span><span class="n">word_len</span><span class="p">)</span>
+        <span class="n">new_boss</span><span class="o">.</span><span class="n">transformed_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">series</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">series</span> <span class="ow">in</span>
+                                     <span class="n">sfa</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]]</span>
+        <span class="n">new_boss</span><span class="o">.</span><span class="n">class_vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_vals</span>
+        <span class="n">new_boss</span><span class="o">.</span><span class="n">num_classes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_classes</span>
+        <span class="n">new_boss</span><span class="o">.</span><span class="n">classes_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span>
+        <span class="n">new_boss</span><span class="o">.</span><span class="n">class_dictionary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_dictionary</span>
+
+        <span class="n">new_boss</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">new_boss</span>
+
+    <span class="k">def</span> <span class="nf">_clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span><span class="o">.</span><span class="n">words</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span><span class="o">.</span><span class="n">save_words</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">_set_word_len</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word_len</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">word_length</span> <span class="o">=</span> <span class="n">word_len</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span><span class="o">.</span><span class="n">word_length</span> <span class="o">=</span> <span class="n">word_len</span></div>
+
+
+<span class="k">def</span> <span class="nf">boss_distance</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">best_dist</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">float_info</span><span class="o">.</span><span class="n">max</span><span class="p">):</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">val_a</span> <span class="ow">in</span> <span class="n">first</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">val_b</span> <span class="o">=</span> <span class="n">second</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">dist</span> <span class="o">+=</span> <span class="p">(</span><span class="n">val_a</span> <span class="o">-</span> <span class="n">val_b</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">val_a</span> <span class="o">-</span> <span class="n">val_b</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">dist</span> <span class="o">&gt;</span> <span class="n">best_dist</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">sys</span><span class="o">.</span><span class="n">float_info</span><span class="o">.</span><span class="n">max</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="mi">0</span> <span class="k">if</span> <span class="n">first</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="n">first</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">-</span> <span class="n">second</span><span class="p">[</span><span class="n">n</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="n">first</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">-</span> <span class="n">second</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+                       <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">first</span><span class="p">))])</span>
+
+    <span class="k">return</span> <span class="n">dist</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

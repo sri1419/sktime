@@ -1,0 +1,16 @@
+:mod:`sktime.transformers.series_as_features.summarize`.DerivativeSlopeTransformer
+=========================================================================================
+
+.. currentmodule:: sktime.transformers.series_as_features.summarize
+
+.. autoclass:: DerivativeSlopeTransformer
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.transformers.series_as_features.summarize.DerivativeSlopeTransformer.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

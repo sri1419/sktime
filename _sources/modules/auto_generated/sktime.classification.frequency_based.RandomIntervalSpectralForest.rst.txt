@@ -1,0 +1,16 @@
+:mod:`sktime.classification.frequency_based`.RandomIntervalSpectralForest
+================================================================================
+
+.. currentmodule:: sktime.classification.frequency_based
+
+.. autoclass:: RandomIntervalSpectralForest
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.classification.frequency_based.RandomIntervalSpectralForest.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

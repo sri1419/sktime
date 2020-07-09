@@ -1,0 +1,332 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.transformers.single_series.adapt &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>sktime.transformers.single_series.adapt</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-sktime.transformers.single_series.adapt">
+<span id="sktime-transformers-single-series-adapt"></span><h1>sktime.transformers.single_series.adapt<a class="headerlink" href="#module-sktime.transformers.single_series.adapt" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.transformers.single_series.adapt.</code><code class="sig-name descname">SingleSeriesTransformAdaptor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transformer</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/single_series/adapt.html#SingleSeriesTransformAdaptor"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/single_series/adapt.py#L16-L119"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sktime.transformers.single_series.base.html#sktime.transformers.single_series.base.BaseSingleSeriesTransformer" title="sktime.transformers.single_series.base.BaseSingleSeriesTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.transformers.single_series.base.BaseSingleSeriesTransformer</span></code></a></p>
+<p>Adaptor for scikit-learn-like tabular transformers to single series
+setting.</p>
+<p>This is useful for applying scikit-learn transformers to single series,
+but only works with transformers that
+do not require multiple instances for fitting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>transformer</strong> (<em>Estimator</em>) – scikit-learn-like transformer to fit and apply to single series</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y_train</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">fit_params</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/single_series/adapt.html#SingleSeriesTransformAdaptor.fit"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/single_series/adapt.py#L37-L55"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_train</strong> (<em>pd.Series</em>) – </p></li>
+<li><p><strong>fit_params</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>self</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.inverse_transform">
+<code class="sig-name descname">inverse_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">transform_params</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/single_series/adapt.html#SingleSeriesTransformAdaptor.inverse_transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/../../../../miniconda/envs/testenv/lib/python3.7/site-packages/sklearn/utils/metaestimators.py#L87-L105"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.inverse_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverse transform data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>y</strong> (<em>pd.Series</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>yt</strong> – Inverse-transformed time series.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">transform_params</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/single_series/adapt.html#SingleSeriesTransformAdaptor.transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/single_series/adapt.py#L67-L85"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform data.
+Returns a transformed version of y.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>y</strong> (<em>pd.Series</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>yt</strong> – Transformed time series.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y_new</span></em>, <em class="sig-param"><span class="n">update_params</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/single_series/adapt.html#SingleSeriesTransformAdaptor.update"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/single_series/adapt.py#L107-L119"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.single_series.adapt.SingleSeriesTransformAdaptor.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update fitted parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_new</strong> (<em>pd.Series</em>) – </p></li>
+<li><p><strong>update_params</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em><em> (</em><em>default=False</em><em>)</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>self</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>an instance of self</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

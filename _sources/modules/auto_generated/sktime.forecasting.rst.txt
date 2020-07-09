@@ -1,0 +1,27 @@
+sktime.forecasting
+------------------
+
+.. automodule:: sktime.forecasting
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   sktime.forecasting.base
+   sktime.forecasting.compose
+   sktime.forecasting.model_selection
+
+Submodules
+----------
+
+.. toctree::
+
+   sktime.forecasting.arima
+   sktime.forecasting.exp_smoothing
+   sktime.forecasting.naive
+   sktime.forecasting.theta
+   sktime.forecasting.trend

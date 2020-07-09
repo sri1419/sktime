@@ -1,0 +1,421 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.classification.shapelet_based.mrseql.mrseql &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>sktime.classification.shapelet_based.mrseql.mrseql</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-sktime.classification.shapelet_based.mrseql.mrseql">
+<span id="sktime-classification-shapelet-based-mrseql-mrseql"></span><h1>sktime.classification.shapelet_based.mrseql.mrseql<a class="headerlink" href="#module-sktime.classification.shapelet_based.mrseql.mrseql" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.AdaptedSFA">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.classification.shapelet_based.mrseql.mrseql.</code><code class="sig-name descname">AdaptedSFA</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">N</span></em>, <em class="sig-param"><span class="n">w</span></em>, <em class="sig-param"><span class="n">a</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.AdaptedSFA" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SFA adaptation for Mr-SEQL. This code uses a different alphabet for each Fourier coefficient in the output of SFA.</p>
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.AdaptedSFA.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">train_x</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.AdaptedSFA.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.AdaptedSFA.timeseries2SFAseq">
+<code class="sig-name descname">timeseries2SFAseq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ts</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.AdaptedSFA.timeseries2SFAseq" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.MrSEQLClassifier">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.classification.shapelet_based.mrseql.mrseql.</code><code class="sig-name descname">MrSEQLClassifier</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">seql_mode</span><span class="o">=</span><span class="default_value">'fs'</span></em>, <em class="sig-param"><span class="n">symrep</span><span class="o">=</span><span class="default_value">'sax'</span></em>, <em class="sig-param"><span class="n">custom_config</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.MrSEQLClassifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sktime.classification.base.html#sktime.classification.base.BaseClassifier" title="sktime.classification.base.BaseClassifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.classification.base.BaseClassifier</span></code></a></p>
+<p>Time Series Classification with multiple symbolic representations and SEQL (Mr-SEQL)</p>
+<p>&#64;article{mrseql,
+author = {Le Nguyen, Thach and Gsponer, Severin and Ilie, Iulia and O’reilly, Martin and Ifrim, Georgiana},
+title = {Interpretable Time Series Classification Using Linear Models and Multi-resolution Multi-domain Symbolic Representations},
+journal = {Data Mining and Knowledge Discovery},
+volume = {33},
+number = {4},
+year = {2019},
+}</p>
+<p>Overview: Mr-SEQL is a time series classifier that learn from multiple symbolic representations of multiple resolutions and multiple domains.
+Currently, Mr-SEQL supports both SAX and SFA representations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seql_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>, </em><em>either 'clf'</em><em> or </em><em>'fs'. In the 'clf' mode</em><em>, </em><em>Mr-SEQL is an ensemble of SEQL models while in the 'fs' mode Mr-SEQL trains a logistic regression model with features extracted by SEQL from symbolic representations of time series.</em>) – </p></li>
+<li><p><strong>symrep</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><em>tuple</em></a><em>, </em><em>should contains only 'sax'</em><em> or </em><em>'sfa'</em><em> or </em><em>both. The symbolic representations to be used to transform the input time series.</em>) – </p></li>
+<li><p><strong>custom_config</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em>, </em><em>customized parameters for the symbolic transformation. If defined</em><em>, </em><em>symrep will be ignored.</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.MrSEQLClassifier.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">input_checks</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.MrSEQLClassifier.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the model according to the given training time series data.
+:param X:
+:type X: Time series data.
+:param y:
+:type y: Target vector relative to X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Fitted estimator.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>self</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.MrSEQLClassifier.map_sax_model">
+<code class="sig-name descname">map_sax_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ts</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.MrSEQLClassifier.map_sax_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>For interpretation.
+Returns vectors of weights with the same length of the input time series.
+The weight of each point implies its contribution in the classification decision regarding the class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ts</strong> (<em>A single time series.</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>weighted_ts</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray of (number of classes, length of time series)</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only supports univariate time series and SAX features.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.MrSEQLClassifier.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">input_checks</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.MrSEQLClassifier.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict class labels for samples in X.
+:param X:
+:type X: time series data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>C</strong> – Predicted class label per sample.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.MrSEQLClassifier.predict_proba">
+<code class="sig-name descname">predict_proba</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">input_checks</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.MrSEQLClassifier.predict_proba" title="Permalink to this definition">¶</a></dt>
+<dd><p>If seql_mode is set to ‘fs’, it returns the estimation by sklearn logistic regression model.
+Otherwise (seql_mode == ‘clf’), it returns normalized probability estimated with one-versus-all method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>time series data.</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>T</strong> – Returns the probability of the sample for each class in the model,
+where classes are ordered as they are in <code class="docutils literal notranslate"><span class="pre">self.classes_</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array-like of shape (n_samples, n_classes)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.PySAX">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.classification.shapelet_based.mrseql.mrseql.</code><code class="sig-name descname">PySAX</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.PySAX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Wrapper of SAX C++ implementation.</p>
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.PySAX.map_weighted_patterns">
+<code class="sig-name descname">map_weighted_patterns</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.PySAX.map_weighted_patterns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.PySAX.timeseries2SAX">
+<code class="sig-name descname">timeseries2SAX</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.PySAX.timeseries2SAX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.PySAX.timeseries2SAXseq">
+<code class="sig-name descname">timeseries2SAXseq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.PySAX.timeseries2SAXseq" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.PySEQL">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.classification.shapelet_based.mrseql.mrseql.</code><code class="sig-name descname">PySEQL</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.PySEQL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Wrapper of SEQL C++ implementation.</p>
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.PySEQL.learn">
+<code class="sig-name descname">learn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.PySEQL.learn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.SEQLCLF">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.classification.shapelet_based.mrseql.mrseql.</code><code class="sig-name descname">SEQLCLF</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.SEQLCLF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SEQL with multiple symbolic representations of time series.</p>
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.SEQLCLF.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mr_seqs</span></em>, <em class="sig-param"><span class="n">labels</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.SEQLCLF.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.SEQLCLF.get_sequence_features">
+<code class="sig-name descname">get_sequence_features</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.SEQLCLF.get_sequence_features" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.SEQLCLF.is_binary">
+<code class="sig-name descname">is_binary</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.SEQLCLF.is_binary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.mrseql.mrseql.SEQLCLF.predict_proba">
+<code class="sig-name descname">predict_proba</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mr_seqs</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/mrseql/mrseql.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.mrseql.mrseql.SEQLCLF.predict_proba" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

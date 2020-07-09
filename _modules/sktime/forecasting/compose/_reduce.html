@@ -1,0 +1,666 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.forecasting.compose._reduce &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.forecasting.compose._reduce</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.forecasting.compose._reduce</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3 -u</span>
+<span class="c1"># coding: utf-8</span>
+<span class="c1"># copyright: sktime developers, BSD-3-Clause License (see LICENSE file)</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Markus Löning&quot;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;ReducedTabularRegressorMixin&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ReducedTimeSeriesRegressorMixin&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ReducedTimeSeriesRegressionForecaster&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DirectTimeSeriesRegressionForecaster&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RecursiveTimeSeriesRegressionForecaster&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ReducedRegressionForecaster&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DirectRegressionForecaster&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RecursiveRegressionForecaster&quot;</span>
+<span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">clone</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.base._base</span> <span class="kn">import</span> <span class="n">DEFAULT_ALPHA</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.base._sktime</span> <span class="kn">import</span> <span class="n">BaseLastWindowForecaster</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.base._sktime</span> <span class="kn">import</span> <span class="n">OptionalForecastingHorizonMixin</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.base._sktime</span> <span class="kn">import</span> <span class="n">RequiredForecastingHorizonMixin</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.model_selection</span> <span class="kn">import</span> <span class="n">SlidingWindowSplitter</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.forecasting</span> <span class="kn">import</span> <span class="n">check_step_length</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.forecasting</span> <span class="kn">import</span> <span class="n">check_window_length</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.forecasting</span> <span class="kn">import</span> <span class="n">check_y</span>
+
+
+<span class="c1">##############################################################################</span>
+<span class="c1"># base classes for reduction from forecasting to regression</span>
+
+<span class="k">class</span> <span class="nc">BaseReducer</span><span class="p">(</span><span class="n">BaseLastWindowForecaster</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for reducing forecasting to time series regression&quot;&quot;&quot;</span>
+
+    <span class="n">_required_parameters</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;regressor&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">regressor</span><span class="p">,</span> <span class="n">window_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">step_length</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BaseReducer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">window_length</span><span class="o">=</span><span class="n">window_length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regressor</span> <span class="o">=</span> <span class="n">regressor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">step_length</span> <span class="o">=</span> <span class="n">step_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">step_length_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cv</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_new</span><span class="p">,</span> <span class="n">X_new</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">update_params</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update fitted paramters</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y_new : pd.Series</span>
+<span class="sd">        X_new : pd.DataFrame</span>
+<span class="sd">        update_params : bool, optional (default=False)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : an instance of self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">X_new</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">update_params</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_oh</span><span class="p">(</span><span class="n">y_new</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Transform data using rolling window approach&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">X_train</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+        <span class="n">y_train</span> <span class="o">=</span> <span class="n">check_y</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+
+        <span class="c1"># get integer time index</span>
+        <span class="n">cv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cv</span>
+
+        <span class="c1"># Transform target series into tabular format using</span>
+        <span class="c1"># rolling window tabularisation</span>
+        <span class="n">x_windows</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">y_windows</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x_index</span><span class="p">,</span> <span class="n">y_index</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">y_train</span><span class="p">):</span>
+            <span class="n">x_window</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">x_index</span><span class="p">]</span>
+            <span class="n">y_window</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">y_index</span><span class="p">]</span>
+
+            <span class="n">x_windows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_window</span><span class="p">)</span>
+            <span class="n">y_windows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_window</span><span class="p">)</span>
+
+        <span class="c1"># Put into required input format for regression</span>
+        <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_windows</span><span class="p">(</span><span class="n">x_windows</span><span class="p">,</span> <span class="n">y_windows</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span>
+
+    <span class="k">def</span> <span class="nf">_format_windows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_windows</span><span class="p">,</span> <span class="n">y_windows</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Helper function to combine windows from temporal cross-validation</span>
+<span class="sd">        into nested</span>
+<span class="sd">        pd.DataFrame for reduction to time series regression or tabular</span>
+<span class="sd">        np.array for</span>
+<span class="sd">        tabular regression.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x_windows : list of pd.Series or np.array</span>
+<span class="sd">        y_windows : list of pd.Series or np.array, optional (default=None)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        X : pd.DataFrame or np.array</span>
+<span class="sd">            Nested time series data frame.</span>
+<span class="sd">        y : np.array</span>
+<span class="sd">            Array of target values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_x_windows</span><span class="p">(</span><span class="n">x_windows</span><span class="p">)</span>
+
+        <span class="c1"># during prediction, y=None, so only return X</span>
+        <span class="k">if</span> <span class="n">y_windows</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">X</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_y_windows</span><span class="p">(</span><span class="n">y_windows</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_format_y_windows</span><span class="p">(</span><span class="n">y_windows</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Template method for formatting y windows&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;abstract method&quot;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_format_x_windows</span><span class="p">(</span><span class="n">x_windows</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Template method for formatting x windows&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;abstract method&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_is_predictable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">last_window</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Helper function to check if we can make predictions from last</span>
+<span class="sd">        window&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">last_window</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_length_</span> <span class="ow">and</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">last_window</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">last_window</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ReducedTimeSeriesRegressorMixin</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Mixin class for reducing forecasting to time series regression&quot;&quot;&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_format_x_windows</span><span class="p">(</span><span class="n">x_windows</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Helper function to combine windows from temporal cross-validation</span>
+<span class="sd">        into nested</span>
+<span class="sd">        pd.DataFrame used for solving forecasting via reduction to time</span>
+<span class="sd">        series regression.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x_windows : list of pd.Series or np.array</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        X : pd.DataFrame</span>
+<span class="sd">            Nested time series data frame.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># return nested dataframe</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span> <span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="n">x_windows</span><span class="p">]))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_format_y_windows</span><span class="p">(</span><span class="n">y_windows</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">yi</span><span class="p">)</span> <span class="k">for</span> <span class="n">yi</span> <span class="ow">in</span> <span class="n">y_windows</span><span class="p">])</span>
+
+
+<span class="k">class</span> <span class="nc">ReducedTabularRegressorMixin</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Mixin class for reducing forecasting to tabular regression&quot;&quot;&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_format_x_windows</span><span class="p">(</span><span class="n">x_windows</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Helper function to combine windows from temporal cross-validation</span>
+<span class="sd">        into nested</span>
+<span class="sd">        pd.DataFrame used for solving forecasting via reduction to time</span>
+<span class="sd">        series regression.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x_windows : list of pd.Series or np.array</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        X : pd.DataFrame</span>
+<span class="sd">            Nested time series data frame.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">x_windows</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_format_y_windows</span><span class="p">(</span><span class="n">y_windows</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">y_windows</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_DirectReducer</span><span class="p">(</span><span class="n">RequiredForecastingHorizonMixin</span><span class="p">,</span> <span class="n">BaseReducer</span><span class="p">):</span>
+    <span class="n">strategy</span> <span class="o">=</span> <span class="s2">&quot;direct&quot;</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">fh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">X_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit to training data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y_train : pd.Series</span>
+<span class="sd">            Target time series to which to fit the forecaster.</span>
+<span class="sd">        fh : int, list or np.array, optional (default=None)</span>
+<span class="sd">            The forecasters horizon with the steps ahead to to predict.</span>
+<span class="sd">        X_train : pd.DataFrame, optional (default=None)</span>
+<span class="sd">            Exogenous variables are ignored</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : returns an instance of self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># input checks</span>
+        <span class="k">if</span> <span class="n">X_train</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_oh</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_fh</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fh</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">&quot;in-sample predictions are not implemented&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">step_length_</span> <span class="o">=</span> <span class="n">check_step_length</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">step_length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_length_</span> <span class="o">=</span> <span class="n">check_window_length</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_length</span><span class="p">)</span>
+
+        <span class="c1"># for the direct reduction strategy, a separate forecaster is fitted</span>
+        <span class="c1"># for each step ahead of the forecasting horizon</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cv</span> <span class="o">=</span> <span class="n">SlidingWindowSplitter</span><span class="p">(</span><span class="n">fh</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="p">,</span>
+                                         <span class="n">window_length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">window_length_</span><span class="p">,</span>
+                                         <span class="n">step_length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">step_length_</span><span class="p">,</span>
+                                         <span class="n">start_with_window</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># transform data using rolling window split</span>
+        <span class="n">X_train</span><span class="p">,</span> <span class="n">Y_train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">X_train</span><span class="p">)</span>
+
+        <span class="c1"># iterate over forecasting horizon</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regressors_</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fh</span><span class="p">)):</span>
+            <span class="n">y_train</span> <span class="o">=</span> <span class="n">Y_train</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span>
+            <span class="n">regressor</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regressor</span><span class="p">)</span>
+            <span class="n">regressor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">regressors_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">regressor</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">_predict_last_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fh</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_pred_int</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                             <span class="n">alpha</span><span class="o">=</span><span class="n">DEFAULT_ALPHA</span><span class="p">):</span>
+        <span class="c1"># use last window as new input data for time series regressors to</span>
+        <span class="c1"># make forecasts</span>
+        <span class="c1"># get last window from observation horizon</span>
+        <span class="n">last_window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_last_window</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_predictable</span><span class="p">(</span><span class="n">last_window</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_predict_nan</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+
+        <span class="n">X_last</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_windows</span><span class="p">([</span><span class="n">last_window</span><span class="p">])</span>
+
+        <span class="c1"># preallocate array for forecasted values</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fh</span><span class="p">))</span>
+
+        <span class="c1"># Iterate over estimators/forecast horizon</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">regressor</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regressors_</span><span class="p">):</span>
+            <span class="n">y_pred</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_last</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">y_pred</span>
+
+    <span class="k">def</span> <span class="nf">_predict_in_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fh</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_pred_int</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                           <span class="n">alpha</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># it&#39;s not clear how the direct reducer would generate in-sample</span>
+        <span class="c1"># predictions</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;in-sample predictions are not implemented&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_RecursiveReducer</span><span class="p">(</span><span class="n">OptionalForecastingHorizonMixin</span><span class="p">,</span> <span class="n">BaseReducer</span><span class="p">):</span>
+    <span class="n">strategy</span> <span class="o">=</span> <span class="s2">&quot;recursive&quot;</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">fh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">X_train</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit to training data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y_train : pd.Series</span>
+<span class="sd">            Target time series to which to fit the forecaster.</span>
+<span class="sd">        fh : int, list or np.array, optional (default=None)</span>
+<span class="sd">            The forecasters horizon with the steps ahead to to predict.</span>
+<span class="sd">        X_train : pd.DataFrame, optional (default=None)</span>
+<span class="sd">            Exogenous variables are ignored</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : returns an instance of self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># input checks</span>
+        <span class="k">if</span> <span class="n">X_train</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+        <span class="c1"># set values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_oh</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_fh</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">step_length_</span> <span class="o">=</span> <span class="n">check_step_length</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">step_length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_length_</span> <span class="o">=</span> <span class="n">check_window_length</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window_length</span><span class="p">)</span>
+
+        <span class="c1"># set up cv iterator, for recursive strategy, a single estimator</span>
+        <span class="c1"># is fit for a one-step-ahead forecasting horizon and then called</span>
+        <span class="c1"># iteratively to predict multiple steps ahead</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cv</span> <span class="o">=</span> <span class="n">SlidingWindowSplitter</span><span class="p">(</span><span class="n">fh</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                         <span class="n">window_length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">window_length_</span><span class="p">,</span>
+                                         <span class="n">step_length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">step_length_</span><span class="p">,</span>
+                                         <span class="n">start_with_window</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># transform data into tabular form</span>
+        <span class="n">X_train_tab</span><span class="p">,</span> <span class="n">y_train_tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">X_train</span><span class="p">)</span>
+
+        <span class="c1"># fit base regressor</span>
+        <span class="n">regressor</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regressor</span><span class="p">)</span>
+        <span class="n">regressor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_tab</span><span class="p">,</span> <span class="n">y_train_tab</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">regressor_</span> <span class="o">=</span> <span class="n">regressor</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">_predict_last_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fh</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_pred_int</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                             <span class="n">alpha</span><span class="o">=</span><span class="n">DEFAULT_ALPHA</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Predict&quot;&quot;&quot;</span>
+        <span class="c1"># compute prediction</span>
+        <span class="c1"># prepare recursive predictions</span>
+        <span class="n">fh_max</span> <span class="o">=</span> <span class="n">fh</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">fh_max</span><span class="p">)</span>
+
+        <span class="c1"># get last window from observation horizon</span>
+        <span class="n">last_window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_last_window</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_predictable</span><span class="p">(</span><span class="n">last_window</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_predict_nan</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+
+        <span class="c1"># recursively predict iterating over forecasting horizon</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">fh_max</span><span class="p">):</span>
+            <span class="n">X_last</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_windows</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">last_window</span><span class="p">])</span>  <span class="c1"># convert data into required input format</span>
+            <span class="n">y_pred</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">regressor_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+                <span class="n">X_last</span><span class="p">)</span>  <span class="c1"># make forecast using fitted regressor</span>
+
+            <span class="c1"># update last window with previous prediction</span>
+            <span class="n">last_window</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">last_window</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span>
+                          <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">window_length_</span><span class="p">:]</span>
+
+        <span class="n">fh_idx</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">index_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">y_pred</span><span class="p">[</span><span class="n">fh_idx</span><span class="p">]</span>
+
+    <span class="c1"># def _predict_in_sample(self, fh, X=None, return_pred_int=False,</span>
+    <span class="c1"># alpha=None):</span>
+    <span class="c1">#     raise NotImplementedError()</span>
+
+
+<span class="c1">##############################################################################</span>
+<span class="c1"># redution to regression</span>
+<div class="viewcode-block" id="DirectRegressionForecaster"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.forecasting.compose.DirectRegressionForecaster.html#sktime.forecasting.compose.DirectRegressionForecaster">[docs]</a><span class="k">class</span> <span class="nc">DirectRegressionForecaster</span><span class="p">(</span><span class="n">ReducedTabularRegressorMixin</span><span class="p">,</span> <span class="n">_DirectReducer</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="RecursiveRegressionForecaster"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.forecasting.compose.RecursiveRegressionForecaster.html#sktime.forecasting.compose.RecursiveRegressionForecaster">[docs]</a><span class="k">class</span> <span class="nc">RecursiveRegressionForecaster</span><span class="p">(</span><span class="n">ReducedTabularRegressorMixin</span><span class="p">,</span>
+                                    <span class="n">_RecursiveReducer</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<span class="c1">##############################################################################</span>
+<span class="c1"># reduction to time series regression</span>
+<div class="viewcode-block" id="DirectTimeSeriesRegressionForecaster"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.forecasting.compose.DirectTimeSeriesRegressionForecaster.html#sktime.forecasting.compose.DirectTimeSeriesRegressionForecaster">[docs]</a><span class="k">class</span> <span class="nc">DirectTimeSeriesRegressionForecaster</span><span class="p">(</span><span class="n">ReducedTimeSeriesRegressorMixin</span><span class="p">,</span>
+                                           <span class="n">_DirectReducer</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="RecursiveTimeSeriesRegressionForecaster"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.forecasting.compose.RecursiveTimeSeriesRegressionForecaster.html#sktime.forecasting.compose.RecursiveTimeSeriesRegressionForecaster">[docs]</a><span class="k">class</span> <span class="nc">RecursiveTimeSeriesRegressionForecaster</span><span class="p">(</span><span class="n">ReducedTimeSeriesRegressorMixin</span><span class="p">,</span>
+                                              <span class="n">_RecursiveReducer</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<span class="c1">##############################################################################</span>
+<span class="c1"># factory methods for easier user interface, but not tunable as it&#39;s not an</span>
+<span class="c1"># estimator</span>
+<div class="viewcode-block" id="ReducedTimeSeriesRegressionForecaster"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.forecasting.compose.ReducedTimeSeriesRegressionForecaster.html#sktime.forecasting.compose.ReducedTimeSeriesRegressionForecaster">[docs]</a><span class="k">def</span> <span class="nf">ReducedTimeSeriesRegressionForecaster</span><span class="p">(</span><span class="n">ts_regressor</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;recursive&quot;</span><span class="p">,</span>
+                                          <span class="n">window_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">step_length</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Forecasting based on reduction to time series regression.</span>
+
+<span class="sd">    When fitting, a rolling window approach is used to first transform the</span>
+<span class="sd">    target series into panel data which is</span>
+<span class="sd">    then used to train a time series regressor. During prediction, the last</span>
+<span class="sd">    available data is used as input to the</span>
+<span class="sd">    fitted time series regressors to make forecasts.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ts_regressor : a time series regressor</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ..[1] Bontempi, Gianluca &amp; Ben Taieb, Souhaib &amp; Le Borgne, Yann-Aël. (</span>
+<span class="sd">    2013).</span>
+<span class="sd">      Machine Learning Strategies for Time Series Forecasting.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">scitype</span> <span class="o">=</span> <span class="s2">&quot;ts_regressor&quot;</span>
+    <span class="n">Forecaster</span> <span class="o">=</span> <span class="n">_get_forecaster_class</span><span class="p">(</span><span class="n">scitype</span><span class="p">,</span> <span class="n">strategy</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Forecaster</span><span class="p">(</span><span class="n">regressor</span><span class="o">=</span><span class="n">ts_regressor</span><span class="p">,</span> <span class="n">window_length</span><span class="o">=</span><span class="n">window_length</span><span class="p">,</span>
+                      <span class="n">step_length</span><span class="o">=</span><span class="n">step_length</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ReducedRegressionForecaster"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.forecasting.compose.ReducedRegressionForecaster.html#sktime.forecasting.compose.ReducedRegressionForecaster">[docs]</a><span class="k">def</span> <span class="nf">ReducedRegressionForecaster</span><span class="p">(</span><span class="n">regressor</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;recursive&quot;</span><span class="p">,</span>
+                                <span class="n">window_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">step_length</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Forecasting based on reduction to tabular regression.</span>
+
+<span class="sd">    When fitting, a rolling window approach is used to first transform the</span>
+<span class="sd">    target series into panel data which is</span>
+<span class="sd">    then used to train a regressor. During prediction, the last available</span>
+<span class="sd">    data is used as input to the</span>
+<span class="sd">    fitted regressors to make forecasts.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    regressor : a regressor</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ..[1] Bontempi, Gianluca &amp; Ben Taieb, Souhaib &amp; Le Borgne, Yann-Aël. (</span>
+<span class="sd">    2013).</span>
+<span class="sd">      Machine Learning Strategies for Time Series Forecasting.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">scitype</span> <span class="o">=</span> <span class="s2">&quot;regressor&quot;</span>
+    <span class="n">Forecaster</span> <span class="o">=</span> <span class="n">_get_forecaster_class</span><span class="p">(</span><span class="n">scitype</span><span class="p">,</span> <span class="n">strategy</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Forecaster</span><span class="p">(</span><span class="n">regressor</span><span class="o">=</span><span class="n">regressor</span><span class="p">,</span> <span class="n">window_length</span><span class="o">=</span><span class="n">window_length</span><span class="p">,</span>
+                      <span class="n">step_length</span><span class="o">=</span><span class="n">step_length</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_get_forecaster_class</span><span class="p">(</span><span class="n">scitype</span><span class="p">,</span> <span class="n">strategy</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper function to select forecaster for a given scientific type (</span>
+<span class="sd">    scitype)</span>
+<span class="sd">    and reduction strategy&quot;&quot;&quot;</span>
+
+    <span class="n">allowed_strategies</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;direct&quot;</span><span class="p">,</span> <span class="s2">&quot;recursive&quot;</span><span class="p">,</span> <span class="s2">&quot;dirrec&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">strategy</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_strategies</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unknown strategy, please provide one of </span><span class="si">{</span><span class="n">allowed_strategies</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;dirrec&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;The `dirrec` strategy is not yet implemented.&quot;</span><span class="p">)</span>
+
+    <span class="n">lookup_table</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;regressor&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;direct&quot;</span><span class="p">:</span> <span class="n">DirectRegressionForecaster</span><span class="p">,</span>
+            <span class="s2">&quot;recursive&quot;</span><span class="p">:</span> <span class="n">RecursiveRegressionForecaster</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;ts_regressor&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;direct&quot;</span><span class="p">:</span> <span class="n">DirectTimeSeriesRegressionForecaster</span><span class="p">,</span>
+            <span class="s2">&quot;recursive&quot;</span><span class="p">:</span> <span class="n">RecursiveTimeSeriesRegressionForecaster</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1"># look up and return forecaster class</span>
+    <span class="n">Forecaster</span> <span class="o">=</span> <span class="n">lookup_table</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">scitype</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">strategy</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Forecaster</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

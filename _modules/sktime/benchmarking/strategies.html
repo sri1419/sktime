@@ -1,0 +1,496 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.benchmarking.strategies &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.benchmarking.strategies</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.benchmarking.strategies</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Unified high-level interface for various time series related learning</span>
+<span class="sd">strategies.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;TSCStrategy&quot;</span><span class="p">,</span> <span class="s2">&quot;TSRStrategy&quot;</span><span class="p">]</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Markus Löning&#39;</span><span class="p">,</span> <span class="s1">&#39;Sajay Ganesh&#39;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">dump</span>
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">load</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">ClassifierMixin</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">RegressorMixin</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">_pprint</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RandomizedSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sktime.base</span> <span class="kn">import</span> <span class="n">BaseEstimator</span>
+<span class="kn">from</span> <span class="nn">sktime.classification.base</span> <span class="kn">import</span> <span class="n">BaseClassifier</span>
+<span class="kn">from</span> <span class="nn">sktime.forecasting.base._sktime</span> <span class="kn">import</span> <span class="n">BaseSktimeForecaster</span>
+<span class="kn">from</span> <span class="nn">sktime.regression.base</span> <span class="kn">import</span> <span class="n">BaseRegressor</span>
+
+<span class="c1"># TODO implement task-strategy-estimator compatibility lookup registry using</span>
+<span class="c1">#  strategy traits</span>
+<span class="n">REGRESSOR_TYPES</span> <span class="o">=</span> <span class="p">(</span><span class="n">BaseRegressor</span><span class="p">,</span> <span class="n">RegressorMixin</span><span class="p">)</span>
+<span class="n">CLASSIFIER_TYPES</span> <span class="o">=</span> <span class="p">(</span><span class="n">BaseClassifier</span><span class="p">,</span> <span class="n">ClassifierMixin</span><span class="p">)</span>
+<span class="n">FORECASTER_TYPES</span> <span class="o">=</span> <span class="p">(</span><span class="n">BaseSktimeForecaster</span><span class="p">,)</span>
+<span class="n">ESTIMATOR_TYPES</span> <span class="o">=</span> <span class="n">REGRESSOR_TYPES</span> <span class="o">+</span> <span class="n">CLASSIFIER_TYPES</span> <span class="o">+</span> <span class="n">FORECASTER_TYPES</span>
+
+<span class="n">CASES</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;TSR&quot;</span><span class="p">,</span> <span class="s2">&quot;TSC&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">BaseStrategy</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract base strategy class.</span>
+
+<span class="sd">    Implements attributes and operations shared by all strategies,</span>
+<span class="sd">    including input and compatibility checks between passed estimator,</span>
+<span class="sd">    data and task.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_estimator_compatibility</span><span class="p">(</span><span class="n">estimator</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_estimator</span> <span class="o">=</span> <span class="n">estimator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">estimator</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_task</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Makes attribute accessible, but read-only.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">estimator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Makes attribute accessible, but read-only.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimator</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provide read only access via keys to the private traits</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_traits</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_traits</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit the strategy to the given task and data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        task : Task</span>
+<span class="sd">            Task encapsualting metadata information on feature and target</span>
+<span class="sd">            variables to which to fit the data to.</span>
+<span class="sd">        data : pandas.DataFrame</span>
+<span class="sd">            Dataframe with feature and target variables as specified in task.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : an instance of the self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="c1"># Check task compatibility with strategy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_task_compatibility</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_task</span> <span class="o">=</span> <span class="n">task</span>
+
+        <span class="c1"># Set metadata if not already set</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_task</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_task</span><span class="o">.</span><span class="n">set_metadata</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="c1"># strategy-specific implementation</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_check_task_compatibility</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check compatibility of task with strategy</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO replace by task-strategy compatibility lookup registry</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="s1">&#39;_case&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_case</span> <span class="o">!=</span> <span class="n">task</span><span class="o">.</span><span class="n">_case</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Strategy &lt;-&gt; task mismatch: The chosen strategy is &quot;</span>
+                    <span class="s2">&quot;incompatible with the given task&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;The passed case of the task is unknown&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_check_estimator_compatibility</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimator</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check compatibility of estimator with strategy</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Determine required estimator type from strategy case</span>
+        <span class="c1"># TODO replace with strategy - estimator type registry lookup</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_traits&#39;</span><span class="p">):</span>
+            <span class="n">required</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_traits</span><span class="p">[</span><span class="s2">&quot;required_estimator_type&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">estimator_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ESTIMATOR_TYPES</span> <span class="k">for</span> <span class="n">estimator_type</span> <span class="ow">in</span>
+                   <span class="n">required</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Required estimator type unknown&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Required estimator type not found&quot;</span><span class="p">)</span>
+
+        <span class="c1"># # Check estimator compatibility with required type</span>
+        <span class="c1"># If pipeline, check compatibility of final estimator</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">Pipeline</span><span class="p">):</span>
+            <span class="n">final_estimator</span> <span class="o">=</span> <span class="n">estimator</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">final_estimator</span><span class="p">,</span> <span class="n">required</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Final estimator of passed pipeline estimator must be &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;of type: </span><span class="si">{</span><span class="n">required</span><span class="si">}</span><span class="s2">, &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;but found: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">final_estimator</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># If tuning meta-estimator, check compatibility of inner estimator</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="p">(</span><span class="n">GridSearchCV</span><span class="p">,</span> <span class="n">RandomizedSearchCV</span><span class="p">)):</span>
+            <span class="n">estimator</span> <span class="o">=</span> <span class="n">estimator</span><span class="o">.</span><span class="n">estimator</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">required</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Inner estimator of passed meta-estimator must be of &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;type: </span><span class="si">{</span><span class="n">required</span><span class="si">}</span><span class="s2">, &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;but found: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">estimator</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Otherwise check estimator directly</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">required</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Passed estimator has to be of type: </span><span class="si">{</span><span class="n">required</span><span class="si">}</span><span class="s2">, &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;but found: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">estimator</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_validate_data</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper function to validate input data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Data must be pandas DataFrame, but found: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># TODO add input checks for contents, ie all cells be pandas Series,</span>
+        <span class="c1">#  numpy arrays or primitives,</span>
+        <span class="c1">#  ultimately move checks to data container</span>
+        <span class="c1"># s = y.iloc[0]</span>
+        <span class="c1"># if not isinstance(s, (np.ndarray, pd.Series)):</span>
+        <span class="c1">#     raise ValueError(f&#39;``y`` must contain a pandas Series or numpy</span>
+        <span class="c1">#     array, but found: {type(s)}.&#39;)</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load saved strategy</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path: String</span>
+<span class="sd">            location on disk where the strategy was saved</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        strategy:</span>
+<span class="sd">            sktime strategy</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">strategy_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">estimator_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">(</span><span class="si">%s</span><span class="s1">(</span><span class="si">%s</span><span class="s1">))&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">strategy_name</span><span class="p">,</span> <span class="n">estimator_name</span><span class="p">,</span>
+                               <span class="n">_pprint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_params</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                                       <span class="n">offset</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">strategy_name</span><span class="p">),</span> <span class="p">),)</span>
+
+
+<span class="k">class</span> <span class="nc">BaseSupervisedLearningStrategy</span><span class="p">(</span><span class="n">BaseStrategy</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Abstract strategy class for time series supervised learning that</span>
+<span class="sd">    accepts a low-level estimator to</span>
+<span class="sd">    perform a given task.</span>
+
+<span class="sd">    Implements predict and internal fit methods for time series regression</span>
+<span class="sd">    and classification.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Internal fit</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : pandas.DataFrame</span>
+<span class="sd">            Dataframe with feature and target variables as specified in task.</span>
+
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : an instance of self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># select features and target</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_task</span><span class="o">.</span><span class="n">features</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_task</span><span class="o">.</span><span class="n">target</span><span class="p">]</span>
+
+        <span class="c1"># fit the estimator</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Predict using the given test data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data : a pandas.DataFrame</span>
+<span class="sd">            Dataframe with feature and target variables as specified in task</span>
+<span class="sd">            passed to ``fit``.</span>
+
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        y_pred : pandas.Series</span>
+<span class="sd">            Returns the series of predicted values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># select features</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_task</span><span class="o">.</span><span class="n">features</span><span class="p">]</span>
+
+        <span class="c1"># predict</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="TSCStrategy"><a class="viewcode-back" href="../../../modules/auto_generated/sktime.benchmarking.strategies.html#sktime.benchmarking.strategies.TSCStrategy">[docs]</a><span class="k">class</span> <span class="nc">TSCStrategy</span><span class="p">(</span><span class="n">BaseSupervisedLearningStrategy</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Strategy for time series classification.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    estimator : an estimator</span>
+<span class="sd">        Low-level estimator used in strategy.</span>
+<span class="sd">    name : str, optional (default=None)</span>
+<span class="sd">        Name of strategy. If None, class name of estimator is used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_case</span> <span class="o">=</span> <span class="s2">&quot;TSC&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_traits</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;required_estimator_type&quot;</span><span class="p">:</span> <span class="n">CLASSIFIER_TYPES</span><span class="p">}</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TSCStrategy</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TSRStrategy"><a class="viewcode-back" href="../../../modules/auto_generated/sktime.benchmarking.strategies.html#sktime.benchmarking.strategies.TSRStrategy">[docs]</a><span class="k">class</span> <span class="nc">TSRStrategy</span><span class="p">(</span><span class="n">BaseSupervisedLearningStrategy</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Strategy for time series regression.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    estimator : an estimator</span>
+<span class="sd">        Low-level estimator used in strategy.</span>
+<span class="sd">    name : str, optional (default=None)</span>
+<span class="sd">        Name of strategy. If None, class name of estimator is used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimator</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_case</span> <span class="o">=</span> <span class="s2">&quot;TSR&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_traits</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;required_estimator_type&quot;</span><span class="p">:</span> <span class="n">REGRESSOR_TYPES</span><span class="p">}</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TSRStrategy</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

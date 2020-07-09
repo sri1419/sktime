@@ -1,0 +1,388 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.classification.distance_based.ProximityTree &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.classification.distance_based</span></code>.ProximityTree</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="sktime-classification-distance-based-proximitytree">
+<h1><a class="reference internal" href="sktime.classification.distance_based.html#module-sktime.classification.distance_based" title="sktime.classification.distance_based"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sktime.classification.distance_based</span></code></a>.ProximityTree<a class="headerlink" href="#sktime-classification-distance-based-proximitytree" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="sktime.classification.distance_based.ProximityTree">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.classification.distance_based.</code><code class="sig-name descname">ProximityTree</code><span class="sig-paren">(</span><em class="sig-param">random_state=None</em>, <em class="sig-param">get_exemplars=&lt;function get_one_exemplar_per_class_proximity&gt;</em>, <em class="sig-param">distance_measure=None</em>, <em class="sig-param">get_distance_measure=None</em>, <em class="sig-param">setup_distance_measure=&lt;function setup_all_distance_measure_getter&gt;</em>, <em class="sig-param">get_gain=&lt;function gini_gain&gt;</em>, <em class="sig-param">max_depth=inf</em>, <em class="sig-param">is_leaf=&lt;function pure&gt;</em>, <em class="sig-param">verbosity=0</em>, <em class="sig-param">n_jobs=1</em>, <em class="sig-param">n_stump_evaluations=5</em>, <em class="sig-param">find_stump=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/classification/distance_based/_proximity_forest.html#ProximityTree"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based/_proximity_forest.py#L884-L1064"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Proximity Tree class to model a decision tree which uses distance
+measures to partition data.</p>
+<dl class="py attribute">
+<dt id="sktime.classification.distance_based.ProximityTree.label_encoder">
+<code class="sig-name descname">label_encoder</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.label_encoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>label encoder to change string labels to numeric indices</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.distance_based.ProximityTree.classes_">
+<code class="sig-name descname">classes_</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.classes_" title="Permalink to this definition">¶</a></dt>
+<dd><p>unique list of classes</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.distance_based.ProximityTree.random_state">
+<code class="sig-name descname">random_state</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.random_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>the random state</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.distance_based.ProximityTree.get_exemplars">
+<code class="sig-name descname">get_exemplars</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.get_exemplars" title="Permalink to this definition">¶</a></dt>
+<dd><p>function to extract exemplars from a dataframe and</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">class value list</code></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.distance_based.ProximityTree.setup_distance_measure">
+<code class="sig-name descname">setup_distance_measure</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.setup_distance_measure" title="Permalink to this definition">¶</a></dt>
+<dd><p>function to setup the distance measure</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">getters from dataframe and class value list</code></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.distance_based.ProximityTree.get_distance_measure">
+<code class="sig-name descname">get_distance_measure</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.get_distance_measure" title="Permalink to this definition">¶</a></dt>
+<dd><p>distance measure getters</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.distance_based.ProximityTree.distance_measure">
+<code class="sig-name descname">distance_measure</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.distance_measure" title="Permalink to this definition">¶</a></dt>
+<dd><p>distance measures</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.distance_based.ProximityTree.get_gain">
+<code class="sig-name descname">get_gain</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.get_gain" title="Permalink to this definition">¶</a></dt>
+<dd><p>function to score the quality of a split</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.distance_based.ProximityTree.verbosity">
+<code class="sig-name descname">verbosity</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.verbosity" title="Permalink to this definition">¶</a></dt>
+<dd><p>logging verbosity</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.distance_based.ProximityTree.n_jobs">
+<code class="sig-name descname">n_jobs</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.n_jobs" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of jobs to run in parallel <a href="#id1"><span class="problematic" id="id2">*</span></a>across threads”</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.distance_based.ProximityTree.find_stump">
+<code class="sig-name descname">find_stump</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.find_stump" title="Permalink to this definition">¶</a></dt>
+<dd><p>function to find the best split of data</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.distance_based.ProximityTree.max_depth">
+<code class="sig-name descname">max_depth</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.max_depth" title="Permalink to this definition">¶</a></dt>
+<dd><p>max tree depth</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.distance_based.ProximityTree.depth">
+<code class="sig-name descname">depth</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.depth" title="Permalink to this definition">¶</a></dt>
+<dd><p>current depth of tree, as each node is a tree itself,</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt>
+<code class="sig-name descname">therefore can have a depth of &gt;=0</code></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.distance_based.ProximityTree.X">
+<code class="sig-name descname">X</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.X" title="Permalink to this definition">¶</a></dt>
+<dd><p>train data</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.distance_based.ProximityTree.y">
+<code class="sig-name descname">y</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.y" title="Permalink to this definition">¶</a></dt>
+<dd><p>train data labels</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.distance_based.ProximityTree.stump">
+<code class="sig-name descname">stump</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.stump" title="Permalink to this definition">¶</a></dt>
+<dd><p>the stump used to split data at this node</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.classification.distance_based.ProximityTree.branches">
+<code class="sig-name descname">branches</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.branches" title="Permalink to this definition">¶</a></dt>
+<dd><p>the partitions of data driven by the stump</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.classification.distance_based.ProximityTree.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">random_state=None</em>, <em class="sig-param">get_exemplars=&lt;function get_one_exemplar_per_class_proximity&gt;</em>, <em class="sig-param">distance_measure=None</em>, <em class="sig-param">get_distance_measure=None</em>, <em class="sig-param">setup_distance_measure=&lt;function setup_all_distance_measure_getter&gt;</em>, <em class="sig-param">get_gain=&lt;function gini_gain&gt;</em>, <em class="sig-param">max_depth=inf</em>, <em class="sig-param">is_leaf=&lt;function pure&gt;</em>, <em class="sig-param">verbosity=0</em>, <em class="sig-param">n_jobs=1</em>, <em class="sig-param">n_stump_evaluations=5</em>, <em class="sig-param">find_stump=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/classification/distance_based/_proximity_forest.html#ProximityTree.__init__"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/distance_based/_proximity_forest.py#L912-L969"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.distance_based.ProximityTree.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>build a Proximity Tree object
+:param random_state: the random state
+:param get_exemplars: get the exemplars from a given dataframe and
+list of class labels
+:param distance_measure: distance measure to use
+:param get_distance_measure: method to get the distance measure if
+no already set
+:param setup_distance_measure: method to setup the distance measures
+based upon the dataset given
+:param get_gain: method to find the gain of a data split
+:param max_depth: maximum depth of the tree
+:param is_leaf: function to decide when to mark a node as a leaf node
+:param verbosity: number reflecting the verbosity of logging
+:param n_jobs: number of parallel threads to use while building
+:param find_stump: method to find the best split of data / stump at
+a node
+:param n_stump_evaluations: number of stump evaluations to do if
+find_stump method is None</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="clearer"></div></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

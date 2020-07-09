@@ -1,0 +1,7 @@
+sktime.transformers.series\_as\_features.slope
+----------------------------------------------
+
+.. automodule:: sktime.transformers.series_as_features.slope
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,455 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.utils.validation.forecasting &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>sktime.utils.validation.forecasting</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-sktime.utils.validation.forecasting">
+<span id="sktime-utils-validation-forecasting"></span><h1>sktime.utils.validation.forecasting<a class="headerlink" href="#module-sktime.utils.validation.forecasting" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="sktime.utils.validation.forecasting.check_X">
+<code class="sig-prename descclassname">sktime.utils.validation.forecasting.</code><code class="sig-name descname">check_X</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/validation/forecasting.html#check_X"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/validation/forecasting.py#L134-L180"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.validation.forecasting.check_X" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate input data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>pandas.DataFrame</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>X</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If y is an invalid input</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.validation.forecasting.check_alpha">
+<code class="sig-prename descclassname">sktime.utils.validation.forecasting.</code><code class="sig-name descname">check_alpha</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">alpha</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/validation/forecasting.html#check_alpha"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/validation/forecasting.py#L286-L312"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.validation.forecasting.check_alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that a confidence level alpha (or list of alphas) is valid.
+All alpha values must lie in the open interval (0, 1).
+:param alpha:
+:type alpha: float, list of float</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If alpha is outside the range (0, 1).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.validation.forecasting.check_consistent_time_index">
+<code class="sig-prename descclassname">sktime.utils.validation.forecasting.</code><code class="sig-name descname">check_consistent_time_index</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">ys</span></em>, <em class="sig-param"><span class="n">y_train</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/validation/forecasting.html#check_consistent_time_index"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/validation/forecasting.py#L257-L283"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.validation.forecasting.check_consistent_time_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that y_test and y_pred have consistent indices.
+:param y_test:
+:type y_test: pd.Series
+:param y_pred:
+:type y_pred: pd.Series
+:param y_train:
+:type y_train: pd.Series</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If time indicies are not equal</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.validation.forecasting.check_cutoffs">
+<code class="sig-prename descclassname">sktime.utils.validation.forecasting.</code><code class="sig-name descname">check_cutoffs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cutoffs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/validation/forecasting.html#check_cutoffs"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/validation/forecasting.py#L315-L329"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.validation.forecasting.check_cutoffs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.validation.forecasting.check_cv">
+<code class="sig-prename descclassname">sktime.utils.validation.forecasting.</code><code class="sig-name descname">check_cv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cv</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/validation/forecasting.html#check_cv"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/validation/forecasting.py#L85-L102"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.validation.forecasting.check_cv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check CV generators.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cv</strong> (<em>CV generator</em>) – </p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if cv does not have the required attributes.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.validation.forecasting.check_fh">
+<code class="sig-prename descclassname">sktime.utils.validation.forecasting.</code><code class="sig-name descname">check_fh</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fh</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/validation/forecasting.html#check_fh"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/validation/forecasting.py#L222-L238"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.validation.forecasting.check_fh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate forecasting horizon.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fh</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>list of int</em><em>, </em><em>array of int</em><em> or </em><a class="reference internal" href="sktime.forecasting.html#sktime.forecasting.FH" title="sktime.forecasting.FH"><em>FH</em></a>) – Forecasting horizon with steps ahead to predict.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>fh</strong> – Checked forecasting horizon.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="sktime.forecasting.html#sktime.forecasting.FH" title="sktime.forecasting.FH">FH</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.validation.forecasting.check_fh_is_relative">
+<code class="sig-prename descclassname">sktime.utils.validation.forecasting.</code><code class="sig-name descname">check_fh_is_relative</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fh</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/validation/forecasting.html#check_fh_is_relative"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/validation/forecasting.py#L241-L254"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.validation.forecasting.check_fh_is_relative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if fh is relative.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fh</strong> (<em>np.array</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em> or </em><a class="reference internal" href="sktime.forecasting.html#sktime.forecasting.FH" title="sktime.forecasting.FH"><em>FH</em></a>) – </p>
+</dd>
+</dl>
+<p>:raises TypeError : if fh is not relative:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.validation.forecasting.check_fh_values">
+<code class="sig-prename descclassname">sktime.utils.validation.forecasting.</code><code class="sig-name descname">check_fh_values</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/validation/forecasting.html#check_fh_values"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/validation/forecasting.py#L351-L404"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.validation.forecasting.check_fh_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate forecasting horizon values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>list of int</em><em>, </em><em>array of int</em>) – Forecasting horizon with steps ahead to predict.</p>
+</dd>
+</dl>
+<p>:raises TypeError : if values do not meet criteria:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>fh</strong> – Sorted and validated forecasting horizon.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy array of int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.validation.forecasting.check_scoring">
+<code class="sig-prename descclassname">sktime.utils.validation.forecasting.</code><code class="sig-name descname">check_scoring</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scoring</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/validation/forecasting.html#check_scoring"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/validation/forecasting.py#L332-L348"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.validation.forecasting.check_scoring" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.validation.forecasting.check_sp">
+<code class="sig-prename descclassname">sktime.utils.validation.forecasting.</code><code class="sig-name descname">check_sp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sp</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/validation/forecasting.html#check_sp"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/validation/forecasting.py#L203-L219"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.validation.forecasting.check_sp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate seasonal periodicity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sp</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Seasonal periodicity</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>sp</strong> – Validated seasonal periodicity</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.validation.forecasting.check_step_length">
+<code class="sig-prename descclassname">sktime.utils.validation.forecasting.</code><code class="sig-name descname">check_step_length</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step_length</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/validation/forecasting.html#check_step_length"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/validation/forecasting.py#L193-L200"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.validation.forecasting.check_step_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate window length</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.validation.forecasting.check_time_index">
+<code class="sig-prename descclassname">sktime.utils.validation.forecasting.</code><code class="sig-name descname">check_time_index</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time_index</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/validation/forecasting.html#check_time_index"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/validation/forecasting.py#L105-L131"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.validation.forecasting.check_time_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check time index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time_index</strong> (<em>pd.Index</em><em> or </em><em>np.array</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>time_index</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.Index</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.validation.forecasting.check_window_length">
+<code class="sig-prename descclassname">sktime.utils.validation.forecasting.</code><code class="sig-name descname">check_window_length</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">window_length</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/validation/forecasting.html#check_window_length"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/validation/forecasting.py#L183-L190"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.validation.forecasting.check_window_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate window length</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.validation.forecasting.check_y">
+<code class="sig-prename descclassname">sktime.utils.validation.forecasting.</code><code class="sig-name descname">check_y</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">allow_empty</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">allow_constant</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/validation/forecasting.html#check_y"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/validation/forecasting.py#L45-L82"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.validation.forecasting.check_y" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate input data.
+:param y:
+:type y: pd.Series
+:param allow_empty: If True, empty <cite>y</cite> does not raise an error.
+:type allow_empty: bool, optional (default=False)
+:param allow_constant: If True, constant <cite>y</cite> does not raise an error.
+:type allow_constant: bool, optional (default=True)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>y</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>pd.Series</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a><strong>, </strong><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – If y is an invalid input</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="sktime.utils.validation.forecasting.check_y_X">
+<code class="sig-prename descclassname">sktime.utils.validation.forecasting.</code><code class="sig-name descname">check_y_X</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/utils/validation/forecasting.html#check_y_X"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/utils/validation/forecasting.py#L25-L42"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.utils.validation.forecasting.check_y_X" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate input data.
+:param y:
+:type y: pandas Series or numpy ndarray
+:param X:
+:type X: pandas DataFrame</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a></p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If y is an invalid input</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+sktime.benchmarking
+-------------------
+
+.. automodule:: sktime.benchmarking
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+
+   sktime.benchmarking.base
+   sktime.benchmarking.data
+   sktime.benchmarking.evaluation
+   sktime.benchmarking.metrics
+   sktime.benchmarking.orchestration
+   sktime.benchmarking.results
+   sktime.benchmarking.strategies
+   sktime.benchmarking.tasks

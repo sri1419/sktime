@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.transformers.series_as_features.compose &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>sktime.transformers.series_as_features.compose</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-sktime.transformers.series_as_features.compose">
+<span id="sktime-transformers-series-as-features-compose"></span><h1>sktime.transformers.series_as_features.compose<a class="headerlink" href="#module-sktime.transformers.series_as_features.compose" title="Permalink to this headline">¶</a></h1>
+<p>Meta Transformers module</p>
+<p>This module has meta-transformers that is build using the pre-existing
+transformers as building blocks.</p>
+<dl class="py class">
+<dt id="sktime.transformers.series_as_features.compose.ColumnConcatenator">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.transformers.series_as_features.compose.</code><code class="sig-name descname">ColumnConcatenator</code><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/compose.html#ColumnConcatenator"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/compose.py#L275-L302"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.compose.ColumnConcatenator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sktime.transformers.series_as_features.base.html#sktime.transformers.series_as_features.base.BaseSeriesAsFeaturesTransformer" title="sktime.transformers.series_as_features.base.BaseSeriesAsFeaturesTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.transformers.series_as_features.base.BaseSeriesAsFeaturesTransformer</span></code></a></p>
+<p>Transformer that concatenates multivariate time series/panel data
+into long univiariate time series/panel</p>
+<blockquote>
+<div><p>data by simply concatenating times series in time.</p>
+</div></blockquote>
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.compose.ColumnConcatenator.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/compose.html#ColumnConcatenator.transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/compose.py#L281-L302"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.compose.ColumnConcatenator.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenate multivariate time series/panel data into long
+univiariate time series/panel
+data by simply concatenating times series in time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>nested pandas DataFrame of shape</em><em> [</em><em>n_samples</em><em>, </em><em>n_features</em><em>]</em>) – Nested dataframe with time-series in cells.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Xt</strong> – Transformed pandas DataFrame with same number of rows and single
+column</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.transformers.series_as_features.compose.ColumnTransformer">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.transformers.series_as_features.compose.</code><code class="sig-name descname">ColumnTransformer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transformers</span></em>, <em class="sig-param"><span class="n">remainder</span><span class="o">=</span><span class="default_value">'drop'</span></em>, <em class="sig-param"><span class="n">sparse_threshold</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">transformer_weights</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">preserve_dataframe</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/compose.html#ColumnTransformer"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/compose.py#L26-L180"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.compose.ColumnTransformer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sklearn.compose._column_transformer.ColumnTransformer</span></code>, <a class="reference internal" href="sktime.transformers.series_as_features.base.html#sktime.transformers.series_as_features.base.BaseSeriesAsFeaturesTransformer" title="sktime.transformers.series_as_features.base.BaseSeriesAsFeaturesTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.transformers.series_as_features.base.BaseSeriesAsFeaturesTransformer</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.base._meta.MetaEstimatorMixin</span></code></p>
+<p>Applies transformers to columns of an array or pandas DataFrame. Simply
+takes the column transformer from sklearn
+and adds capability to handle pandas dataframe.</p>
+<p>This estimator allows different columns or column subsets of the input
+to be transformed separately and the features generated by each transformer
+will be concatenated to form a single feature space.
+This is useful for heterogeneous or columnar data, to combine several
+feature extraction mechanisms or transformations into a single transformer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>transformers</strong> (<em>list of tuples</em>) – <p>List of (name, transformer, column(s)) tuples specifying the
+transformer objects to be applied to subsets of the data.
+name : string</p>
+<blockquote>
+<div><p>Like in Pipeline and FeatureUnion, this allows the transformer and
+its parameters to be set using <code class="docutils literal notranslate"><span class="pre">set_params</span></code> and searched in grid
+search.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>transformer<span class="classifier">estimator or {“passthrough”, “drop”}</span></dt><dd><p>Estimator must support <cite>fit</cite> and <cite>transform</cite>. Special-cased
+strings “drop” and “passthrough” are accepted as well, to
+indicate to drop the columns or to pass them through untransformed,
+respectively.</p>
+</dd>
+</dl>
+<p>column(s) : str or int, array-like of string or int, slice, boolean
+mask array or callable</p>
+<blockquote>
+<div><p>Indexes the data on its second axis. Integers are interpreted as
+positional columns, while strings can reference DataFrame columns
+by name.  A scalar string or int should be used where
+<code class="docutils literal notranslate"><span class="pre">transformer</span></code> expects X to be a 1d array-like (vector),
+otherwise a 2d array will be passed to the transformer.
+A callable is passed the input data <cite>X</cite> and can return any of the
+above.</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>remainder</strong> (<em>{&quot;drop&quot;</em><em>, </em><em>&quot;passthrough&quot;}</em><em> or </em><em>estimator</em><em>, </em><em>default &quot;drop&quot;</em>) – By default, only the specified columns in <cite>transformers</cite> are
+transformed and combined in the output, and the non-specified
+columns are dropped. (default of <code class="docutils literal notranslate"><span class="pre">&quot;drop&quot;</span></code>).
+By specifying <code class="docutils literal notranslate"><span class="pre">remainder=&quot;passthrough&quot;</span></code>, all remaining columns that
+were not specified in <cite>transformers</cite> will be automatically passed
+through. This subset of columns is concatenated with the output of
+the transformers.
+By setting <code class="docutils literal notranslate"><span class="pre">remainder</span></code> to be an estimator, the remaining
+non-specified columns will use the <code class="docutils literal notranslate"><span class="pre">remainder</span></code> estimator. The
+estimator must support <cite>fit</cite> and <cite>transform</cite>.</p></li>
+<li><p><strong>sparse_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>, </em><em>default = 0.3</em>) – If the output of the different transfromers contains sparse matrices,
+these will be stacked as a sparse matrix if the overall density is
+lower than this value. Use <code class="docutils literal notranslate"><span class="pre">sparse_threshold=0</span></code> to always return
+dense.  When the transformed output consists of all dense data, the
+stacked result will be dense, and this keyword will be ignored.</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – Number of jobs to run in parallel.
+<code class="docutils literal notranslate"><span class="pre">None</span></code> means 1 unless in a <code class="xref py py-obj docutils literal notranslate"><span class="pre">joblib.parallel_backend</span></code> context.
+<code class="docutils literal notranslate"><span class="pre">-1</span></code> means using all processors. See <span class="xref std std-term">Glossary</span>
+for more details.</p></li>
+<li><p><strong>transformer_weights</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em>, </em><em>optional</em>) – Multiplicative weights for features per transformer. The output of the
+transformer is multiplied by these weights. Keys are transformer names,
+values the weights.</p></li>
+<li><p><strong>preserve_dataframe</strong> (<em>boolean</em>) – If True, pandas dataframe is returned.
+If False, numpy array is returned.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="sktime.transformers.series_as_features.compose.ColumnTransformer.transformers_">
+<code class="sig-name descname">transformers_</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/compose.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.compose.ColumnTransformer.transformers_" title="Permalink to this definition">¶</a></dt>
+<dd><p>The collection of fitted transformers as tuples of
+(name, fitted_transformer, column). <cite>fitted_transformer</cite> can be an
+estimator, “drop”, or “passthrough”. In case there were no columns
+selected, this will be the unfitted transformer.
+If there are remaining columns, the final element is a tuple of the
+form:
+(“remainder”, transformer, remaining_columns) corresponding to the
+<code class="docutils literal notranslate"><span class="pre">remainder</span></code> parameter. If there are remaining columns, then
+<code class="docutils literal notranslate"><span class="pre">len(transformers_)==len(transformers)+1</span></code>, otherwise
+<code class="docutils literal notranslate"><span class="pre">len(transformers_)==len(transformers)</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.transformers.series_as_features.compose.ColumnTransformer.named_transformers_">
+<code class="sig-name descname">named_transformers_</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/compose.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.compose.ColumnTransformer.named_transformers_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read-only attribute to access any transformer by given name.
+Keys are transformer names and values are the fitted transformer
+objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Bunch object, a dictionary with attribute access</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.transformers.series_as_features.compose.ColumnTransformer.sparse_output_">
+<code class="sig-name descname">sparse_output_</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/compose.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.compose.ColumnTransformer.sparse_output_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean flag indicating wether the output of <code class="docutils literal notranslate"><span class="pre">transform</span></code> is a
+sparse matrix or a dense numpy array, which depends on the output
+of the individual transformers and the <cite>sparse_threshold</cite> keyword.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.compose.ColumnTransformer.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/compose.html#ColumnTransformer.fit"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/compose.py#L168-L171"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.compose.ColumnTransformer.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit all transformers using X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>{array-like</em><em>, </em><em>dataframe} of shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – Input data, of which specified subsets are used to fit the
+transformers.</p></li>
+<li><p><strong>y</strong> (<em>array-like of shape</em><em> (</em><em>n_samples</em><em>,</em><em>..</em><em>)</em><em>, </em><em>default=None</em>) – Targets for supervised learning.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>self</strong> – This estimator</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="sktime.transformers.series_as_features.compose.ColumnTransformer.html#sktime.transformers.series_as_features.compose.ColumnTransformer" title="sktime.transformers.series_as_features.compose.ColumnTransformer">ColumnTransformer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.compose.ColumnTransformer.fit_transform">
+<code class="sig-name descname">fit_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/compose.html#ColumnTransformer.fit_transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/compose.py#L177-L180"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.compose.ColumnTransformer.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit all transformers, transform the data and concatenate results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>{array-like</em><em>, </em><em>dataframe} of shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – Input data, of which specified subsets are used to fit the
+transformers.</p></li>
+<li><p><strong>y</strong> (<em>array-like of shape</em><em> (</em><em>n_samples</em><em>,</em><em>)</em><em>, </em><em>default=None</em>) – Targets for supervised learning.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>X_t</strong> – hstack of results of transformers. sum_n_components is the
+sum of n_components (output dimension) over transformers. If
+any result is a sparse matrix, everything will be converted to
+sparse matrices.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>{array-like, sparse matrix} of                 shape (n_samples, sum_n_components)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="sktime.transformers.series_as_features.compose.ColumnTransformer.steps">
+<code class="sig-name descname">steps</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/compose.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.compose.ColumnTransformer.steps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.compose.ColumnTransformer.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/compose.html#ColumnTransformer.transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/compose.py#L173-L175"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.compose.ColumnTransformer.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform X separately by each transformer, concatenate results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>{array-like</em><em>, </em><em>dataframe} of shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The data to be transformed by subset.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>X_t</strong> – hstack of results of transformers. sum_n_components is the
+sum of n_components (output dimension) over transformers. If
+any result is a sparse matrix, everything will be converted to
+sparse matrices.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>{array-like, sparse matrix} of                 shape (n_samples, sum_n_components)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.transformers.series_as_features.compose.RowTransformer">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.transformers.series_as_features.compose.</code><code class="sig-name descname">RowTransformer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transformer</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/compose.html#RowTransformer"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/compose.py#L183-L272"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.compose.RowTransformer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.transformers.series_as_features.base._NonFittableSeriesAsFeaturesTransformer</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.base._meta.MetaEstimatorMixin</span></code></p>
+<p>A convenience wrapper for row-wise transformers to apply
+transformation to all rows.</p>
+<p>This estimator allows to create a transformer that works on all rows
+from a passed transformer that works on a
+single row. This is useful for applying transformers to the time-series
+in the rows.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>transformer</strong> (<em>estimator</em>) – An estimator that can work on a row (i.e. a univariate time-series
+in form of a numpy array or pandas Series.
+must support <cite>fit</cite> and <cite>transform</cite></p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.compose.RowTransformer.inverse_transform">
+<code class="sig-name descname">inverse_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/compose.html#RowTransformer.inverse_transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/compose.py#L213-L220"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.compose.RowTransformer.inverse_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the <cite>fit_transform()</cite> method of the transformer on each row.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.compose.RowTransformer.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/compose.html#RowTransformer.transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/compose.py#L207-L211"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.compose.RowTransformer.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the <cite>fit_transform()</cite> method of the transformer on each row.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

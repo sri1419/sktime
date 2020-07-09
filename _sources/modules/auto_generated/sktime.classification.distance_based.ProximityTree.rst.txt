@@ -1,0 +1,16 @@
+:mod:`sktime.classification.distance_based`.ProximityTree
+================================================================
+
+.. currentmodule:: sktime.classification.distance_based
+
+.. autoclass:: ProximityTree
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.classification.distance_based.ProximityTree.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

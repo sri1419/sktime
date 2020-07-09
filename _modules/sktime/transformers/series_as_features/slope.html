@@ -1,0 +1,411 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.transformers.series_as_features.slope &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.transformers.series_as_features.slope</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.transformers.series_as_features.slope</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">statistics</span>
+<span class="kn">from</span> <span class="nn">sktime.transformers.series_as_features.base</span> \
+    <span class="kn">import</span> <span class="nn">BaseSeriesAsFeaturesTransformer</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.data_container</span> <span class="kn">import</span> <span class="n">tabularize</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.series_as_features</span> <span class="kn">import</span> <span class="n">check_X</span>
+
+
+<div class="viewcode-block" id="SlopeTransformer"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.transformers.series_as_features.slope.html#sktime.transformers.series_as_features.slope.SlopeTransformer">[docs]</a><span class="k">class</span> <span class="nc">SlopeTransformer</span><span class="p">(</span><span class="n">BaseSeriesAsFeaturesTransformer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to perform the Slope transformation on a time series</span>
+<span class="sd">    dataframe. It splits a time series into num_intervals segments.</span>
+<span class="sd">    Then within each segment, it performs a total least</span>
+<span class="sd">    squares regression to extract the gradient of the segment.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    num_intervals   :   int, number of approx equal segments</span>
+<span class="sd">                        to split the time series into.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_intervals</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_intervals</span> <span class="o">=</span> <span class="n">num_intervals</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SlopeTransformer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="SlopeTransformer.transform"><a class="viewcode-back" href="../../../../modules/auto_generated/sktime.transformers.series_as_features.slope.html#sktime.transformers.series_as_features.slope.SlopeTransformer.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : a pandas dataframe of shape = [n_samples, num_dims]</span>
+<span class="sd">            The training input samples.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        df: a pandas data frame of shape = [num_intervals, num_dims]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check the data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">enforce_univariate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Get information about the dataframe</span>
+        <span class="n">n_timepoints</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="n">num_instances</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">col_names</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_parameters</span><span class="p">(</span><span class="n">n_timepoints</span><span class="p">)</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">col_names</span><span class="p">:</span>
+            <span class="c1"># Convert one of the columns in the dataframe to numpy array</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">tabularize</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">x</span><span class="p">]),</span> <span class="n">return_array</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># Calculate gradients</span>
+            <span class="n">transformedData</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_instances</span><span class="p">):</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_gradients_of_lines</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">y</span><span class="p">])</span>
+                <span class="n">transformedData</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+            <span class="c1"># Convert to Numpy array</span>
+            <span class="n">transformedData</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">transformedData</span><span class="p">)</span>
+
+            <span class="c1"># Add it to the dataframe</span>
+            <span class="n">colToAdd</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">transformedData</span><span class="p">)):</span>
+                <span class="n">inst</span> <span class="o">=</span> <span class="n">transformedData</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">colToAdd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">inst</span><span class="p">))</span>
+
+            <span class="n">df</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">colToAdd</span>
+
+        <span class="k">return</span> <span class="n">df</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_gradients_of_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function to get the gradients of the line of best fits</span>
+<span class="sd">        given a time series.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : a numpy array of shape = [time_series_length]</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        gradients : a numpy array of shape = [num_intervals].</span>
+<span class="sd">                    It contains the gradients of the line of best fit</span>
+<span class="sd">                    for each interval in a time series.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Firstly, split the time series into approx equal length intervals</span>
+        <span class="n">splitTimeSeries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_split_time_series</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">gradients</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">splitTimeSeries</span><span class="p">)):</span>
+            <span class="n">gradients</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_gradient</span><span class="p">(</span><span class="n">splitTimeSeries</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+
+        <span class="k">return</span> <span class="n">gradients</span>
+
+    <span class="k">def</span> <span class="nf">_get_gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function to get the gradient of the line of best fit given a</span>
+<span class="sd">        section of a time series.</span>
+
+<span class="sd">        Equation adopted from:</span>
+<span class="sd">        real-statistics.com/regression/total-least-squares</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Y : a numpy array of shape = [interval_size]</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        m : an int corresponding to the gradient of the best fit line.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Create a list that contains 1,2,3,4,...,len(Y) for the x coordinates.</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">))]</span>
+
+        <span class="c1"># Calculate the mean of both lists</span>
+        <span class="n">meanX</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">meanY</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+
+        <span class="c1"># Calculate the list (yi-mean(y))^2</span>
+        <span class="n">yminYbar</span> <span class="o">=</span> <span class="p">[(</span><span class="n">y</span><span class="o">-</span><span class="n">meanY</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">Y</span><span class="p">]</span>
+        <span class="c1"># Calculate the list (xi-mean(x))^2</span>
+        <span class="n">xminXbar</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="o">-</span><span class="n">meanX</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">]</span>
+
+        <span class="c1"># Sum them to produce w.</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">yminYbar</span><span class="p">)</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">xminXbar</span><span class="p">)</span>
+
+        <span class="c1"># Calculate the list (xi-mean(x))*(yi-mean(y))</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
+            <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">X</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">-</span><span class="n">meanX</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">-</span><span class="n">meanY</span><span class="p">))</span>
+
+        <span class="c1"># Sum it and multiply by 2 to calculate r</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="nb">sum</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">r</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># remove nans</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Gradient is defined as (w+sqrt(w^2+r^2))/r</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="n">w</span><span class="o">+</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">w</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="n">r</span>
+
+        <span class="k">return</span> <span class="n">m</span>
+
+    <span class="k">def</span> <span class="nf">_split_time_series</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function to split a time series into approximately equal intervals.</span>
+
+<span class="sd">        Adopted from = https://stackoverflow.com/questions/2130016/</span>
+<span class="sd">                       splitting-a-list-into-n-parts-of-approximately</span>
+<span class="sd">                       -equal-length</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : a numpy array of shape = [time_series_length]</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        output : a numpy array of shape = [num_intervals,interval_size]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">avg</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_intervals</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">beginning</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="k">while</span> <span class="n">beginning</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">beginning</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="n">beginning</span> <span class="o">+</span> <span class="n">avg</span><span class="p">)])</span>
+            <span class="n">beginning</span> <span class="o">+=</span> <span class="n">avg</span>
+
+        <span class="k">return</span> <span class="n">output</span>
+
+    <span class="k">def</span> <span class="nf">_check_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_timepoints</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function for checking the values of parameters inserted into Slope.</span>
+
+<span class="sd">        Throws</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError or TypeError if a parameters input is invalid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_intervals</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_intervals</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;num_intervals must have the value </span><span class="se">\</span>
+<span class="s2">                                  of at least 1&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_intervals</span> <span class="o">&gt;</span> <span class="n">n_timepoints</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;num_intervals cannot be higher than </span><span class="se">\</span>
+<span class="s2">                                  subsequence_length&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;num_intervals must be an &#39;int&#39;. Found &#39;&quot;</span>
+                            <span class="o">+</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_intervals</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span>
+                            <span class="s2">&quot;&#39;instead.&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

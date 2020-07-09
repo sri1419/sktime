@@ -1,0 +1,7 @@
+sktime.transformers.series\_as\_features.segment
+------------------------------------------------
+
+.. automodule:: sktime.transformers.series_as_features.segment
+   :members:
+   :undoc-members:
+   :show-inheritance:

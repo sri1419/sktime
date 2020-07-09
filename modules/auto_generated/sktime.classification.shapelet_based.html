@@ -1,0 +1,449 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.classification.shapelet_based &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>sktime.classification.shapelet_based</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-sktime.classification.shapelet_based">
+<span id="sktime-classification-shapelet-based"></span><h1>sktime.classification.shapelet_based<a class="headerlink" href="#module-sktime.classification.shapelet_based" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="sktime.classification.shapelet_based.MrSEQLClassifier">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.classification.shapelet_based.</code><code class="sig-name descname">MrSEQLClassifier</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">seql_mode</span><span class="o">=</span><span class="default_value">'fs'</span></em>, <em class="sig-param"><span class="n">symrep</span><span class="o">=</span><span class="default_value">'sax'</span></em>, <em class="sig-param"><span class="n">custom_config</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.MrSEQLClassifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sktime.classification.base.html#sktime.classification.base.BaseClassifier" title="sktime.classification.base.BaseClassifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.classification.base.BaseClassifier</span></code></a></p>
+<p>Time Series Classification with multiple symbolic representations and SEQL (Mr-SEQL)</p>
+<p>&#64;article{mrseql,
+author = {Le Nguyen, Thach and Gsponer, Severin and Ilie, Iulia and O’reilly, Martin and Ifrim, Georgiana},
+title = {Interpretable Time Series Classification Using Linear Models and Multi-resolution Multi-domain Symbolic Representations},
+journal = {Data Mining and Knowledge Discovery},
+volume = {33},
+number = {4},
+year = {2019},
+}</p>
+<p>Overview: Mr-SEQL is a time series classifier that learn from multiple symbolic representations of multiple resolutions and multiple domains.
+Currently, Mr-SEQL supports both SAX and SFA representations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seql_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>, </em><em>either 'clf'</em><em> or </em><em>'fs'. In the 'clf' mode</em><em>, </em><em>Mr-SEQL is an ensemble of SEQL models while in the 'fs' mode Mr-SEQL trains a logistic regression model with features extracted by SEQL from symbolic representations of time series.</em>) – </p></li>
+<li><p><strong>symrep</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><em>tuple</em></a><em>, </em><em>should contains only 'sax'</em><em> or </em><em>'sfa'</em><em> or </em><em>both. The symbolic representations to be used to transform the input time series.</em>) – </p></li>
+<li><p><strong>custom_config</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em>, </em><em>customized parameters for the symbolic transformation. If defined</em><em>, </em><em>symrep will be ignored.</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.MrSEQLClassifier.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">input_checks</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.MrSEQLClassifier.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the model according to the given training time series data.
+:param X:
+:type X: Time series data.
+:param y:
+:type y: Target vector relative to X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Fitted estimator.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>self</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.MrSEQLClassifier.map_sax_model">
+<code class="sig-name descname">map_sax_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ts</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.MrSEQLClassifier.map_sax_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>For interpretation.
+Returns vectors of weights with the same length of the input time series.
+The weight of each point implies its contribution in the classification decision regarding the class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ts</strong> (<em>A single time series.</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>weighted_ts</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray of (number of classes, length of time series)</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only supports univariate time series and SAX features.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.MrSEQLClassifier.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">input_checks</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.MrSEQLClassifier.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict class labels for samples in X.
+:param X:
+:type X: time series data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>C</strong> – Predicted class label per sample.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.MrSEQLClassifier.predict_proba">
+<code class="sig-name descname">predict_proba</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">input_checks</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.MrSEQLClassifier.predict_proba" title="Permalink to this definition">¶</a></dt>
+<dd><p>If seql_mode is set to ‘fs’, it returns the estimation by sklearn logistic regression model.
+Otherwise (seql_mode == ‘clf’), it returns normalized probability estimated with one-versus-all method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>time series data.</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>T</strong> – Returns the probability of the sample for each class in the model,
+where classes are ordered as they are in <code class="docutils literal notranslate"><span class="pre">self.classes_</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array-like of shape (n_samples, n_classes)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.classification.shapelet_based.ShapeletTransformClassifier">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.classification.shapelet_based.</code><code class="sig-name descname">ShapeletTransformClassifier</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time_contract_in_mins</span><span class="o">=</span><span class="default_value">300</span></em>, <em class="sig-param"><span class="n">n_estimators</span><span class="o">=</span><span class="default_value">500</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/classification/shapelet_based/_stc.html#ShapeletTransformClassifier"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/_stc.py#L23-L133"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.ShapeletTransformClassifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sktime.classification.base.html#sktime.classification.base.BaseClassifier" title="sktime.classification.base.BaseClassifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.classification.base.BaseClassifier</span></code></a></p>
+<dl class="simple">
+<dt>Shapelet Transform Classifier</dt><dd><p>Basic implementation along the lines of</p>
+</dd>
+<dt>&#64;article{hills14shapelet,</dt><dd><p>title={Classification of time series by shapelet transformation},
+author={J. Hills  and  J. Lines and E. Baranauskas and J. Mapp and A.
+Bagnall},
+journal={Data Mining and Knowledge Discovery},
+volume={28},
+number={4},
+pages={851–881},
+year={2014}</p>
+</dd>
+</dl>
+<p>}
+but with some of the refinements presented in
+&#64;article{bostrom17binary,</p>
+<blockquote>
+<div><p>author={A. Bostrom and A. Bagnall},
+title={Binary Shapelet Transform for Multiclass Time Series
+Classification},
+journal={Transactions on Large-Scale Data and Knowledge Centered
+Systems},
+volume={32},
+year={2017},
+pages={24–46}</p>
+</div></blockquote>
+<p>}</p>
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.ShapeletTransformClassifier.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/classification/shapelet_based/_stc.html#ShapeletTransformClassifier.fit"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/_stc.py#L71-L101"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.ShapeletTransformClassifier.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a shapelet transform then builds a random forest.
+Contract default for ST is 5 hours
+———-
+X : array-like or sparse matrix of shape = [n_instances,
+series_length] or shape = [n_instances,n_columns]</p>
+<blockquote>
+<div><p>The training input samples.  If a Pandas data frame is passed it
+must have a single column (i.e. univariate
+classification. RISE has no bespoke method for multivariate
+classification as yet.</p>
+</div></blockquote>
+<p>y : array-like, shape =  [n_instances]    The class labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>self</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)">object</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.ShapeletTransformClassifier.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/classification/shapelet_based/_stc.html#ShapeletTransformClassifier.predict"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/_stc.py#L103-L117"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.ShapeletTransformClassifier.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find predictions for all cases in X. Built on top of predict_proba
+:param X:
+:type X: array-like or sparse matrix of shape = [n_samps, num_atts] or a
+:param data frame.:
+:param If a Pandas data frame is passed,:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>output</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>array of shape = [n_samples]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.classification.shapelet_based.ShapeletTransformClassifier.predict_proba">
+<code class="sig-name descname">predict_proba</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/classification/shapelet_based/_stc.html#ShapeletTransformClassifier.predict_proba"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/classification/shapelet_based/_stc.py#L119-L133"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.classification.shapelet_based.ShapeletTransformClassifier.predict_proba" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find probability estimates for each class for all cases in X.
+:param X: The training input samples.  If a Pandas data frame is passed,
+:type X: array-like or sparse matrix of shape = [n_instances, n_columns]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>output</strong></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>array of shape = [n_samples, num_classes] of probabilities</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="subpackages">
+<h1>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sktime.classification.shapelet_based.mrseql.html">sktime.classification.shapelet_based.mrseql</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sktime.classification.shapelet_based.mrseql.html#submodules">Submodules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sktime.classification.shapelet_based.mrseql.mrseql.html">sktime.classification.shapelet_based.mrseql.mrseql</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sktime.classification.shapelet_based.mrseql.mrseql.html">sktime.classification.shapelet_based.mrseql.mrseql</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sktime.classification.shapelet_based.mrseql.setup.html">sktime.classification.shapelet_based.mrseql.setup</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

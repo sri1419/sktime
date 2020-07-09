@@ -1,0 +1,447 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.transformers.single_series.detrend._deseasonalise &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sktime.transformers.single_series.detrend._deseasonalise</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sktime.transformers.single_series.detrend._deseasonalise</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3 -u</span>
+<span class="c1"># coding: utf-8</span>
+<span class="c1"># copyright: sktime developers, BSD-3-Clause License (see LICENSE file)</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Markus Löning&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Deseasonalizer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Deseasonalizer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ConditionalDeseasonalizer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ConditionalDeseasonalizer&quot;</span>
+<span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sktime.transformers.single_series.base</span> <span class="kn">import</span> \
+    <span class="n">BaseSingleSeriesTransformer</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.seasonality</span> <span class="kn">import</span> <span class="n">autocorrelation_seasonality_test</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.forecasting</span> <span class="kn">import</span> <span class="n">check_sp</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.forecasting</span> <span class="kn">import</span> <span class="n">check_time_index</span>
+<span class="kn">from</span> <span class="nn">sktime.utils.validation.forecasting</span> <span class="kn">import</span> <span class="n">check_y</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.seasonal</span> <span class="kn">import</span> <span class="n">seasonal_decompose</span>
+
+
+<div class="viewcode-block" id="Deseasonalizer"><a class="viewcode-back" href="../../../../../modules/auto_generated/sktime.transformers.single_series.detrend.Deseasonalizer.html#sktime.transformers.single_series.detrend.Deseasonalizer">[docs]</a><span class="k">class</span> <span class="nc">Deseasonalizer</span><span class="p">(</span><span class="n">BaseSingleSeriesTransformer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A transformer that removes a seasonal and trend components from time</span>
+<span class="sd">    series</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sp : int, optional (default=1)</span>
+<span class="sd">        Seasonal periodicity</span>
+<span class="sd">    model : str {&quot;additive&quot;, &quot;multiplicative&quot;}, optional (default=&quot;additive&quot;)</span>
+<span class="sd">        Model to use for estimating seasonal component</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Deseasonalizer.__init__"><a class="viewcode-back" href="../../../../../modules/auto_generated/sktime.transformers.single_series.detrend.Deseasonalizer.html#sktime.transformers.single_series.detrend.Deseasonalizer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;additive&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sp</span> <span class="o">=</span> <span class="n">check_sp</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span>
+        <span class="n">allowed_models</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;additive&quot;</span><span class="p">,</span> <span class="s2">&quot;multiplicative&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">model</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_models</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`model` must be one of </span><span class="si">{</span><span class="n">allowed_models</span><span class="si">}</span><span class="s2">, &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;but found: </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_oh_index</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seasonal_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Deseasonalizer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_set_oh_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_oh_index</span> <span class="o">=</span> <span class="n">check_time_index</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_align_seasonal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Helper function to align seasonal components with y&#39;s time index&quot;&quot;&quot;</span>
+        <span class="n">shift</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_oh_index</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">sp</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seasonal_</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="n">shift</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<div class="viewcode-block" id="Deseasonalizer.fit"><a class="viewcode-back" href="../../../../../modules/auto_generated/sktime.transformers.single_series.detrend.html#sktime.transformers.single_series.detrend.Deseasonalizer.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit to data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y_train : pd.Series</span>
+<span class="sd">        fit_params : dict</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : an instance of self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="n">check_y</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_oh_index</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">sp</span> <span class="o">=</span> <span class="n">check_sp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seasonal_</span> <span class="o">=</span> <span class="n">seasonal_decompose</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="n">sp</span><span class="p">,</span>
+                                            <span class="n">filt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">two_sided</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                            <span class="n">extrapolate_trend</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">seasonal</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span>
+                         <span class="p">:</span><span class="n">sp</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="k">def</span> <span class="nf">_detrend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">seasonal</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">==</span> <span class="s2">&quot;additive&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">y</span> <span class="o">-</span> <span class="n">seasonal</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">y</span> <span class="o">/</span> <span class="n">seasonal</span>
+
+    <span class="k">def</span> <span class="nf">_retrend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">seasonal</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">==</span> <span class="s2">&quot;additive&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">y</span> <span class="o">+</span> <span class="n">seasonal</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">y</span> <span class="o">*</span> <span class="n">seasonal</span>
+
+<div class="viewcode-block" id="Deseasonalizer.transform"><a class="viewcode-back" href="../../../../../modules/auto_generated/sktime.transformers.single_series.detrend.html#sktime.transformers.single_series.detrend.Deseasonalizer.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">transform_params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Transform data.</span>
+<span class="sd">        Returns a transformed version of y.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y : pd.Series</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        yt : pd.Series</span>
+<span class="sd">            Transformed time series.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">check_y</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">seasonal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_align_seasonal</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_detrend</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">seasonal</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Deseasonalizer.inverse_transform"><a class="viewcode-back" href="../../../../../modules/auto_generated/sktime.transformers.single_series.detrend.html#sktime.transformers.single_series.detrend.Deseasonalizer.inverse_transform">[docs]</a>    <span class="k">def</span> <span class="nf">inverse_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">transform_params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Inverse transform data.</span>
+<span class="sd">        Returns a transformed version of y.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y : pd.Series</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        yt : pd.Series</span>
+<span class="sd">            Transformed time series.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">check_y</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">seasonal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_align_seasonal</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retrend</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">seasonal</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Deseasonalizer.update"><a class="viewcode-back" href="../../../../../modules/auto_generated/sktime.transformers.single_series.detrend.html#sktime.transformers.single_series.detrend.Deseasonalizer.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_new</span><span class="p">,</span> <span class="n">update_params</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update fitted parameters</span>
+
+<span class="sd">         Parameters</span>
+<span class="sd">         ----------</span>
+<span class="sd">         y_new : pd.Series</span>
+<span class="sd">         X_new : pd.DataFrame</span>
+<span class="sd">         update_params : bool, optional (default=False)</span>
+
+<span class="sd">         Returns</span>
+<span class="sd">         -------</span>
+<span class="sd">         self : an instance of self</span>
+<span class="sd">         &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_is_fitted</span><span class="p">()</span>
+        <span class="n">y_new</span> <span class="o">=</span> <span class="n">check_y</span><span class="p">(</span><span class="n">y_new</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_oh_index</span><span class="p">(</span><span class="n">y_new</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
+
+
+<div class="viewcode-block" id="ConditionalDeseasonalizer"><a class="viewcode-back" href="../../../../../modules/auto_generated/sktime.transformers.single_series.detrend.ConditionalDeseasonalizer.html#sktime.transformers.single_series.detrend.ConditionalDeseasonalizer">[docs]</a><span class="k">class</span> <span class="nc">ConditionalDeseasonalizer</span><span class="p">(</span><span class="n">Deseasonalizer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A transformer that removes a seasonal and trend components from time</span>
+<span class="sd">    series, conditional on seasonality test.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    seasonality_test : callable, optional (default=None)</span>
+<span class="sd">        Callable that tests for seasonality and returns True when data is</span>
+<span class="sd">        seasonal and False otherwise. If None,</span>
+<span class="sd">        90% autocorrelation seasonality test is used.</span>
+<span class="sd">    sp : int, optional (default=1)</span>
+<span class="sd">        Seasonal periodicity</span>
+<span class="sd">    model : str {&quot;additive&quot;, &quot;multiplicative&quot;}, optional (default=&quot;additive&quot;)</span>
+<span class="sd">        Model to use for estimating seasonal component</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ConditionalDeseasonalizer.__init__"><a class="viewcode-back" href="../../../../../modules/auto_generated/sktime.transformers.single_series.detrend.ConditionalDeseasonalizer.html#sktime.transformers.single_series.detrend.ConditionalDeseasonalizer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seasonality_test</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;additive&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seasonality_test</span> <span class="o">=</span> <span class="n">seasonality_test</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_seasonal_</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ConditionalDeseasonalizer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">sp</span><span class="o">=</span><span class="n">sp</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_check_condition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if y meets condition&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seasonality_test_</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;`func` must be a function/callable, but found: &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seasonality_test_</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">is_seasonal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seasonality_test_</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sp</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sp</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">is_seasonal</span><span class="p">,</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Return type of `func` must be boolean, &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;but found: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">is_seasonal</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">is_seasonal</span>
+
+<div class="viewcode-block" id="ConditionalDeseasonalizer.fit"><a class="viewcode-back" href="../../../../../modules/auto_generated/sktime.transformers.single_series.detrend.html#sktime.transformers.single_series.detrend.ConditionalDeseasonalizer.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit to data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y_train : pd.Series</span>
+<span class="sd">        fit_params : dict</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self : an instance of self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">y_train</span> <span class="o">=</span> <span class="n">check_y</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_oh_index</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+        <span class="n">sp</span> <span class="o">=</span> <span class="n">check_sp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sp</span><span class="p">)</span>
+
+        <span class="c1"># set default condition</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">seasonality_test</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">seasonality_test_</span> <span class="o">=</span> <span class="n">autocorrelation_seasonality_test</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">seasonality_test_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seasonality_test</span>
+
+        <span class="c1"># check if data meets condition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_seasonal_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_condition</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_seasonal_</span><span class="p">:</span>
+            <span class="c1"># if condition is met, apply de-seasonalisation</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">seasonal_</span> <span class="o">=</span> <span class="n">seasonal_decompose</span><span class="p">(</span>
+                <span class="n">y_train</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+                <span class="n">period</span><span class="o">=</span><span class="n">sp</span><span class="p">,</span> <span class="n">filt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">two_sided</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">extrapolate_trend</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">seasonal</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">sp</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># otherwise, set idempotent seasonal components</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">seasonal_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sp</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">==</span> <span class="s2">&quot;additive&quot;</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sp</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_fitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="ConditionalDeseasonalizer.update"><a class="viewcode-back" href="../../../../../modules/auto_generated/sktime.transformers.single_series.detrend.html#sktime.transformers.single_series.detrend.ConditionalDeseasonalizer.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_new</span><span class="p">,</span> <span class="n">update_params</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update fitted paramters</span>
+
+<span class="sd">         Parameters</span>
+<span class="sd">         ----------</span>
+<span class="sd">         y_new : pd.Series</span>
+<span class="sd">         update_params : bool, optional (default=False)</span>
+
+<span class="sd">         Returns</span>
+<span class="sd">         -------</span>
+<span class="sd">         self : an instance of self</span>
+<span class="sd">         &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

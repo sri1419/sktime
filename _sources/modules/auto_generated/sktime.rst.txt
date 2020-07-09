@@ -1,0 +1,32 @@
+sktime
+------
+
+.. automodule:: sktime
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+   sktime.base
+   sktime.benchmarking
+   sktime.classification
+   sktime.datasets
+   sktime.distances
+   sktime.forecasting
+   sktime.performance_metrics
+   sktime.regression
+   sktime.series_as_features
+   sktime.transformers
+   sktime.utils
+
+Submodules
+----------
+
+.. toctree::
+
+   sktime.exceptions
+   sktime.setup

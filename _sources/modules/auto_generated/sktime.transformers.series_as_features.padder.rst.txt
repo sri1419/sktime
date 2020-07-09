@@ -1,0 +1,7 @@
+sktime.transformers.series\_as\_features.padder
+-----------------------------------------------
+
+.. automodule:: sktime.transformers.series_as_features.padder
+   :members:
+   :undoc-members:
+   :show-inheritance:

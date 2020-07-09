@@ -1,0 +1,7 @@
+sktime.transformers.single\_series.boxcox
+-----------------------------------------
+
+.. automodule:: sktime.transformers.single_series.boxcox
+   :members:
+   :undoc-members:
+   :show-inheritance:

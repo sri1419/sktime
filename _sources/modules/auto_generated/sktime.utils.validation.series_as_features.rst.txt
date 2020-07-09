@@ -1,0 +1,7 @@
+sktime.utils.validation.series\_as\_features
+--------------------------------------------
+
+.. automodule:: sktime.utils.validation.series_as_features
+   :members:
+   :undoc-members:
+   :show-inheritance:

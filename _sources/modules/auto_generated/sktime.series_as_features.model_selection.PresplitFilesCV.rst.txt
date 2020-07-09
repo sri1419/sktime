@@ -1,0 +1,16 @@
+:mod:`sktime.series_as_features.model_selection`.PresplitFilesCV
+=======================================================================
+
+.. currentmodule:: sktime.series_as_features.model_selection
+
+.. autoclass:: PresplitFilesCV
+
+   
+   .. automethod:: __init__
+   
+
+.. include:: sktime.series_as_features.model_selection.PresplitFilesCV.examples
+
+.. raw:: html
+
+    <div class="clearer"></div>

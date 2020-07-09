@@ -1,0 +1,437 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.transformers.series_as_features.summarize &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>sktime.transformers.series_as_features.summarize</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-sktime.transformers.series_as_features.summarize">
+<span id="sktime-transformers-series-as-features-summarize"></span><h1>sktime.transformers.series_as_features.summarize<a class="headerlink" href="#module-sktime.transformers.series_as_features.summarize" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="sktime.transformers.series_as_features.summarize.DerivativeSlopeTransformer">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.transformers.series_as_features.summarize.</code><code class="sig-name descname">DerivativeSlopeTransformer</code><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/summarize/_extract.html#DerivativeSlopeTransformer"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/summarize/_extract.py#L101-L126"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.summarize.DerivativeSlopeTransformer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sktime.transformers.series_as_features.base.html#sktime.transformers.series_as_features.base.BaseSeriesAsFeaturesTransformer" title="sktime.transformers.series_as_features.base.BaseSeriesAsFeaturesTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.transformers.series_as_features.base.BaseSeriesAsFeaturesTransformer</span></code></a></p>
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.summarize.DerivativeSlopeTransformer.row_wise_get_der">
+<em class="property">static </em><code class="sig-name descname">row_wise_get_der</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/summarize/_extract.html#DerivativeSlopeTransformer.row_wise_get_der"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/summarize/_extract.py#L116-L126"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.summarize.DerivativeSlopeTransformer.row_wise_get_der" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.summarize.DerivativeSlopeTransformer.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/summarize/_extract.html#DerivativeSlopeTransformer.transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/summarize/_extract.py#L103-L114"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.summarize.DerivativeSlopeTransformer.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.transformers.series_as_features.summarize.FittedParamExtractor">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.transformers.series_as_features.summarize.</code><code class="sig-name descname">FittedParamExtractor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">forecaster</span></em>, <em class="sig-param"><span class="n">param_names</span></em>, <em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/summarize/_extract.html#FittedParamExtractor"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/summarize/_extract.py#L257-L300"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.summarize.FittedParamExtractor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.base._meta.MetaEstimatorMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.transformers.series_as_features.base._NonFittableSeriesAsFeaturesTransformer</span></code></p>
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.summarize.FittedParamExtractor.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/summarize/_extract.html#FittedParamExtractor.transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/summarize/_extract.py#L267-L284"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.summarize.FittedParamExtractor.transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.transformers.series_as_features.summarize.PlateauFinder">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.transformers.series_as_features.summarize.</code><code class="sig-name descname">PlateauFinder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="o">=</span><span class="default_value">nan</span></em>, <em class="sig-param"><span class="n">min_length</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/summarize/_extract.html#PlateauFinder"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/summarize/_extract.py#L21-L98"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.summarize.PlateauFinder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.transformers.series_as_features.base._NonFittableSeriesAsFeaturesTransformer</span></code></p>
+<p>Transformer that finds segments of the same given value, plateau in
+the time series, and
+returns the starting indices and lengths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>{int</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>, </em><em>np.nan</em><em>, </em><em>np.inf}</em>) – Value for which to find segments</p></li>
+<li><p><strong>min_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Minimum lengths of segments with same value to include.
+If min_length is set to 1, the transformer can be used as a value
+finder.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.summarize.PlateauFinder.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/summarize/_extract.html#PlateauFinder.transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/summarize/_extract.py#L41-L98"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.summarize.PlateauFinder.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform X.
+:param X: Nested dataframe with time-series in cells.
+:type X: nested pandas DataFrame of shape [n_samples, n_columns]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>Xt</strong> – Transformed pandas DataFrame</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.transformers.series_as_features.summarize.RandomIntervalFeatureExtractor">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.transformers.series_as_features.summarize.</code><code class="sig-name descname">RandomIntervalFeatureExtractor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_intervals</span><span class="o">=</span><span class="default_value">'sqrt'</span></em>, <em class="sig-param"><span class="n">min_length</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">features</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">random_state</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/summarize/_extract.html#RandomIntervalFeatureExtractor"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/summarize/_extract.py#L129-L254"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.summarize.RandomIntervalFeatureExtractor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sktime.transformers.series_as_features.segment.RandomIntervalSegmenter.html#sktime.transformers.series_as_features.segment.RandomIntervalSegmenter" title="sktime.transformers.series_as_features.segment.RandomIntervalSegmenter"><code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.transformers.series_as_features.segment.RandomIntervalSegmenter</span></code></a></p>
+<p>Transformer that segments time-series into random intervals
+and subsequently extracts series-to-primitives features from each interval.</p>
+<p>n_intervals: str{‘sqrt’, ‘log’, ‘random’}, int or float, optional (
+default=’sqrt’)</p>
+<blockquote>
+<div><p>Number of random intervals to generate, where m is length of time
+series:
+- If “log”, log of m is used.
+- If “sqrt”, sqrt of m is used.
+- If “random”, random number of intervals is generated.
+- If int, n_intervals intervals are generated.
+- If float, int(n_intervals * m) is used with n_intervals giving the
+fraction of intervals of the
+time series length.</p>
+<p>For all arguments relative to the length of the time series,
+the generated number of intervals is
+always at least 1.</p>
+</div></blockquote>
+<dl>
+<dt>features: list of functions, optional (default=None)</dt><dd><p>Applies each function to random intervals to extract features.
+If None, the mean is extracted.</p>
+</dd>
+<dt>random_state:<span class="classifier">int, RandomState instance, optional (default=None)</span></dt><dd><ul class="simple">
+<li><p>If int, random_state is the seed used by the random number generator;</p></li>
+<li><p>If RandomState instance, random_state is the random number generator;</p></li>
+<li><p>If None, the random number generator is the RandomState instance used</p></li>
+</ul>
+<p>by <cite>np.random</cite>.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.summarize.RandomIntervalFeatureExtractor.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/summarize/_extract.html#RandomIntervalFeatureExtractor.transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/summarize/_extract.py#L170-L254"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.summarize.RandomIntervalFeatureExtractor.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform X, segments time-series in each column into random
+intervals using interval indices generated
+during <cite>fit</cite> and extracts features from each interval.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>nested pandas.DataFrame of shape</em><em> [</em><em>n_samples</em><em>, </em><em>n_features</em><em>]</em>) – Nested dataframe with time-series in cells.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Xt</strong> – Transformed pandas DataFrame with same number of rows and one
+column for each generated interval.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.transformers.series_as_features.summarize.TSFreshFeatureExtractor">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.transformers.series_as_features.summarize.</code><code class="sig-name descname">TSFreshFeatureExtractor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">default_fc_parameters</span><span class="o">=</span><span class="default_value">'efficient'</span></em>, <em class="sig-param"><span class="n">kind_to_fc_parameters</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">chunksize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">show_warnings</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">disable_progressbar</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">impute_function</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">profiling</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">profiling_filename</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">profiling_sorting</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">distributor</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/summarize/_tsfresh.html#TSFreshFeatureExtractor"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/summarize/_tsfresh.py#L121-L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.summarize.TSFreshFeatureExtractor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.transformers.series_as_features.summarize._tsfresh.BaseTSFreshFeatureExtractor</span></code></p>
+<p>Transformer for extracting time series features</p>
+<p class="rubric">References</p>
+<p>..[1]  <a class="reference external" href="https://github.com/blue-yonder/tsfresh">https://github.com/blue-yonder/tsfresh</a></p>
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.summarize.TSFreshFeatureExtractor.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/summarize/_tsfresh.html#TSFreshFeatureExtractor.transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/summarize/_tsfresh.py#L129-L169"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.summarize.TSFreshFeatureExtractor.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>pd.DataFrame</em>) – nested pandas DataFrame of shape [n_samples, n_columns]</p></li>
+<li><p><strong>y</strong> (<em>pd.Series</em><em>, </em><em>optional</em><em> (</em><em>default=None</em><em>)</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Xt</strong> – Transformed pandas DataFrame</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.transformers.series_as_features.summarize.</code><code class="sig-name descname">TSFreshRelevantFeatureExtractor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">default_fc_parameters</span><span class="o">=</span><span class="default_value">'efficient'</span></em>, <em class="sig-param"><span class="n">kind_to_fc_parameters</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">chunksize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">show_warnings</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">disable_progressbar</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">impute_function</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">profiling</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">profiling_filename</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">profiling_sorting</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">distributor</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">test_for_binary_target_binary_feature</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">test_for_binary_target_real_feature</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">test_for_real_target_binary_feature</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">test_for_real_target_real_feature</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fdr_level</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">hypotheses_independent</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ml_task</span><span class="o">=</span><span class="default_value">'auto'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/summarize/_tsfresh.html#TSFreshRelevantFeatureExtractor"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/summarize/_tsfresh.py#L172-L318"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.transformers.series_as_features.summarize._tsfresh.BaseTSFreshFeatureExtractor</span></code></p>
+<p>Transformer for extracting and selecting features.</p>
+<p class="rubric">References</p>
+<p>..[1]  <a class="reference external" href="https://github.com/blue-yonder/tsfresh">https://github.com/blue-yonder/tsfresh</a></p>
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/summarize/_tsfresh.html#TSFreshRelevantFeatureExtractor.fit"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/summarize/_tsfresh.py#L250-L297"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>pd.DataFrame</em>) – nested pandas DataFrame of shape [n_samples, n_columns]</p></li>
+<li><p><strong>y</strong> (<em>pd.Series</em><em> or </em><em>np.array</em>) – Target variable</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>self</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>an instance of self</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/transformers/series_as_features/summarize/_tsfresh.html#TSFreshRelevantFeatureExtractor.transform"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/transformers/series_as_features/summarize/_tsfresh.py#L299-L318"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.transformers.series_as_features.summarize.TSFreshRelevantFeatureExtractor.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform X.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>pd.DataFrame</em>) – nested pandas DataFrame of shape [n_samples, n_columns]</p></li>
+<li><p><strong>y</strong> (<em>pd.Series</em><em> or </em><em>np.array</em>) – Target variable</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Xt</strong> – Transformed pandas DataFrame</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

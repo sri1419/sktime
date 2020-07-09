@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sktime.benchmarking.base &mdash; sktime 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/fields.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/sktime-favicon.ico"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> sktime
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_get_started.html">How to get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_contribute.html">How to contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About us</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code_of_conduct.html">Code of Conduct</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sktime</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>sktime.benchmarking.base</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-sktime.benchmarking.base">
+<span id="sktime-benchmarking-base"></span><h1>sktime.benchmarking.base<a class="headerlink" href="#module-sktime.benchmarking.base" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="sktime.benchmarking.base.BaseDataset">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.benchmarking.base.</code><code class="sig-name descname">BaseDataset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/benchmarking/base.html#BaseDataset"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/base.py#L14-L28"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.base.BaseDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt id="sktime.benchmarking.base.BaseDataset.load">
+<code class="sig-name descname">load</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/benchmarking/base.html#BaseDataset.load"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/base.py#L23-L24"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.base.BaseDataset.load" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sktime.benchmarking.base.BaseDataset.name">
+<em class="property">property </em><code class="sig-name descname">name</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/base.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.base.BaseDataset.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.benchmarking.base.BaseResults">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.benchmarking.base.</code><code class="sig-name descname">BaseResults</code><a class="reference internal" href="../../_modules/sktime/benchmarking/base.html#BaseResults"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/base.py#L49-L108"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.base.BaseResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt id="sktime.benchmarking.base.BaseResults.check_fitted_strategy_exists">
+<code class="sig-name descname">check_fitted_strategy_exists</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">strategy</span></em>, <em class="sig-param"><span class="n">dataset_name</span></em>, <em class="sig-param"><span class="n">cv_fold</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/benchmarking/base.html#BaseResults.check_fitted_strategy_exists"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/base.py#L78-L79"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.base.BaseResults.check_fitted_strategy_exists" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sktime.benchmarking.base.BaseResults.check_predictions_exist">
+<code class="sig-name descname">check_predictions_exist</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">strategy</span></em>, <em class="sig-param"><span class="n">dataset_name</span></em>, <em class="sig-param"><span class="n">cv_fold</span></em>, <em class="sig-param"><span class="n">train_or_test</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/benchmarking/base.html#BaseResults.check_predictions_exist"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/base.py#L66-L68"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.base.BaseResults.check_predictions_exist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sktime.benchmarking.base.BaseResults.load_fitted_strategy">
+<code class="sig-name descname">load_fitted_strategy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">strategy_name</span></em>, <em class="sig-param"><span class="n">dataset_name</span></em>, <em class="sig-param"><span class="n">cv_fold</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/benchmarking/base.html#BaseResults.load_fitted_strategy"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/base.py#L73-L76"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.base.BaseResults.load_fitted_strategy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load fitted strategies for all datasets and strategies
+iteratively</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.benchmarking.base.BaseResults.load_predictions">
+<code class="sig-name descname">load_predictions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cv_fold</span></em>, <em class="sig-param"><span class="n">train_or_test</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/benchmarking/base.html#BaseResults.load_predictions"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/base.py#L62-L64"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.base.BaseResults.load_predictions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads predictions for all datasets and strategies iteratively</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.benchmarking.base.BaseResults.save">
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/benchmarking/base.html#BaseResults.save"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/base.py#L100-L102"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.base.BaseResults.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save results object as master file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sktime.benchmarking.base.BaseResults.save_fitted_strategy">
+<code class="sig-name descname">save_fitted_strategy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">strategy</span></em>, <em class="sig-param"><span class="n">dataset_name</span></em>, <em class="sig-param"><span class="n">cv_fold</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/benchmarking/base.html#BaseResults.save_fitted_strategy"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/base.py#L70-L71"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.base.BaseResults.save_fitted_strategy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sktime.benchmarking.base.BaseResults.save_predictions">
+<code class="sig-name descname">save_predictions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">strategy_name</span></em>, <em class="sig-param"><span class="n">dataset_name</span></em>, <em class="sig-param"><span class="n">y_true</span></em>, <em class="sig-param"><span class="n">y_pred</span></em>, <em class="sig-param"><span class="n">y_proba</span></em>, <em class="sig-param"><span class="n">index</span></em>, <em class="sig-param"><span class="n">cv_fold</span></em>, <em class="sig-param"><span class="n">train_or_test</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/benchmarking/base.html#BaseResults.save_predictions"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/base.py#L57-L60"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.base.BaseResults.save_predictions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.benchmarking.base.HDDBaseDataset">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.benchmarking.base.</code><code class="sig-name descname">HDDBaseDataset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/benchmarking/base.html#HDDBaseDataset"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/base.py#L31-L46"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.base.HDDBaseDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#sktime.benchmarking.base.BaseDataset" title="sktime.benchmarking.base.BaseDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.benchmarking.base.BaseDataset</span></code></a></p>
+<dl class="py method">
+<dt id="sktime.benchmarking.base.HDDBaseDataset.path">
+<em class="property">property </em><code class="sig-name descname">path</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/base.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.base.HDDBaseDataset.path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="sktime.benchmarking.base.HDDBaseResults">
+<em class="property">class </em><code class="sig-prename descclassname">sktime.benchmarking.base.</code><code class="sig-name descname">HDDBaseResults</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/benchmarking/base.html#HDDBaseResults"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/base.py#L111-L158"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.base.HDDBaseResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#sktime.benchmarking.base.BaseResults" title="sktime.benchmarking.base.BaseResults"><code class="xref py py-class docutils literal notranslate"><span class="pre">sktime.benchmarking.base.BaseResults</span></code></a></p>
+<dl class="py method">
+<dt id="sktime.benchmarking.base.HDDBaseResults.path">
+<em class="property">property </em><code class="sig-name descname">path</code><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/base.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.base.HDDBaseResults.path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sktime.benchmarking.base.HDDBaseResults.save">
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/sktime/benchmarking/base.html#HDDBaseResults.save"><span class="viewcode-link">[source]</span></a><a class="reference external" href="https://github.com/alan-turing-institute/sktime/blob/v0.4.1/sktime/benchmarking/base.py#L126-L142"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sktime.benchmarking.base.HDDBaseResults.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save results object as master file</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019 - 2020, sktime developers (BSD-3-Clause License)
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
